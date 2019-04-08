@@ -1,3 +1,11 @@
+//By: Kole Espenschied
+//April 8th, 2019
+
+//********************************************************
+//This class holds the main method and sets the Home page
+//********************************************************
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,3 +1,11 @@
+//By: Kole Espenschied
+//April 8th, 2019
+
+//***********************************************
+//This class holds all the Homework Page widgets
+//***********************************************
+
+
 import 'package:flutter/material.dart';
 
 import './drawer.dart';
