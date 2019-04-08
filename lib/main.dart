@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.lightBlueAccent,
                           padding: EdgeInsets.all(2),
                           child:
-                            Text('Avatar', textScaleFactor: 1.5, ),
+                            Text('Accounts', textScaleFactor: 1.5, ),
                         ),
                       ),
                     ),
