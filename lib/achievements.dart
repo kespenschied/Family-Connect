@@ -1,3 +1,11 @@
+//By: Kole Espenschied
+//April 8th, 2019
+
+//************************************************ */
+//This class holds all the Achievement Page widgets
+//************************************************ */
+
+
 import 'package:flutter/material.dart';
 
 import './drawer.dart';
@@ -34,6 +42,8 @@ class AchievementsPage extends StatelessWidget {
   }
 }
 
+//This class builds all the titles for this page, specifically the titles
+//"Completed Achievements", "Achievements In Progess", "Untouched Achievements"
 class AchievementContainerTitle extends StatelessWidget {
   final Color titleColor;
   final String titleText;
@@ -59,6 +69,9 @@ class AchievementContainerTitle extends StatelessWidget {
   }
 }
 
+//This class creates all the cards on the page. You specify the achievement Title,
+//Subtitle, The left "achievementIcon", the face icons on the right, "rightIcon",
+//and the color of said rightIcon
 class AchievementCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -104,6 +117,11 @@ class AchievementCard extends StatelessWidget {
   }
 }
 
+
+//*******************************************************************************
+//The following three classes just build the cards onto the screen, it's not the
+//most efficient way, will need to be re-written when actually passing it data.
+//*******************************************************************************
 class RecentAchievements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

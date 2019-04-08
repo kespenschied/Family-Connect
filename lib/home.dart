@@ -1,3 +1,10 @@
+//By: Kole Espenschied
+//April 8th, 2019
+
+//******************************************** */
+//This class holds all the Home/Landing widgets
+//******************************************** */
+
 import 'package:flutter/material.dart';
 
 import './achievements.dart';
@@ -10,6 +17,7 @@ import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
 
+//this Home Page class creates the scaffold and the appBar for this page
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +36,10 @@ class HomePage extends StatelessWidget {
   }
 }
 
+//This class defines the layout for the Home Page widgets. It also
+//sets sets a gesture listener to each Container as to go to the 
+//correct page. Calls 'HomeIconInfo's constructor to build each 
+//container on the screen.
 class HomeController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -129,6 +141,9 @@ class HomeController extends StatelessWidget {
   }
 }
 
+//These Stateful Classes (could be stateless, was practicing stateful, plus it will
+//probably have mutable data later when we implement functionality) set each Container/Image
+//on the Homepage with the correct picture, Text, and page alignment. Is called in HomeController.
 class HomeIconsInfo extends StatefulWidget {
   final String imagePath;
   final String title;

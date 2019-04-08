@@ -1,3 +1,10 @@
+//By: Kole Espenschied
+//April 8th, 2019
+
+//********************************************************************
+//This class holds all the Drawer (appBar hamburger menu) Page widgets
+//********************************************************************
+
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
