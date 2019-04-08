@@ -32,27 +32,51 @@ class _MyBooksState extends State<MyBooks> {
                   children: <Widget>[
                     //AssetImage('assets/harrypotter.jpg'),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 25, 20, 50),
-                      child: Text('Here is book entry 1', textScaleFactor: 1.5,),
+                      padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
+                      child: Image.asset('assets/harrypotter.jpg', height: 150, width: 75,),
                     ),
-                    // Text('Here is book entry 1\n', textScaleFactor: 1.5,),
-                    // Text('Book entry 2', textScaleFactor: 1.5,),
+                    Padding(
+
+                      padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
+                      child: 
+                      Text('Harry Potter and the\nSorceror\'s Stone\n\nPages read: 30/275', textScaleFactor: 1.5,textAlign: TextAlign.center,),
+                    ),
                   ],
                 ),
                 Row(
                   children: <Widget>[
+                    //AssetImage('assets/harrypotter.jpg'),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 25, 20, 50),
-                      child: Text('Here is book entry 2', textScaleFactor: 1.5,),
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: Image.asset('assets/caterpillar.jpg', height: 150, width: 75,),
                     ),
-                    // Text('Here is book entry 1\n', textScaleFactor: 1.5,),
-                    // Text('Book entry 2', textScaleFactor: 1.5,),
+                    Padding(
+
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: 
+                      Text('The Very Hungry\nCaterpillar\n\nPages read: 30/30\nComplete!', textScaleFactor: 1.5,textAlign: TextAlign.center,),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    //AssetImage('assets/harrypotter.jpg'),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: Image.asset('assets/dogman.jpg', height: 150, width: 75,),
+                    ),
+                    Padding(
+
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: 
+                      Text('Dog Man: Brawl\nof the Wild\n\nPages read: 0/75', textScaleFactor: 1.5,textAlign: TextAlign.center,),
+                    ),
                   ],
                 ),
               ],
             )
             
-        )
+        ),
         // Column(
           // children: <Widget>[
             
@@ -60,7 +84,11 @@ class _MyBooksState extends State<MyBooks> {
           
         // ),
         
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Add book',
+        child: Icon(Icons.add),
+      ),
       
     );
   }
