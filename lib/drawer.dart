@@ -7,11 +7,11 @@ class MyDrawer extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
-          UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader(            
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
               "Connie Barber",
-              style: TextStyle(fontSize: 15.0),
+              style: TextStyle(fontSize: 20.0),
             ),
             accountEmail: Text(
               "cobarbe@siue.edu",
@@ -19,7 +19,7 @@ class MyDrawer extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Container(
+              child: Container(                
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
