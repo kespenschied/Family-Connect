@@ -69,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        centerTitle: true,
+        title: Text(widget.title, textAlign: TextAlign.center,),
         
       ),
       
@@ -82,69 +83,208 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Welcome to Family Connect, Connie!', textScaleFactor: 2, textAlign: TextAlign.center,
             ),
-          // Column(
-          //   children: <Widget>[
             Row(
               children: <Widget>[
-                // Padding(   
-                //   padding: EdgeInsets.fromLTRB(50, 20, 15, 20),
-                //   child:
-                //   Text('Chores', textScaleFactor: 1.5, textAlign: TextAlign.center,),
-                //   ),
-                  // Text('Achievements', textScaleFactor: 1.5, textAlign: TextAlign.center,),
-                  
+                ButtonBar(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 20)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                          RaisedButton(
+                          onPressed: () {},
+                          color: Colors.lightBlueAccent,
+                          padding: EdgeInsets.all(2),
+                          child:
+                            Text('Achievements', textScaleFactor: 1.5, ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 20)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          child:
+                          Text('Activities', textScaleFactor: 1.5,),
+                        ),
+                      ),
+                    ),
+                  ],)
               ],
             ),
             Row(
               children: <Widget>[
-                // Padding(
-              
-                //   padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                //   child:
-                //   Text('Lists', textScaleFactor: 1.5, textAlign: TextAlign.center,),
-                  
-                // ),
                 ButtonBar(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 150),
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
                       child: 
-                        RaisedButton(
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                          RaisedButton(
                           onPressed: () {},
                           color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(2),
                           child:
-                        // Padding(
-                          // padding: EdgeInsets.all(40),
-                          // child:
-                            Text('Chores', textScaleFactor: 1.5, ),
-
-                      // ),
+                            Text('Avatar', textScaleFactor: 1.5, ),
                         ),
+                      ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 150),
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
                       child: 
-                      RaisedButton(
-                      onPressed: () {},
-                      padding: EdgeInsets.all(10),
-                      color: Colors.lightBlueAccent,
-                      child:
-                      Text('Flat Button', textScaleFactor: 1.5,),
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          child:
+                          Text('Books', textScaleFactor: 1.5,),
+                        ),
+                      ),
                     ),
+                  ],)
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                ButtonBar(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                          RaisedButton(
+                          onPressed: () {},
+                          color: Colors.lightBlueAccent,
+                          padding: EdgeInsets.all(2),
+                          child:
+                            Text('Calender', textScaleFactor: 1.5, ),
+                        ),
+                      ),
                     ),
-                    
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          child:
+                          Text('Events', textScaleFactor: 1.5,),
+                        ),
+                      ),
+                    ),
+                  ],)
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                ButtonBar(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                          RaisedButton(
+                          onPressed: () {},
+                          color: Colors.lightBlueAccent,
+                          padding: EdgeInsets.all(2),
+                          child:
+                            Text('Homework', textScaleFactor: 1.5, ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          child:
+                          Text('Journal', textScaleFactor: 1.5,),
+                        ),
+                      ),
+                    ),
+                  ],)
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                ButtonBar(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                          RaisedButton(
+                          onPressed: () {},
+                          color: Colors.lightBlueAccent,
+                          padding: EdgeInsets.all(2),
+                          child:
+                            Text('List', textScaleFactor: 1.5, ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          child:
+                          Text('Reminders', textScaleFactor: 1.5,),
+                        ),
+                      ),
+                    ),
                   ],)
               ],
             ),
         ],
     ),
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
