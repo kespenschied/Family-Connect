@@ -37,8 +37,8 @@ class HomePage extends StatelessWidget {
 }
 
 //This class defines the layout for the Home Page widgets. It also
-//sets sets a gesture listener to each Container as to go to the 
-//correct page. Calls 'HomeIconInfo's constructor to build each 
+//sets sets a gesture listener to each Container as to go to the
+//correct page. Calls 'HomeIconInfo's constructor to build each
 //container on the screen.
 class HomeController extends StatelessWidget {
   @override
@@ -156,10 +156,10 @@ class HomeIconsInfo extends StatefulWidget {
 }
 
 class _HomeIconsInfoState extends State<HomeIconsInfo> {
-  String imagePath;
-  String title;
+  String _imagePath;
+  String _title;
 
-  _HomeIconsInfoState(this.imagePath, this.title);
+  _HomeIconsInfoState(this._imagePath, this._title);
 
   @override
   Widget build(BuildContext context) {
@@ -174,20 +174,37 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
       alignment: Alignment.bottomRight,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(imagePath),
+          image: AssetImage(_imagePath),
           fit: BoxFit.cover,
         ),
       ),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 15.0,
-          color: Colors.grey,
-          background: Paint()..color = Colors.black87,
+      child: Container(
+        width: deviceWidth / 2,
+        height: 20.0,
+        alignment: Alignment.bottomCenter,
+        decoration: BoxDecoration(
+          color: Colors.black54,
+        ),
+        child: Text(
+          _title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15.0,
+            color: Colors.white70,            
+          ),
         ),
       ),
     );
   }
 }
 
+/* Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15.0,
+          color: Colors.grey,
+          background: Paint()..color = Colors.black87,
+          
+        ),
+      ), */
