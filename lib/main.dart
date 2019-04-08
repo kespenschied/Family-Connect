@@ -143,7 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         child:
                         RaisedButton(
                           onPressed: () {
-                            //Navigator.push(context, './books.dart'))
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyBooks()),
+                            );
                           },
                           padding: EdgeInsets.all(2),
                           color: Colors.lightBlueAccent,
