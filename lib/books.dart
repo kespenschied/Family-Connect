@@ -9,7 +9,7 @@ class BooksPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Books'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );

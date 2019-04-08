@@ -9,7 +9,7 @@ class EventsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Events'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );

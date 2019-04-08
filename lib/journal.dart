@@ -9,7 +9,7 @@ class JournalPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Journal'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );

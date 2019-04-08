@@ -9,7 +9,7 @@ class HomeworkPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Homework'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );

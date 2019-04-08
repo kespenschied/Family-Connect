@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home"),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
       body: Center(

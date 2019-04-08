@@ -9,7 +9,7 @@ class ExtracurPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Extracurriculars'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );

@@ -10,7 +10,7 @@ class AchievementsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Achievements'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
       body: ListView(

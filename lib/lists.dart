@@ -9,7 +9,7 @@ class ListsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Lists'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
     );
