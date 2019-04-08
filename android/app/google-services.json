@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "360878335235",
+    "firebase_url": "https://family-connect-db.firebaseio.com",
+    "project_id": "family-connect-db",
+    "storage_bucket": "family-connect-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360878335235:android:cf0c0343ae8ea88b",
+        "android_client_info": {
+          "package_name": "com.example.family_connect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgqqGCTH7VmYJWIYhVk_lSJ2VcX6Vz3i4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360878335235-4ao197jrjr9jbuhq7t0cqjqpd1cs75bh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
