@@ -95,7 +95,7 @@ class HomeController extends StatelessWidget {
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo('assets/trophy.jpg', 'Achievements'),
+                child: HomeIconsInfo('assets/achievements.jpg', 'Achievements'),
                 onTap: () {
                   Navigator.push(
                     context,
