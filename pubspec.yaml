@@ -51,6 +51,7 @@ flutter:
     - assets/achievements.jpg
     - assets/extra.jpg
     - assets/trophy.jpg
+    - assets/connie.jpg
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

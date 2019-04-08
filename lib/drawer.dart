@@ -9,13 +9,24 @@ class MyDrawer extends StatelessWidget {
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
-            accountName: Text("Connie Barber", style: TextStyle(fontSize: 15.0),),
-            accountEmail: Text("cobarbe@siue.edu", style: TextStyle(fontSize: 15.0),),
+            accountName: Text(
+              "Connie Barber",
+              style: TextStyle(fontSize: 15.0),
+            ),
+            accountEmail: Text(
+              "cobarbe@siue.edu",
+              style: TextStyle(fontSize: 15.0),
+            ),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,              
-              child: Text(
-                "C",
-                style: TextStyle(fontSize: 40.0, color: Colors.black87),
+              backgroundColor: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('assets/connie.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
           ),
@@ -28,7 +39,10 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.account_circle, size: 35.0,),            
+            leading: Icon(
+              Icons.account_circle,
+              size: 35.0,
+            ),
           ),
           ListTile(
             title: Text(
@@ -39,7 +53,10 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.notifications, size: 35.0,),
+            leading: Icon(
+              Icons.notifications,
+              size: 35.0,
+            ),
           ),
           ListTile(
             title: Text(
@@ -50,7 +67,10 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.group_add, size: 35.0,),
+            leading: Icon(
+              Icons.group_add,
+              size: 35.0,
+            ),
           ),
           ListTile(
             title: Text(
@@ -61,9 +81,12 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.remove_red_eye, size: 35.0,),
+            leading: Icon(
+              Icons.remove_red_eye,
+              size: 35.0,
+            ),
           ),
-          ListTile(            
+          ListTile(
             title: Text(
               'Print',
               textAlign: TextAlign.end,
@@ -72,9 +95,12 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.print, size: 35.0,),
+            leading: Icon(
+              Icons.print,
+              size: 35.0,
+            ),
           ),
-          ListTile(            
+          ListTile(
             title: Text(
               'Log Out',
               textAlign: TextAlign.end,
@@ -83,7 +109,10 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 30.0,
               ),
             ),
-            leading: Icon(Icons.close, size: 35.0,),
+            leading: Icon(
+              Icons.close,
+              size: 35.0,
+            ),
           ),
         ],
       ),
