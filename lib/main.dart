@@ -86,12 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                          RaisedButton(
-                          onPressed: () {},
-                          color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(2),
-                          child:
-                            Text('Achievements', textScaleFactor: 1.5, ),
+                          RaisedButton.icon(
+                            icon: Icon(Icons.star),
+                            onPressed: () {},
+                            color: Colors.lightBlueAccent,
+                            //padding: EdgeInsets.all(2),
+                            // child:
+                            label: Text('Achievements', textScaleFactor: 1.1, ),
                         ),
                       ),
                     ),
@@ -102,12 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                        RaisedButton(
+                        RaisedButton.icon(
+                          icon: Icon(Icons.local_activity),
                           onPressed: () {},
-                          padding: EdgeInsets.all(2),
+                          //padding: EdgeInsets.all(2),
                           color: Colors.lightBlueAccent,
-                          child:
-                          Text('Activities', textScaleFactor: 1.5,),
+                          label: Text('Activities', textScaleFactor: 1.5,),
+                          // child:
+                          // Text('Activities', textScaleFactor: 1.5,),
                         ),
                       ),
                     ),
@@ -125,12 +128,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                          RaisedButton(
-                          onPressed: () {},
-                          color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(2),
-                          child:
-                            Text('Accounts', textScaleFactor: 1.5, ),
+                          RaisedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.account_box),
+                            color: Colors.lightBlueAccent,
+                            label: Text('Accounts', textScaleFactor: 1.5, ),
+                            //padding: EdgeInsets.all(2),
+                            // child:
+                            //   Text('Accounts', textScaleFactor: 1.5, ),
                         ),
                       ),
                     ),
@@ -141,17 +146,25 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                        RaisedButton(
+                        RaisedButton.icon(
+                          icon: Icon(Icons.library_books),
+                          label: Text('Books', textScaleFactor: 1.5,),
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => MyBooks()),
                             );
                           },
-                          padding: EdgeInsets.all(2),
+                          //padding: EdgeInsets.all(2),
                           color: Colors.lightBlueAccent,
-                          child:
-                          Text('Books', textScaleFactor: 1.5,),
+                          // child:
+                          // Row(
+                          //   children: <Widget>[
+                          //     Icon(Icons.book)
+                          //   ],
+                          // ),
+                          // Text('Books', textScaleFactor: 1.5,),
+                          // Icon(Icons.add),
                         ),
                       ),
                     ),
@@ -169,12 +182,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                          RaisedButton(
-                          onPressed: () {},
-                          color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(2),
-                          child:
-                            Text('Calender', textScaleFactor: 1.5, ),
+                          RaisedButton.icon(
+                            icon: Icon(Icons.calendar_today),
+                            onPressed: () {},
+                            color: Colors.lightBlueAccent,
+                            //padding: EdgeInsets.all(2),
+                            // child:
+                            label: Text('Calender', textScaleFactor: 1.5, ),
                         ),
                       ),
                     ),
@@ -185,51 +199,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                        RaisedButton(
+                        RaisedButton.icon(
+                          icon: Icon(Icons.event),
                           onPressed: () {},
-                          padding: EdgeInsets.all(2),
+                          // padding: EdgeInsets.all(2),
                           color: Colors.lightBlueAccent,
-                          child:
-                          Text('Events', textScaleFactor: 1.5,),
-                        ),
-                      ),
-                    ),
-                  ],)
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                ButtonBar(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
-                      child: 
-                      ButtonTheme(
-                        height: 50,
-                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
-                        child:
-                          RaisedButton(
-                          onPressed: () {},
-                          color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(2),
-                          child:
-                            Text('Homework', textScaleFactor: 1.5, ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
-                      child: 
-                      ButtonTheme(
-                        height: 50,
-                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
-                        child:
-                        RaisedButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.all(2),
-                          color: Colors.lightBlueAccent,
-                          child:
-                          Text('Journal', textScaleFactor: 1.5,),
+                          // child:
+                          label: Text('Events', textScaleFactor: 1.5,),
                         ),
                       ),
                     ),
@@ -247,12 +223,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                          RaisedButton(
-                          onPressed: () {},
-                          color: Colors.lightBlueAccent,
-                          padding: EdgeInsets.all(2),
-                          child:
-                            Text('List', textScaleFactor: 1.5, ),
+                          RaisedButton.icon(
+                            icon: Icon(Icons.assignment),
+                            onPressed: () {},
+                            color: Colors.lightBlueAccent,
+                            // padding: EdgeInsets.all(2),
+                            // child:
+                            label: Text('Homework', textScaleFactor: 1.45, ),
                         ),
                       ),
                     ),
@@ -263,12 +240,57 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 50,
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
-                        RaisedButton(
+                        RaisedButton.icon(
+                          icon: Icon(Icons.note_add),
                           onPressed: () {},
-                          padding: EdgeInsets.all(2),
+                          // padding: EdgeInsets.all(2),
                           color: Colors.lightBlueAccent,
-                          child:
-                          Text('Reminders', textScaleFactor: 1.5,),
+                          // child:
+                          label: Text('Journal', textScaleFactor: 1.5,),
+                        ),
+                      ),
+                    ),
+                  ],)
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                ButtonBar(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        
+                        child:
+                          RaisedButton.icon(
+                            
+                            icon: Icon(Icons.list),
+                            onPressed: () {},
+                            color: Colors.lightBlueAccent,
+                            // padding: EdgeInsets.all(2),
+                            // child:
+                            label: Text('Lists', textScaleFactor: 1.5, ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height / 50)),
+                      child: 
+                      ButtonTheme(
+                        height: 50,
+                        minWidth: (MediaQuery.of(context).size.width / 2) - 25,
+                        child:
+                        RaisedButton.icon(
+                          icon: Icon(Icons.notifications),
+                          onPressed: () {},
+                          // padding: EdgeInsets.all(2),
+                          color: Colors.lightBlueAccent,
+                          // child:
+                          label: Text('Reminders', textScaleFactor: 1.45,),
                         ),
                       ),
                     ),
