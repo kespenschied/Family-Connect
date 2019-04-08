@@ -19,7 +19,7 @@ class AchievementsPage extends StatelessWidget {
           RecentAchievements(),
           AchievementContainerTitle(Colors.orange, 'Achievements In Progress:'),
           InProgressAchievements(),
-          AchievementContainerTitle(Colors.red, 'Untouched Achievements'),
+          AchievementContainerTitle(Colors.red, 'Untouched Achievements:'),
           NoProgressAchievements(),
         ],
       ),
