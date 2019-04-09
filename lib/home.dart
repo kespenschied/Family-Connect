@@ -202,14 +202,3 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
     );
   }
 }
-
-/* Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 15.0,
-          color: Colors.grey,
-          background: Paint()..color = Colors.black87,
-          
-        ),
-      ), */

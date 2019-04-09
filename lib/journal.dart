@@ -9,24 +9,6 @@ import 'package:flutter/material.dart';
 
 import './drawer.dart';
 
-class JournalPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Journal'),
-          backgroundColor: Colors.black,
-        ),
-        endDrawer: MyDrawer(),
-        body: ListView(
-          children: <Widget>[
-            JournalCardManager('First Journal Entry'),
-          ],
-        ));
-  }
-}
-
 //call NewJournalCard(List) in _CardManagerState
 //call JournalCardManager() in JournalPage
 //only NewJournalCard will have parameters
@@ -41,30 +23,32 @@ class NewJournalCard extends StatelessWidget {
     return Container(
       height: 100.0,
       child: ListTile(
-        leading: Icon(
-          Icons.cake,
-          size: 60.0,
-        ),
+        isThreeLine: true,
         title: Text(
           title,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 25.0,
             fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
           ),
         ),
         subtitle: Text(
-          'Journal Body',
-          textAlign: TextAlign.center,
+          'Today the children and I went ' +
+              'to the park and had a wonderful time. ' +
+              'Afterwards one of the kids said he was ' +
+              'hungry for ice cream........',
+          textAlign: TextAlign.left,
           style: TextStyle(
+            color: Colors.black87,
             fontSize: 15.0,
           ),
         ),
         trailing: Icon(
-            Icons.arrow_drop_down_circle,
-            size: 50.0,
-            color: Colors.black87,
-          ),
+          Icons.more_vert,
+          size: 50.0,
+          color: Colors.black87,
+        ),
       ),
     );
   }
@@ -87,51 +71,43 @@ class NewJournalCard extends StatelessWidget {
     ));
   }
 }
-//||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-//****************************************************************
-//****************************************************************
-class JournalCardManager extends StatefulWidget {
-  final String startingJournal;
-
-  JournalCardManager(this.startingJournal);
-
+class JournalPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _CardManagerState();
+  State<StatefulWidget> createState() => _JournalManager();
 }
 
-class _CardManagerState extends State<JournalCardManager> {
-  List<String> _newJournalEntry = [];  
-  int _counter = 1;
-
-  @override
-  void initState() {
-    _newJournalEntry.add(widget.startingJournal);
-    super.initState();
-  }
+class _JournalManager extends State<JournalPage> {
+  List<String> _newJournalEntry = ["Title: 1","Title: 2", "Title: 3"];
+  int _counter = 4;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Journal'),
+        backgroundColor: Colors.black,
+      ),
+      endDrawer: MyDrawer(),
+      body: ListView(
         children: <Widget>[
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _newJournalEntry.add('Title: $_counter');
-                _counter++;
-              });
-            },
-            backgroundColor: Colors.black87,
-            child: Icon(
-              Icons.add,
-            ),
-          ),
           NewJournalCard(_newJournalEntry),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _newJournalEntry.add('Title: $_counter');
+            _counter++;
+          });
+        },
+        backgroundColor: Colors.black87,
+        child: Icon(
+          Icons.add,
+        ),
       ),
     );
   }
 }
-//****************************************************************
-//****************************************************************
