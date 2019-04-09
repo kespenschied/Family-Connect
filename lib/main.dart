@@ -28,7 +28,7 @@ SystemChrome.setPreferredOrientations([
 
     return MaterialApp(
       theme: ThemeData(
-       brightness: Brightness.light,
+       brightness: Brightness.dark,
         primarySwatch: Colors.green,
         accentColor: Colors.yellowAccent
     ),
@@ -41,12 +41,11 @@ SystemChrome.setPreferredOrientations([
         Row( children: <Widget>[
 
           Card(child:Container(
-
             margin: const EdgeInsets.all(20.0),
 
            child: SizedBox(
-          width: 80.0,
-          height: 20.0,
+          //width: 80.0,
+         // height: 20.0,
            child:Text(
               'Chores',
               textDirection: TextDirection.ltr,
@@ -59,107 +58,127 @@ SystemChrome.setPreferredOrientations([
            ),
           ),
           ),
-          new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
               'Mon',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
               'Tue',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
               'Wed',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
-              'Thur',
+              'Mon',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
-              'Fri',
+              'Mon',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
-              'Sat',
+              'Mon',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
-
-        new Flexible(
-          child:Padding(
-              padding: const EdgeInsets.all(8.0),
+          )
+         ),
+         SizedBox(
+          width: 50.0,
+          height: 50.0,
+           child:Card(
+             child: Center(
            child:Text(
-              'Sun',
+              'Mon',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
-                background: Paint()..color = Colors.white12,
+                //background: Paint()..color = Colors.white12,
               ),
             ),
            ),
-        ),
+          )
+         ),  
+        
         ],
 
         ), //Chores, and Days of week end here
@@ -189,8 +208,30 @@ SystemChrome.setPreferredOrientations([
           ),
 
           Card(
-            child: Icon(Icons.star, size: 40)
-          ) 
+            child:Container(
+              //padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.star, size: 42, color: Colors.green,)
+          ),
+          ),
+          Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ), Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+
         ],
 
         ),
