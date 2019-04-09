@@ -183,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         minWidth: (MediaQuery.of(context).size.width / 2) - 25,
                         child:
                           RaisedButton.icon(
+                            
                             icon: Icon(Icons.calendar_today),
                             onPressed: () {},
                             color: Colors.lightBlueAccent,
@@ -268,12 +269,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         child:
                           RaisedButton.icon(
                             
-                            icon: Icon(Icons.list),
+                            icon: Icon(Icons.list,),
                             onPressed: () {},
                             color: Colors.lightBlueAccent,
+                            
                             // padding: EdgeInsets.all(2),
                             // child:
-                            label: Text('Lists', textScaleFactor: 1.5, ),
+                            label: Text('   Lists     ', textScaleFactor: 1.5, ),
                         ),
                       ),
                     ),

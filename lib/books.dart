@@ -39,7 +39,7 @@ class _MyBooksState extends State<MyBooks> {
 
                       padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
                       child: 
-                      Text('Harry Potter and the\nSorceror\'s Stone\n\nPages read: 30/275', textScaleFactor: 1.5,textAlign: TextAlign.center,),
+                      Text('Harry Potter and the\nSorcerer\'s Stone\n\nPages read: 30/275', textScaleFactor: 1.5,textAlign: TextAlign.center,),
                     ),
                   ],
                 ),
