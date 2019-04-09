@@ -52,6 +52,7 @@ SystemChrome.setPreferredOrientations([
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 25,
+                color: Colors.orange,
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -69,6 +70,7 @@ SystemChrome.setPreferredOrientations([
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.green,
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -87,6 +89,7 @@ SystemChrome.setPreferredOrientations([
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.lightBlue
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -104,6 +107,7 @@ SystemChrome.setPreferredOrientations([
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.lightGreen
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -116,11 +120,12 @@ SystemChrome.setPreferredOrientations([
            child:Card(
              child: Center(
            child:Text(
-              'Mon',
+              'Thu',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.pink
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -133,11 +138,12 @@ SystemChrome.setPreferredOrientations([
            child:Card(
              child: Center(
            child:Text(
-              'Mon',
+              'Fri',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.teal
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -150,11 +156,12 @@ SystemChrome.setPreferredOrientations([
            child:Card(
              child: Center(
            child:Text(
-              'Mon',
+              'Sat',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.amber
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -167,11 +174,12 @@ SystemChrome.setPreferredOrientations([
            child:Card(
              child: Center(
            child:Text(
-              'Mon',
+              'Sun',
               textDirection: TextDirection.ltr,
               style: TextStyle(
                 fontFamily: 'Raleway',
                 fontSize: 20,
+                color: Colors.purple
                 //background: Paint()..color = Colors.white12,
               ),
             ),
@@ -256,6 +264,32 @@ SystemChrome.setPreferredOrientations([
            ),
           ),
           ),
+
+          Card(
+            child:Container(
+              //padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.star, size: 42, color: Colors.green,)
+          ),
+          ),
+          Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+           Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ), Card(
+            child: Icon(Icons.star, size: 42, color: Colors.green,)
+          ),
+
         ],
 
         )
