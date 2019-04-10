@@ -21,7 +21,7 @@ class AchievementsPage extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       endDrawer: MyDrawer(),
-      body: ListView(
+      body: ListView( //ListView here lets the page scroll as more items are added.
         children: <Widget>[
           AchievementContainerTitle(Colors.green, 'Completed Achievements:'),
           RecentAchievements(),
@@ -121,6 +121,9 @@ class AchievementCard extends StatelessWidget {
 //*******************************************************************************
 //The following three classes just build the cards onto the screen, it's not the
 //most efficient way, will need to be re-written when actually passing it data.
+//I did this early, so I created 3 classes here. A better way to do it would be
+//to just create a function that returns a widget. Look in 'journal.dart' for a
+//function example.
 //*******************************************************************************
 class RecentAchievements extends StatelessWidget {
   @override
