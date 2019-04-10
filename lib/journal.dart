@@ -2,23 +2,23 @@
 //April 8th, 2019
 
 //**********************************************
-//This class holds all the Jpurnal Page widgets
+//This class holds all the Journal Page widgets
 //**********************************************
 
 import 'package:flutter/material.dart';
 
 import './drawer.dart';
 
-//call NewJournalCard(List) in _CardManagerState
-//call JournalCardManager() in JournalPage
-//only NewJournalCard will have parameters
 
-//||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//This class builds the cards for the page
 class NewJournalCard extends StatelessWidget {
   final List<String> journalEntries;
 
   NewJournalCard(this.journalEntries);
 
+  //this function returns a Container widget, and takes a 'title'
+  //string as a parameter. This comes from the class below in the
+  //List<String> dataField.
   Widget makeListTile(String title) {
     return Container(
       height: 100.0,
@@ -36,8 +36,7 @@ class NewJournalCard extends StatelessWidget {
         subtitle: Text(
           'Today the children and I went ' +
               'to the park and had a wonderful time. ' +
-              'Afterwards one of the kids said he was ' +
-              'hungry for ice cream........',
+              'Afterwards one of the kids said.....',
           textAlign: TextAlign.left,
           style: TextStyle(
             color: Colors.black87,
@@ -58,9 +57,9 @@ class NewJournalCard extends StatelessWidget {
     return Center(
         child: Column(
       children: journalEntries
-          .map(
-            (element) => Card(
-                  child: Column(
+          .map( //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
+            (element) => Card( //basiclly, 'element' is a String in the JournalEntries list (which was passed from JournalPage below)
+                  child: Column( //it then creates a card.
                     children: <Widget>[
                       makeListTile(element),
                     ],
@@ -72,6 +71,10 @@ class NewJournalCard extends StatelessWidget {
   }
 }
 
+//Main scaffold and Journal Page. _newJournalEntry is an array of Strings. This
+//is passed to the parameterized class above, 'NewJournalCard'. This list is used
+//in NewJournalCards build method, and the actual string is passed to NewJournalCards'
+//makeListTile function to act as a 'title' for its String parameter. 
 class JournalPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _JournalManager();
@@ -99,8 +102,8 @@ class _JournalManager extends State<JournalPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _newJournalEntry.add('Title: $_counter');
-            _counter++;
+            _newJournalEntry.add('Title: $_counter'); //add a new string to the List
+            _counter++; //increment counter
           });
         },
         backgroundColor: Colors.black87,
