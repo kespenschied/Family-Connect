@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-=======
 //By: Kole Espenschied
 //April 8th, 2019
 
@@ -36,4 +26,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
->>>>>>> e45cb94029a0557967b3df30e013039cc41a7f4b
