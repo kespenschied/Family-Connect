@@ -53,6 +53,10 @@ flutter:
     - assets/trophy.jpg
     - assets/connie.jpg
  
+    - assets/harrypotter.jpg
+    - assets/caterpillar.jpg
+    - assets/dogman.jpg
+  #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
