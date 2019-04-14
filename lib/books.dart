@@ -91,6 +91,8 @@ class _BookManager extends State<BooksPage>{
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
+            //This section needs to be set in the future to be taken to a new page in order to enter details
+            //about the book that's being added as well as scanning ISBN possibly. This is fine for HI FI
             _newBookEntry.add("The Rainbow Fish");
           });
         },
