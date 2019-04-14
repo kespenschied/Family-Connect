@@ -16,7 +16,13 @@ class NewBookCard extends StatelessWidget{
     return Container(
       height: 100.0,
       child: ListTile(
-        leading: Image(image: AssetImage('assets/rainbowfish.jpg'), height: 64,),
+        onTap: (){
+          //This is where we go to a new page of the book description
+        },
+        onLongPress: (){
+          //This is where we can rearrange if possible
+        },
+        leading: Image(image: AssetImage('assets/rainbowfish.jpg'), height: 70,),
         isThreeLine: true,
         title: Text(
           title,
@@ -28,16 +34,25 @@ class NewBookCard extends StatelessWidget{
           ),
         ),
         subtitle: Text(
-          'By: ' + 'Marcus Pfister\n' + '20/40 pages read',
+          'By: ' + 'Marcus Pfister\n' + '15/30 pages read',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black87,
             fontSize: 15.0,
           ),
         ),
-        trailing: IconButton(onPressed: (){},
-          icon: Icon(Icons.favorite),
-        ),
+        trailing: FavoriteWidget(),
+        
+        //IconButton(
+        //   onPressed: (){
+        //     //We add functionality to make the icon change to red if possible.
+        //     // setState(){
+              
+        //     // } 
+        //   },
+        //   icon: Icon(Icons.favorite),
+        //   tooltip: "Favorite",
+        // ),
       ),
     );
   }
@@ -47,8 +62,7 @@ class NewBookCard extends StatelessWidget{
     return Center(
       child: Column(
         children: 
-          bookEntries
-          .map(
+          bookEntries.map(
             (title) => Card(
               child: Column(
                 children: <Widget>[
@@ -56,16 +70,13 @@ class NewBookCard extends StatelessWidget{
                 ],
               ),
             )
-          )
-          .toList(),
-       
+          ).toList(),
       ),
     );
   }
 
 }
 class BooksPage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _BookManager();
 }
@@ -102,3 +113,39 @@ class _BookManager extends State<BooksPage>{
     );
   }
 }
+
+class FavoriteWidget extends StatefulWidget {
+  @override
+  _FavoriteWidgetState createState() => _FavoriteWidgetState();
+}
+
+
+class _FavoriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = false;
+
+  void _toggleFavorite() {
+  setState(() {
+    if (_isFavorited) {
+      _isFavorited = false;
+    } else {
+      _isFavorited = true;
+    }
+  });
+}
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: EdgeInsets.all(0),
+          child: IconButton(
+            icon: (_isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border)),
+            color: Colors.red[500],
+            onPressed: _toggleFavorite,
+          ),
+        ),
+      ],
+    );
+  }
+}  
