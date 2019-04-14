@@ -113,7 +113,7 @@ class _BookManager extends State<BooksPage>{
     );
   }
 }
-
+//Creation of new custom widget that has interaction and states
 class FavoriteWidget extends StatefulWidget {
   @override
   _FavoriteWidgetState createState() => _FavoriteWidgetState();
@@ -123,6 +123,7 @@ class FavoriteWidget extends StatefulWidget {
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
 
+//For toggling the state of the widget
   void _toggleFavorite() {
   setState(() {
     if (_isFavorited) {
@@ -132,6 +133,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
     }
   });
 }
+//Build the custom favorite widget to be
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -141,8 +143,9 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
           padding: EdgeInsets.all(0),
           child: IconButton(
             icon: (_isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border)),
-            color: Colors.red[500],
+            color: Colors.red,
             onPressed: _toggleFavorite,
+            tooltip: "Favorite",
           ),
         ),
       ],
