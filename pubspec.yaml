@@ -52,7 +52,12 @@ flutter:
     - assets/extra.jpg
     - assets/trophy.jpg
     - assets/connie.jpg
- 
+    - assets/christmaslist.jpg
+    - assets/shippinglist.jpg
+    - assets/birthdaylist.jpg
+    - assets/schoolsupplies.jpg
+    - assets/clothinglist.jpg
+    - assets/other.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
