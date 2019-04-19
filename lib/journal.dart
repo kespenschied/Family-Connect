@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 
 import './drawer.dart';
 
-
 //This class builds the cards for the page
 class NewJournalCard extends StatelessWidget {
   final List<String> journalEntries;
@@ -19,49 +18,79 @@ class NewJournalCard extends StatelessWidget {
   //this function returns a Container widget, and takes a 'title'
   //string as a parameter. This comes from the class below in the
   //List<String> dataField.
-  Widget makeListTile(String title) {
+  Widget makeListTile(String title, double width) {
     return Container(
       height: 100.0,
-      child: ListTile(
-        isThreeLine: true,
-        title: Text(
-          title,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: width / 4,
+            color: Colors.blue,
+            child: Center(
+              child: CircleAvatar(
+                  minRadius: 10.0,
+                  backgroundColor: Colors.white,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/connie.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          'Today the children and I went ' +
-              'to the park and had a wonderful time. ' +
-              'Afterwards one of the kids said.....',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 15.0,
+          Container(
+            width: width * 3 / 4.11,
+            height: 100.0,
+            color: Colors.blue,
+            child: Card(
+              child: ListTile(
+                isThreeLine: true,
+                title: Text(
+                  title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                subtitle: Text(
+                  'Today the children and I went ' +
+                      'to the park and had a wonderful time. ' +
+                      'Afterwards one of the kids said.....',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        trailing: Icon(
-          Icons.more_vert,
-          size: 50.0,
-          color: Colors.black87,
-        ),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Center(
         child: Column(
       children: journalEntries
-          .map( //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
-            (element) => Card( //basiclly, 'element' is a String in the JournalEntries list (which was passed from JournalPage below)
-                  child: Column( //it then creates a card.
+          .map(
+            //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
+            (element) => Card(
+                  //basiclly, 'element' is a String in the JournalEntries list (which was passed from JournalPage below)
+                  child: Column(
+                    //it then creates a card.
                     children: <Widget>[
-                      makeListTile(element),
+                      makeListTile(element, width),
                     ],
                   ),
                 ),
@@ -74,14 +103,14 @@ class NewJournalCard extends StatelessWidget {
 //Main scaffold and Journal Page. _newJournalEntry is an array of Strings. This
 //is passed to the parameterized class above, 'NewJournalCard'. This list is used
 //in NewJournalCards build method, and the actual string is passed to NewJournalCards'
-//makeListTile function to act as a 'title' for its String parameter. 
+//makeListTile function to act as a 'title' for its String parameter.
 class JournalPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _JournalManager();
 }
 
 class _JournalManager extends State<JournalPage> {
-  List<String> _newJournalEntry = ["Title: 1","Title: 2", "Title: 3"];
+  List<String> _newJournalEntry = ["Title: 1", "Title: 2", "Title: 3"];
   int _counter = 4;
 
   @override
@@ -102,7 +131,8 @@ class _JournalManager extends State<JournalPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _newJournalEntry.add('Title: $_counter'); //add a new string to the List
+            _newJournalEntry
+                .add('Title: $_counter'); //add a new string to the List
             _counter++; //increment counter
           });
         },
