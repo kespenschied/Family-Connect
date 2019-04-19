@@ -152,14 +152,19 @@ class HomeIconsInfo extends StatefulWidget {
 
   @override
   _HomeIconsInfoState createState() =>
-      _HomeIconsInfoState(this.imagePath, this.title);
+      _HomeIconsInfoState();
 }
 
 class _HomeIconsInfoState extends State<HomeIconsInfo> {
   String _imagePath;
   String _title;
 
-  _HomeIconsInfoState(this._imagePath, this._title);
+  @override
+  void initState() {
+    _imagePath = widget.imagePath;
+    _title = widget.title;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +202,7 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
     );
   }
 }
+<<<<<<< HEAD
 
 
 /* Text(
@@ -209,3 +215,5 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
           
         ),
       ), */
+=======
+>>>>>>> 4197f9d1ea8bd7ca4afb45e98503e21173982817
