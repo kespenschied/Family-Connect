@@ -9,12 +9,6 @@ import 'package:flutter/material.dart';
 
 import './drawer.dart';
 
-<<<<<<< HEAD
-
-class ListsPage extends StatelessWidget {
-  @override
-    Widget build(BuildContext context) {
-=======
 class ListsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ListsState();
@@ -25,7 +19,6 @@ class _ListsState extends State<ListsPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
->>>>>>> 4197f9d1ea8bd7ca4afb45e98503e21173982817
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
