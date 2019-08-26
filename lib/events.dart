@@ -23,14 +23,12 @@ class _CalendarState extends State<EventsPage> {
   String calendarText = noEventText;
   DateTime _currentDate;
 
-  List<Card> _eventList = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Events'),
+        title: Text('Calendar/Events'),
         backgroundColor: Colors.black,
       ),
       body: _showCalendar(),

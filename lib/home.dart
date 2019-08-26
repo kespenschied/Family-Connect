@@ -50,7 +50,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/calendar.jpg', 'Events'),
+                child: HomeIconsInfo('assets/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
                   Navigator.push(
                     context,
