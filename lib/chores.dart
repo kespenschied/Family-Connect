@@ -28,7 +28,6 @@ class _ChoresState extends State<ChoresPage> {
       ),
       body: drawBody(width),
       backgroundColor: Colors.grey,
-      endDrawer: MyDrawer(),
     );
   }
 

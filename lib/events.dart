@@ -33,7 +33,6 @@ class _CalendarState extends State<EventsPage> {
       ),
       body: _showCalendar(),
       floatingActionButton: addEvent(),
-      endDrawer: MyDrawer(),
       backgroundColor: Colors.grey,
     );
   }

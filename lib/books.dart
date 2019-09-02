@@ -97,7 +97,6 @@ class _BookManager extends State<BooksPage>{
         title: Text('Books'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView(
         children: <Widget>[
           NewBookCard(_newBookEntry),
