@@ -122,7 +122,6 @@ class _JournalManager extends State<JournalPage> {
         title: Text('Journal'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView(
         children: <Widget>[
           NewJournalCard(_newJournalEntry),

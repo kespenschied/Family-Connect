@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
+      drawer: MyDrawer(),
       body: Center(
         child: HomeController(),
       ),

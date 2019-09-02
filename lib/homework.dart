@@ -26,7 +26,6 @@ class _HomeworkState extends State<HomeworkPage> {
       ),
       body: drawBody(width),
       backgroundColor: Colors.grey,
-      endDrawer: MyDrawer(),
     );
   }
 

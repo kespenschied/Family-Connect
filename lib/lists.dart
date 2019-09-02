@@ -27,7 +27,6 @@ class _ListsState extends State<ListsPage> {
       ),
       body: drawBody(width),
       backgroundColor: Colors.grey,
-      endDrawer: MyDrawer(),
     );
   }
 
