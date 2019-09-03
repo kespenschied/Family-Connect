@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
+      drawer: MyDrawer(),
       body: Center(
         child: HomeController(),
       ),
@@ -50,7 +50,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/calendar.jpg', 'Events'),
+                child: HomeIconsInfo('assets/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
                   Navigator.push(
                     context,

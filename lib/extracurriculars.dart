@@ -19,7 +19,6 @@ class ExtracurPage extends StatelessWidget {
         title: Text('Extracurriculars'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
     );
   }
 }

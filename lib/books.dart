@@ -83,6 +83,7 @@ class BooksPage extends StatefulWidget {
 
 class _BookManager extends State<BooksPage>{
   List<String> _newBookEntry = ["The Rainbow Fish", "The Rainbow Fish", "The Rainbow Fish"];
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +94,22 @@ class _BookManager extends State<BooksPage>{
         title: Text('Books'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView(
         children: <Widget>[
           NewBookCard(_newBookEntry),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        iconSize: 40.0,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.orange,), title: Text('Josh', style: TextStyle(fontSize: 20.0),),),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.pink[200],), title: Text('Katie', style: TextStyle(fontSize: 20.0),),),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green,), title: Text('David', style: TextStyle(fontSize: 20.0),),),
+        ],
+        currentIndex: _selectedIndex,
+        fixedColor: Colors.black,
+        onTap: _onItemTapped,
+        ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -111,6 +122,12 @@ class _BookManager extends State<BooksPage>{
         child: Icon(Icons.add,),
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+     _selectedIndex = index; 
+    });
   }
 }
 //Creation of new custom widget that has interaction and states
