@@ -5,53 +5,59 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 //this will need to become stateful when doing functionality
 
 class LoginPage extends StatelessWidget {
+  //Styling for the 'Family Connect' Strings
+  TextStyle _titleTextStyling() {
+    return TextStyle(
+      fontFamily: 'DancingScript',
+      fontSize: 90.0,
+      fontWeight: FontWeight.bold,
+      shadows: [
+        Shadow(
+          color: Colors.blue,
+          blurRadius: 10.0,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double fieldWidth = MediaQuery.of(context).size.width - 10.0;
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Login"),
-        backgroundColor: Colors.black,
-      ),
       body: Container(
         // Add box decoration
         decoration: BoxDecoration(
-          // Box decoration takes a gradient
-          gradient: LinearGradient(
-            // Where the linear gradient begins and ends
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            // Add one stop for each color. Stops should increase from 0 to 1
-            stops: [0.1, 0.5, 0.7, 0.9],
-            colors: [
-              // Colors are easy thanks to Flutter's Colors class.
-              Colors.grey[400],
-              Colors.grey[600],
-              Colors.grey[500],
-              Colors.grey[400],
-            ],
+          image: DecorationImage(
+            image: AssetImage("assets/login_background.jpg"),
+            fit: BoxFit.cover,
           ),
         ),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                height: 100.0,
+              //sizedBox for Spacing
+              Text(
+                "Family",
+                style: _titleTextStyling(),
               ),
-              Text("LOGO HERE"),
+              Text(
+                "Connect",
+                style: _titleTextStyling(),
+              ),
               SizedBox(
-                height: 100.0,
+                height: 50.0,
               ),
               Container(
                 width: fieldWidth,
-                child: TextFormField(                  
+                child: TextFormField(
                   decoration: InputDecoration(
-                    fillColor: Colors.white,                    
-                    border: new OutlineInputBorder(                      
-                      borderRadius: new BorderRadius.circular(25.0),                      
+                    fillColor: Colors.white,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
                     ),
                     labelText: 'Username',
                     filled: true,

@@ -1,0 +1,22 @@
+1) Pages to do:
+    Drawer Pages:
+        Account
+        Notifications
+        Edit Users
+        Permissions
+        Print
+    Floating-Action Pages:
+        Add Calendar Event
+        Add Journal
+        Add/Scan Book
+        Add Chores
+        Add Homework
+        Add List
+        Add Achievements
+
+2) Do something with the Extracurriculars Page, more than likely replace it with something else
+
+3) Redesign nested scrolls in Homework/Chores/Lists
+
+4) Make Calendar events scrollable
+
