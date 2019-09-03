@@ -7,6 +7,13 @@
 
 import 'package:flutter/material.dart';
 
+import './account.dart';
+import './notifications.dart';
+import './editusers.dart';
+import './permissions.dart';
+import './print.dart';
+import './login.dart';
+
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,7 @@ class MyDrawer extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
-          UserAccountsDrawerHeader(            
+          UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
               "Connie Barber",
@@ -26,7 +33,7 @@ class MyDrawer extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Container(                
+              child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -50,6 +57,12 @@ class MyDrawer extends StatelessWidget {
               Icons.account_circle,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccountPage()),
+              );
+            },
           ),
           ListTile(
             title: Text(
@@ -64,6 +77,12 @@ class MyDrawer extends StatelessWidget {
               Icons.notifications,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NotificationPage()),
+              );
+            },
           ),
           ListTile(
             title: Text(
@@ -78,6 +97,12 @@ class MyDrawer extends StatelessWidget {
               Icons.group_add,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
           ),
           ListTile(
             title: Text(
@@ -92,6 +117,12 @@ class MyDrawer extends StatelessWidget {
               Icons.remove_red_eye,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PermissionsPage()),
+              );
+            },
           ),
           ListTile(
             title: Text(
@@ -106,6 +137,12 @@ class MyDrawer extends StatelessWidget {
               Icons.print,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrintPage()),
+              );
+            },
           ),
           ListTile(
             title: Text(
@@ -120,6 +157,11 @@ class MyDrawer extends StatelessWidget {
               Icons.close,
               size: 35.0,
             ),
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) => false);
+            },
           ),
         ],
       ),
