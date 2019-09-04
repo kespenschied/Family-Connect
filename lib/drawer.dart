@@ -11,10 +11,64 @@ import './account.dart';
 import './notifications.dart';
 import './editusers.dart';
 import './permissions.dart';
-import './print.dart';
 import './login.dart';
 
 class MyDrawer extends StatelessWidget {
+  //logout confirmation box
+  void _showLogOutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Log Out?",
+            style: TextStyle(
+              fontSize: 30.0,
+            ),
+          ),
+          actions: <Widget>[
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      (Route<dynamic> route) => false);
+                },
+                elevation: 5.0,
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text(
+                  'Yes',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                elevation: 5.0,
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,7 +91,7 @@ class MyDrawer extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/connie.jpg'),
+                    image: AssetImage('assets/pictures/connie.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -126,26 +180,6 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Print',
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              ),
-            ),
-            leading: Icon(
-              Icons.print,
-              size: 35.0,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrintPage()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
               'Log Out',
               textAlign: TextAlign.end,
               style: TextStyle(
@@ -158,9 +192,7 @@ class MyDrawer extends StatelessWidget {
               size: 35.0,
             ),
             onTap: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                  (Route<dynamic> route) => false);
+              _showLogOutConfirmation(context);
             },
           ),
         ],

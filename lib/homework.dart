@@ -6,7 +6,6 @@
 //***********************************************
 
 import 'package:flutter/material.dart';
-import './drawer.dart';
 
 class HomeworkPage extends StatefulWidget {
   @override
@@ -59,14 +58,14 @@ class _HomeworkState extends State<HomeworkPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.green, 'assets/youngboy.png',
+                    drawLeftCards(width, Colors.green, 'assets/pictures/youngboy.png',
                         'David', '4th Grade', '2.5 GPA'),
                     drawRightCards(width, homework1),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.orange, 'assets/collegekid.jpg',
+                    drawLeftCards(width, Colors.orange, 'assets/pictures/collegekid.jpg',
                         'Josh', '12th Grade', '3.35 GPA'),
                     drawRightCards(width, homework2),
                   ],
@@ -74,7 +73,7 @@ class _HomeworkState extends State<HomeworkPage> {
                 Row(
                   children: <Widget>[
                     drawLeftCards(width, Colors.pink[200],
-                        'assets/daughter.jpg', 'Katie', '5th Grade', '4.0 GPA'),
+                        'assets/pictures/daughter.jpg', 'Katie', '5th Grade', '4.0 GPA'),
                     drawRightCards(width, homework3),
                   ],
                 ),

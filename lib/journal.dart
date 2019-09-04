@@ -7,8 +7,6 @@
 
 import 'package:flutter/material.dart';
 
-import './drawer.dart';
-
 //This class builds the cards for the page
 class NewJournalCard extends StatelessWidget {
   final List<String> journalEntries;
@@ -34,7 +32,7 @@ class NewJournalCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage('assets/connie.jpg'),
+                        image: AssetImage('assets/pictures/connie.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
