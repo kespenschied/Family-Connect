@@ -11,7 +11,6 @@ import './account.dart';
 import './notifications.dart';
 import './editusers.dart';
 import './permissions.dart';
-import './print.dart';
 import './login.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -92,7 +91,7 @@ class MyDrawer extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/connie.jpg'),
+                    image: AssetImage('assets/pictures/connie.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -176,26 +175,6 @@ class MyDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => PermissionsPage()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              'Print',
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              ),
-            ),
-            leading: Icon(
-              Icons.print,
-              size: 35.0,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrintPage()),
               );
             },
           ),

@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
         // Add box decoration
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/login_background.jpg"),
+            image: AssetImage("assets/pictures/login_background.jpg"),
             fit: BoxFit.cover,
           ),
         ),

@@ -8,8 +8,6 @@
 
 import 'package:flutter/material.dart';
 
-import './drawer.dart';
-
 class ChoresPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ChoresState();
@@ -60,13 +58,13 @@ class _ChoresState extends State<ChoresPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.pink[200],'assets/daughter.jpg', 'Katie', 'April 20th'),
+                    drawLeftCards(width, Colors.pink[200],'assets/pictures/daughter.jpg', 'Katie', 'April 20th'),
                     drawRightCards(width, chores1),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.orange,'assets/collegekid.jpg', 'Josh', 'April 20th'),
+                    drawLeftCards(width, Colors.orange,'assets/pictures/collegekid.jpg', 'Josh', 'April 20th'),
                     drawRightCards(width, chores2),
                   ],
                 ),

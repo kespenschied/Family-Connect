@@ -25,7 +25,7 @@ class NewBookCard extends StatelessWidget{
         onLongPress: (){
           //This is where we can rearrange if possible
         },
-        leading: Image(image: AssetImage('assets/rainbowfish.jpg'), height: 70,),
+        leading: Image(image: AssetImage('assets/pictures/rainbowfish.jpg'), height: 70,),
         isThreeLine: true,
         title: Text(
           title,

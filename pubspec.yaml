@@ -47,21 +47,22 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/calendar.jpg
-    - assets/journal.jpg
-    - assets/books.jpg
-    - assets/chores.jpg
-    - assets/homework.jpg
-    - assets/list.jpg
-    - assets/achievements.jpg
-    - assets/extra.jpg
-    - assets/trophy.jpg
-    - assets/connie.jpg
-    - assets/rainbowfish.jpg
-    - assets/collegekid.jpg
-    - assets/daughter.jpg
-    - assets/youngboy.png
-    - assets/login_background.jpg
+    - assets/pictures/calendar.jpg
+    - assets/pictures/journal.jpg
+    - assets/pictures/books.jpg
+    - assets/pictures/chores.jpg
+    - assets/pictures/homework.jpg
+    - assets/pictures/list.jpg
+    - assets/pictures/achievements.jpg
+    - assets/pictures/extra.jpg
+    - assets/pictures/trophy.jpg
+    - assets/pictures/connie.jpg
+    - assets/pictures/rainbowfish.jpg
+    - assets/pictures/collegekid.jpg
+    - assets/pictures/daughter.jpg
+    - assets/pictures/youngboy.png
+    - assets/pictures/reports.jpg
+    - assets/pictures/login_background.jpg
  
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -78,10 +79,10 @@ flutter:
   fonts:
     - family: DancingScript
       fonts:
-        - asset: assets/dancing_script.ttf
+        - asset: assets/fonts/dancing_script.ttf
     - family: Pacifico
       fonts:
-        - asset: assets/pacifico.ttf
+        - asset: assets/fonts/pacifico.ttf
            
   
   # For details regarding fonts from package dependencies,
