@@ -8,14 +8,6 @@ class UserDrawer extends StatefulWidget {
 
 class _UserDrawerState extends State<UserDrawer> {
   List _users = ["Connie", "David", "Josh", "Katie"];
-  List _backgroundColors = [
-    Colors.red,
-    Colors.teal,
-    Colors.brown,
-    Colors.green,
-    Colors.orange,
-    Colors.purple
-  ];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentUser;
@@ -23,9 +15,10 @@ class _UserDrawerState extends State<UserDrawer> {
 
   @override
   void initState() {
+    _currentColor = Colors.blue;
     _dropDownMenuItems = getDropDownMenuItems();
     _currentUser = _dropDownMenuItems[0].value;
-    _currentColor = _backgroundColors[randomBetween(0, 5)];
+   
     super.initState();
   }
 
@@ -35,9 +28,10 @@ class _UserDrawerState extends State<UserDrawer> {
       items.add(DropdownMenuItem(
         value: user,
         child: Container(
+          color: _userColor(user),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.grey[500],
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
@@ -65,7 +59,7 @@ class _UserDrawerState extends State<UserDrawer> {
       color: _currentColor,
       elevation: 5.0,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),    
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: Center(
         child: DropdownButtonHideUnderline(
           child: ButtonTheme(
@@ -85,7 +79,31 @@ class _UserDrawerState extends State<UserDrawer> {
   void changedDropDownItem(String selectedUser) {
     setState(() {
       _currentUser = selectedUser;
-      _currentColor = _backgroundColors[randomBetween(0, 5)];
+      _currentColor = _userColor(selectedUser);
     });
+  }
+
+  Color _userColor(String username) {
+    switch (username) {
+        case "Connie":
+          {
+            return Colors.blue;
+          }
+          break;
+        case "David":
+          {
+            return Colors.green;
+          }
+          break;
+        case "Josh":
+          {
+            return Colors.orange;
+          }
+          break;
+        case "Katie":
+          {
+            return Colors.pink[200];
+          }
+      }
   }
 }
