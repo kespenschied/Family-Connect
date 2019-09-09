@@ -7,6 +7,7 @@
 
 
 import 'package:flutter/material.dart';
+import './user_select.dart';
 
 class ChoresPage extends StatefulWidget {
   @override
@@ -52,6 +53,7 @@ class _ChoresState extends State<ChoresPage> {
     
     return ListView(
       children: <Widget>[
+        UserDrawer(),
         Center(
           child: Container(
             child: Column(

@@ -55,7 +55,7 @@ class _CalendarState extends State<EventsPage> {
               ),
               weekdayTextStyle: TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.bold,                
+                fontWeight: FontWeight.bold,
               ),
               weekendTextStyle: TextStyle(
                 color: Colors.red,
@@ -178,15 +178,17 @@ class _CalendarState extends State<EventsPage> {
         Icons.add,
       ),
       onPressed: () {
-        setState(() {
-          _markedDateMap.add(
-              _currentDate,
-              new Event(
-                date: _currentDate,
-                title: 'Sleepover',
-              ));
-          refresh(_currentDate);
-        });
+        if (_currentDate != null) {
+          setState(() {
+            _markedDateMap.add(
+                _currentDate,
+                new Event(
+                  date: _currentDate,
+                  title: 'Sleepover',
+                ));
+            refresh(_currentDate);
+          });
+        }
       },
     );
   }
