@@ -11,14 +11,11 @@ class _UserDrawerState extends State<UserDrawer> {
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentUser;
-  Color _currentColor;
 
   @override
   void initState() {
-    _currentColor = Colors.blue;
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentUser = _dropDownMenuItems[0].value;
-   
+    _currentUser = _dropDownMenuItems[0].value;   
     super.initState();
   }
 
@@ -56,13 +53,13 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _currentColor,
+      color: _userColor(_currentUser),
       elevation: 5.0,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: Center(
         child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
+          child: ButtonTheme(            
             child: DropdownButton(
               iconEnabledColor: Colors.black,
               value: _currentUser,
@@ -79,7 +76,6 @@ class _UserDrawerState extends State<UserDrawer> {
   void changedDropDownItem(String selectedUser) {
     setState(() {
       _currentUser = selectedUser;
-      _currentColor = _userColor(selectedUser);
     });
   }
 
