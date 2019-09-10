@@ -11,8 +11,6 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 
-import './drawer.dart';
-
 class EventsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CalendarState();

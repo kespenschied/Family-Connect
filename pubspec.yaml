@@ -67,6 +67,7 @@ flutter:
     - assets/pictures/youngboy.png
     - assets/pictures/reports.jpg
     - assets/pictures/login_background.jpg
+    - assets/pictures/error.png
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

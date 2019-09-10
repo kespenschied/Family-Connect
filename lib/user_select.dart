@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:random_string/random_string.dart';
 
 class UserDrawer extends StatefulWidget {
   @override
@@ -15,7 +14,7 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentUser = _dropDownMenuItems[0].value;   
+    _currentUser = _dropDownMenuItems[0].value;
     super.initState();
   }
 
@@ -28,12 +27,14 @@ class _UserDrawerState extends State<UserDrawer> {
           color: _userColor(user),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.grey[500],
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Text(
-                  randomAlpha(2).toUpperCase(), //randomly generate 2 letters
-                  style: TextStyle(color: Colors.white),
+              backgroundColor: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: _userPicture(user),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -59,7 +60,7 @@ class _UserDrawerState extends State<UserDrawer> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: Center(
         child: DropdownButtonHideUnderline(
-          child: ButtonTheme(            
+          child: ButtonTheme(
             child: DropdownButton(
               iconEnabledColor: Colors.black,
               value: _currentUser,
@@ -81,25 +82,59 @@ class _UserDrawerState extends State<UserDrawer> {
 
   Color _userColor(String username) {
     switch (username) {
-        case "Connie":
-          {
-            return Colors.blue;
-          }
-          break;
-        case "David":
-          {
-            return Colors.green;
-          }
-          break;
-        case "Josh":
-          {
-            return Colors.orange;
-          }
-          break;
-        case "Katie":
-          {
-            return Colors.pink[200];
-          }
-      }
+      case "Connie":
+        {
+          return Colors.blue;
+        }
+        break;
+      case "David":
+        {
+          return Colors.green;
+        }
+        break;
+      case "Josh":
+        {
+          return Colors.orange;
+        }
+        break;
+      case "Katie":
+        {
+          return Colors.pink[200];
+        }
+        break;
+      default:
+        {
+          return Colors.white;
+        }
+    }
+  }
+
+  AssetImage _userPicture(String username) {
+    switch (username) {
+      case "Connie":
+        {
+          return AssetImage('assets/pictures/connie.jpg');
+        }
+        break;
+      case "David":
+        {
+          return AssetImage('assets/pictures/youngboy.png');
+        }
+        break;
+      case "Josh":
+        {
+          return AssetImage('assets/pictures/collegekid.jpg');
+        }
+        break;
+      case "Katie":
+        {
+          return AssetImage('assets/pictures/daughter.jpg');
+        }
+        break;
+      default:
+        {
+          return AssetImage('assets/pictures/error.png');
+        }
+    }
   }
 }
