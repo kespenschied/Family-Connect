@@ -6,6 +6,7 @@
 //***********************************************
 
 import 'package:flutter/material.dart';
+import './user_select.dart';
 
 class HomeworkPage extends StatefulWidget {
   @override
@@ -52,6 +53,7 @@ class _HomeworkState extends State<HomeworkPage> {
 
     return ListView(
       children: <Widget>[
+        UserDrawer(),
         Center(
           child: Container(
             child: Column(
