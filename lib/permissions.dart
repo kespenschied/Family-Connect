@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './user_select.dart';
 
 class PermissionsPage extends StatelessWidget {
   @override
@@ -56,7 +57,8 @@ class PermissionsPage extends StatelessWidget {
           child: Container(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 20.0,), //This is acting as padding for text.
+                UserDrawer(),
+                SizedBox(height: 10.0,), //This is acting as padding for text.
                 SizedBox(
                   height: 50.0,
                   child: Text("Allow user to edit:",
@@ -105,7 +107,7 @@ Widget drawCards(double width, double height, List<Widget> widgetList) {
       
       width: cardWidth,
       height: cardHeight,
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 150.0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 200.0),
       child: Card(
         shape: BeveledRectangleBorder(),
         elevation: 0.0,
