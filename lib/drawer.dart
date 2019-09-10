@@ -5,6 +5,7 @@
 //This class holds all the Drawer (appBar hamburger menu) Page widgets
 //********************************************************************
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import './account.dart';
@@ -13,61 +14,18 @@ import './editusers.dart';
 import './permissions.dart';
 import './login.dart';
 
-class MyDrawer extends StatelessWidget {
-  //logout confirmation box
-  void _showLogOutConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Log Out?",
-            style: TextStyle(
-              fontSize: 30.0,
-            ),
-          ),
-          actions: <Widget>[
-            ButtonTheme(
-              minWidth: 100.0,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                      (Route<dynamic> route) => false);
-                },
-                elevation: 5.0,
-                color: Colors.red,
-                textColor: Colors.white,
-                child: Text(
-                  'Yes',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            ButtonTheme(
-              minWidth: 100.0,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                elevation: 5.0,
-                color: Colors.green,
-                textColor: Colors.white,
-                child: Text(
-                  'No',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+class MyDrawer extends StatefulWidget {
+ const MyDrawer({
+    Key key,
+    @required this.user
+  }) : super(key: key);
+
+  final AuthResult user;
+
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+class _MyDrawerState extends State<MyDrawer>{
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +36,11 @@ class MyDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
-              "Connie Barber",
+              "Name",
               style: TextStyle(fontSize: 20.0),
             ),
             accountEmail: Text(
-              "cobarbe@siue.edu",
-              style: TextStyle(fontSize: 15.0),
+              widget.user.user.email
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
@@ -197,6 +154,61 @@ class MyDrawer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  //logout confirmation box
+  void _showLogOutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Log Out?",
+            style: TextStyle(
+              fontSize: 30.0,
+            ),
+          ),
+          actions: <Widget>[
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      (Route<dynamic> route) => false);
+                },
+                elevation: 5.0,
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text(
+                  'Yes',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                elevation: 5.0,
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

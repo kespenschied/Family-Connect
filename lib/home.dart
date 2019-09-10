@@ -5,6 +5,7 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import './achievements.dart';
@@ -19,6 +20,13 @@ import './drawer.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 class HomePage extends StatelessWidget {
+const HomePage({
+    Key key,
+    @required this.user
+  }) : super(key: key);
+
+  final AuthResult user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +36,15 @@ class HomePage extends StatelessWidget {
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(user: user),
       body: Center(
         child: HomeController(),
       ),
     );
   }
+
+
+
 }
 
 //This class defines the layout for the Home Page widgets. It also

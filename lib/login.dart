@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import './home.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'drawer.dart';
+
 
 //this will need to become stateful when doing functionality
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget{
+  @override
+  _LoginPageState createState() => new _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //Styling for the 'Family Connect' Strings
+  String _email, _password, input;
+  final _formKey = new GlobalKey<FormState>();
+
   TextStyle _titleTextStyling() {
     return TextStyle(
       fontFamily: 'DancingScript',
@@ -19,7 +30,7 @@ class LoginPage extends StatelessWidget {
       ],
     );
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     double fieldWidth = MediaQuery.of(context).size.width - 10.0;
@@ -35,6 +46,8 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         child: Center(
+          child: Form(
+            key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,10 +75,15 @@ class LoginPage extends StatelessWidget {
                     labelText: 'Username',
                     filled: true,
                   ),
-                  validator: (input) =>
-                      !input.contains('@') ? 'Not A Valid Email' : null,
+                  validator: (input) { 
+                    if (!input.contains('@')) {
+                    return 'Not A Valid Email';
+                    }
+                  },
+                      //!input.contains('@') ? 'Not A Valid Email' : null,
+                      onSaved: (input) => _email = input
                 ),
-              ),
+                ),
               Padding(
                 padding: EdgeInsets.all(15.0),
               ),
@@ -81,8 +99,13 @@ class LoginPage extends StatelessWidget {
                     labelText: 'Password',
                     filled: true,
                   ),
-                  validator: (input) =>
-                      !input.contains('@') ? 'Not A Valid Email' : null,
+                  validator: (input) { 
+                    if (input.length < 6) {
+                    return 'Not A Valid Password';
+                    }
+                  },
+                      //!input.contains('@') ? 'Not A Valid Email' : null,
+                      onSaved: (input) => _password = input
                 ),
               ),
               Padding(
@@ -91,12 +114,7 @@ class LoginPage extends StatelessWidget {
               ButtonTheme(
                 minWidth: 200.0,
                 child: RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                  },
+                  onPressed: signIn, //method below
                   elevation: 5.0,
                   color: Colors.red,
                   textColor: Colors.white,
@@ -118,7 +136,24 @@ class LoginPage extends StatelessWidget {
             ],
           ),
         ),
+        ),
       ),
     );
+  }
+
+  //pass email and password to home, then pass email to drawer
+  Future<void> signIn() async {
+    final formState = _formKey.currentState;
+
+    if(formState.validate()){
+      formState.save();
+      try{
+       AuthResult user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)); 
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user: user)));
+      }catch(e){
+        print(e.message);
+      }
+    }
+
   }
 }
