@@ -3,6 +3,9 @@
 
 //********************************************
 //This class holds all the Lists Page widgets
+//Im in the process of redesigning this page 9/17/19 -kole
+//Will need a floating action button added to allow
+//the user to add a new list to the screen.
 //********************************************
 
 import 'package:flutter/material.dart';

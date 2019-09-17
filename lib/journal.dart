@@ -126,6 +126,7 @@ class _JournalManager extends State<JournalPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        //this onPressed function will need to open a new page where the user types in a journal title, body, and adds attachments
         onPressed: () {
           setState(() {
             _newJournalEntry

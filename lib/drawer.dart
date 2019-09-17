@@ -3,6 +3,8 @@
 
 //********************************************************************
 //This class holds all the Drawer (appBar hamburger menu) Page widgets
+//We can add the 'user_select.dart' to the top of 'account.dart' and
+//eliminate the need for an editUsers page. Also on the logOut
 //********************************************************************
 
 import 'package:flutter/material.dart';
@@ -14,7 +16,8 @@ import './permissions.dart';
 import './login.dart';
 
 class MyDrawer extends StatelessWidget {
-  //logout confirmation box
+  //logout confirmation box, will need to actually sign the user out of firebase
+  //as of now it just pops all the pages off the stack and returns you to the login page.
   void _showLogOutConfirmation(BuildContext context) {
     showDialog(
       context: context,

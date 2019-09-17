@@ -2,7 +2,8 @@
 //April 8th, 2019
 
 //******************************************************
-//This class holds all the Reports Page widgets
+//This class holds all the Reports Page widgets. Low priority
+// Will be the page where a user can print shit out
 //******************************************************
 
 

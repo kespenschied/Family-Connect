@@ -1,6 +1,10 @@
+//This page/widget is the user select we currently have at the top of a few pages.
+//This will be used throughout the app for user selection.
+
 import 'package:flutter/material.dart';
 
 class UserDrawer extends StatefulWidget {
+  UserDrawer({Key key}):super(key: key);
   @override
   State<StatefulWidget> createState() => _UserDrawerState();
 }
