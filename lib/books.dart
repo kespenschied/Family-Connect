@@ -1,6 +1,3 @@
-//By: Kole Espenschied
-//April 8th, 2019
-
 //********************************************
 //This class holds all the Books Page widgets
 //********************************************
