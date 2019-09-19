@@ -43,7 +43,7 @@ class _NotificationState extends State<NotificationPage> {
         decoration: _backgroundStyling(),
         child: _buildNotifications(context),
       ),
-      bottomNavigationBar: _clearAllButton(context),        
+      bottomNavigationBar: _clearAllButton(context),      
     );
   }
   ///////////////////////////////////////////
