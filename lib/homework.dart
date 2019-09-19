@@ -19,6 +19,8 @@ class HomeworkPage extends StatefulWidget {
 }
 
 class _HomeworkState extends State<HomeworkPage> {      
+   var isItChecked = List<bool>.generate(9, (i) => false);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,15 +48,15 @@ class _HomeworkState extends State<HomeworkPage> {
                 ),
                 //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
                 titleBar(Colors.green, 'NAME', Icons.create),
-                listItems('Math', 'Problems 1-10\nDue: 04/19', true),
-                listItems('History', 'Read Chapter 3\nDue: 04/20', false),
-                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', false),
-                listItems('English', 'Do Grammar Assignment\nDue: 04/23', true),
-                listItems('Art', 'Finish Poster\nDue: 04/23', true),
-                listItems('History', 'Read Chapter 3\nDue: 04/20', false),
-                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', false),
-                listItems('English', 'Do Grammar Assignment\nDue: 04/23', true),
-                listItems('Art', 'Finish Poster\nDue: 04/23', true),
+                listItems('Math', 'Problems 1-10\nDue: 04/19', 0),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 1),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 2),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 3),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 4),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 5),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 6),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 7),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 8),
               ],
             ),
           ),
@@ -115,7 +117,7 @@ class _HomeworkState extends State<HomeworkPage> {
     );
   }
 
-  Widget listItems(String listItem, String info, bool value) {
+  Widget listItems(String listItem, String info, int index) {
     return Card(
       elevation: 15.0,
       margin: EdgeInsets.all(1),
@@ -136,8 +138,12 @@ class _HomeworkState extends State<HomeworkPage> {
             fontSize: 20.0,
           ),
         ),
-        value: value,
-        onChanged: (bool val) {},
+        value: isItChecked[index],
+        onChanged: (bool val) {
+          setState(() {
+            isItChecked[index] = val;
+          });
+        },
       ),
     );
   }

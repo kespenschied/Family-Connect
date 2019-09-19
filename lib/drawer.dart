@@ -34,6 +34,7 @@ class MyDrawer extends StatelessWidget {
               minWidth: 100.0,
               child: RaisedButton(
                 onPressed: () {
+                  //will actually have to logout not just pop pages off the stack
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => LoginPage()),
                       (Route<dynamic> route) => false);
