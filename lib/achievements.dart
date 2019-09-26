@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 
-import './drawer.dart';
+import './user_select.dart';
 
 class AchievementsPage extends StatelessWidget {
   @override
@@ -20,9 +20,9 @@ class AchievementsPage extends StatelessWidget {
         title: Text('Achievements'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView( //ListView here lets the page scroll as more items are added.
         children: <Widget>[
+          UserDrawer(),
           AchievementContainerTitle(Colors.green, 'Completed Achievements:'),
           RecentAchievements(),
           AchievementContainerTitle(Colors.orange, 'Achievements In Progress:'),

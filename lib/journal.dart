@@ -6,9 +6,8 @@
 //**********************************************
 
 import 'package:flutter/material.dart';
-
-import './drawer.dart';
-
+import './account.dart';
+import './entry.dart';
 
 //This class builds the cards for the page
 class NewJournalCard extends StatelessWidget {
@@ -19,52 +18,83 @@ class NewJournalCard extends StatelessWidget {
   //this function returns a Container widget, and takes a 'title'
   //string as a parameter. This comes from the class below in the
   //List<String> dataField.
-  Widget makeListTile(String title) {
+  Widget makeListTile(String desc, double width, String title) {
+    int index = 0;
+    index = desc.lastIndexOf('~~~~~');
     return Container(
       height: 100.0,
-      child: ListTile(
-        isThreeLine: true,
-        title: Text(
-          title,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: width / 4,
+            color: Colors.blue,
+            child: Center(
+              child: CircleAvatar(
+                minRadius: 10.0,
+                backgroundColor: Colors.white,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/pictures/connie.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          'Today the children and I went ' +
-              'to the park and had a wonderful time. ' +
-              'Afterwards one of the kids said.....',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 15.0,
+          Container(
+            width: width * 3 / 4.11,
+            height: 100.0,
+            color: Colors.blue,
+            child: Card(
+              child: ListTile(
+                isThreeLine: true,
+                title: Text(
+                  desc.substring(0, index),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                subtitle: Text(
+                  desc.substring(index + 5),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        trailing: Icon(
-          Icons.more_vert,
-          size: 50.0,
-          color: Colors.black87,
-        ),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    String test = "tes~t";
+
     return Center(
         child: Column(
       children: journalEntries
-          .map( //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
-            (element) => Card( //basiclly, 'element' is a String in the JournalEntries list (which was passed from JournalPage below)
-                  child: Column( //it then creates a card.
-                    children: <Widget>[
-                      makeListTile(element),
-                    ],
-                  ),
-                ),
+          .map(
+            //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
+            (element) => Card(
+              //basiclly, 'element' is a String in the JournalEntries list (which was passed from JournalPage below)
+              child: Column(
+                //it then creates a card.
+                children: <Widget>[
+                  makeListTile(element, width, test),
+                ],
+              ),
+            ),
           )
           .toList(),
     ));
@@ -74,14 +104,14 @@ class NewJournalCard extends StatelessWidget {
 //Main scaffold and Journal Page. _newJournalEntry is an array of Strings. This
 //is passed to the parameterized class above, 'NewJournalCard'. This list is used
 //in NewJournalCards build method, and the actual string is passed to NewJournalCards'
-//makeListTile function to act as a 'title' for its String parameter. 
+//makeListTile function to act as a 'title' for its String parameter.
 class JournalPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _JournalManager();
 }
 
 class _JournalManager extends State<JournalPage> {
-  List<String> _newJournalEntry = ["Title: 1","Title: 2", "Title: 3"];
+  List<String> _newJournalEntry = [];
   int _counter = 4;
 
   @override
@@ -93,22 +123,105 @@ class _JournalManager extends State<JournalPage> {
         title: Text('Journal'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView(
         children: <Widget>[
           NewJournalCard(_newJournalEntry),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _newJournalEntry.add('Title: $_counter'); //add a new string to the List
+        onPressed: () async {
+          var temp = await _navigateAndDisplaySelection(context);
+          print(temp);
+          //makeListTile(temp, MediaQuery.of(context).size.width, temp);
+          _newJournalEntry.add(temp); //add a new string to the List
+          /*setState(() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EntryPage()),
+            );
+            _newJournalEntry
+                .add('Title: $_counter'); //add a new string to the List
             _counter++; //increment counter
-          });
+          });*/
         },
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
+        ),
+      ),
+    );
+  }
+}
+
+// A method that launches the SelectionScreen and awaits the result from
+// Navigator.pop.
+_navigateAndDisplaySelection(BuildContext context) async {
+  // Navigator.push returns a Future that completes after calling
+  // Navigator.pop on the Selection Screen.
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SelectionScreen()),
+  );
+  //print(Text("$result"));
+  return result;
+  // After the Selection Screen returns a result, hide any previous snackbars
+  // and show the new result.
+  //Scaffold.of(context)
+  //..removeCurrentSnackBar()
+  //..showSnackBar(SnackBar(content: Text("$result")));
+}
+
+class SelectionScreen extends StatefulWidget {
+  //TextEditingController _textInputController = TextEditingController();
+
+  @override
+  _SelectionScreenState createState() => _SelectionScreenState();
+}
+
+class _SelectionScreenState extends State<SelectionScreen> {
+  String title = "tempTitle", description = "tempdesc";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Entry'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  title = text;
+                },
+                autocorrect: true,
+                decoration: InputDecoration(hintText: 'Enter the Title here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  description = text;
+                },
+                autocorrect: true,
+                decoration:
+                    InputDecoration(hintText: 'Enter the Description here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                onPressed: () {
+                  // Close the screen and return "Yep!" as the result.
+                  Navigator.pop(context, title + "~~~~~" + description);
+                },
+                child: Text('Submit'),
+              ),
+            ),
+          ],
         ),
       ),
     );
