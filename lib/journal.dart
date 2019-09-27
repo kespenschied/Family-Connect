@@ -10,14 +10,15 @@ import './account.dart';
 import './entry.dart';
 
 //This class builds the cards for the page
-class NewJournalCard extends StatelessWidget {
+class NewJournalCard extends StatefulWidget {
   final List<String> journalEntries;
-
   NewJournalCard(this.journalEntries);
 
-  //this function returns a Container widget, and takes a 'title'
-  //string as a parameter. This comes from the class below in the
-  //List<String> dataField.
+  @override
+  _NewJournalCardState createState() => _NewJournalCardState();
+}
+
+class _NewJournalCardState extends State<NewJournalCard> {
   Widget makeListTile(String desc, double width, String title) {
     int index = 0;
     index = desc.lastIndexOf('~~~~~');
@@ -83,7 +84,7 @@ class NewJournalCard extends StatelessWidget {
 
     return Center(
         child: Column(
-      children: journalEntries
+      children: widget.journalEntries
           .map(
             //this here is explained in Sean's tutorial video around the 1:50:00 mark of the youtube video
             (element) => Card(
