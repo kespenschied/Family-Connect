@@ -78,11 +78,11 @@ class MyDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
-              "Connie Barber",
+              "Connie Barber",  /////Pull from database
               style: TextStyle(fontSize: 20.0),
             ),
             accountEmail: Text(
-              "cobarbe@siue.edu",
+              "cobarbe@siue.edu", //////Pull from database
               style: TextStyle(fontSize: 15.0),
             ),
             currentAccountPicture: CircleAvatar(
@@ -91,7 +91,7 @@ class MyDrawer extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/pictures/connie.jpg'),
+                    image: AssetImage('assets/pictures/connie.jpg'), ////Pull from database
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -138,26 +138,26 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            title: Text(
-              'Edit Users',
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
-              ),
-            ),
-            leading: Icon(
-              Icons.group_add,
-              size: 35.0,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserPage()),
-              );
-            },
-          ),
+          // ListTile(
+          //   title: Text(
+          //     'Edit Users',
+          //     textAlign: TextAlign.end,
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.bold,
+          //       fontSize: 30.0,
+          //     ),
+          //   ),
+          //   leading: Icon(
+          //     Icons.group_add,
+          //     size: 35.0,
+          //   ),
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => UserPage()),
+          //     );
+          //   },
+          // ),
           ListTile(
             title: Text(
               'Permissions',
