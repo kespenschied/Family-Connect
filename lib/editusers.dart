@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './user_select.dart';
+
 class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,9 @@ class UserPage extends StatelessWidget {
               Colors.grey[400],
             ],
           ),
+        ),
+        child: ListView(
+          children: <Widget>[UserDrawer()],
         ),
       ),
     );

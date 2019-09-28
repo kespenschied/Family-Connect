@@ -1,6 +1,3 @@
-//By: Kole Espenschied
-//April 8th, 2019
-
 //********************************************
 //This class holds all the Books Page widgets
 //********************************************
@@ -8,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-import './drawer.dart';
+import './user_select.dart';
 
 class NewBookCard extends StatelessWidget{
   final List<String> bookEntries;
@@ -99,20 +96,10 @@ class _BookManager extends State<BooksPage>{
       ),
       body: ListView(
         children: <Widget>[
+          UserDrawer(),
           NewBookCard(_newBookEntry),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 40.0,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.orange,), title: Text('Josh', style: TextStyle(fontSize: 20.0),),),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.pink[200],), title: Text('Katie', style: TextStyle(fontSize: 20.0),),),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green,), title: Text('David', style: TextStyle(fontSize: 20.0),),),
-        ],
-        currentIndex: _selectedIndex,
-        fixedColor: Colors.black,
-        onTap: _onItemTapped,
-        ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
