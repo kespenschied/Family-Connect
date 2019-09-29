@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import './home.dart';
+import './login.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       title: 'Family Connect',
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

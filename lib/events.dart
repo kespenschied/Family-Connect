@@ -5,13 +5,13 @@
 //This class holds all the Events/Calendar Page widgets
 //******************************************************
 
+
+//for help refer to https://pub.dev/packages/flutter_calendar_carousel
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
-
-import './drawer.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -23,19 +23,16 @@ class _CalendarState extends State<EventsPage> {
   String calendarText = noEventText;
   DateTime _currentDate;
 
-  List<Card> _eventList = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Events'),
+        title: Text('Calendar/Events'),
         backgroundColor: Colors.black,
       ),
       body: _showCalendar(),
       floatingActionButton: addEvent(),
-      endDrawer: MyDrawer(),
       backgroundColor: Colors.grey,
     );
   }
@@ -58,7 +55,7 @@ class _CalendarState extends State<EventsPage> {
               ),
               weekdayTextStyle: TextStyle(
                 color: Colors.black,
-                fontWeight: FontWeight.bold,                
+                fontWeight: FontWeight.bold,
               ),
               weekendTextStyle: TextStyle(
                 color: Colors.red,
@@ -174,6 +171,11 @@ class _CalendarState extends State<EventsPage> {
     }
   }
 
+  //******************************************************************************************** */
+  // Nothing needs to change but this functions 'onPressed' command. It needs to be changed to allow
+  //the user to type in a new event and add a timestamp/alert for it. As of now it just adds one event
+  //to the calendar and creates a single card at the bottom of the calendar describing the event
+  //******************************************************************************************** */
   FloatingActionButton addEvent() {
     return FloatingActionButton(
       backgroundColor: Colors.black87,
@@ -181,15 +183,17 @@ class _CalendarState extends State<EventsPage> {
         Icons.add,
       ),
       onPressed: () {
-        setState(() {
-          _markedDateMap.add(
-              _currentDate,
-              new Event(
-                date: _currentDate,
-                title: 'Sleepover',
-              ));
-          refresh(_currentDate);
-        });
+        if (_currentDate != null) {
+          setState(() {
+            _markedDateMap.add(
+                _currentDate,
+                new Event(
+                  date: _currentDate,
+                  title: 'Sleepover',
+                ));
+            refresh(_currentDate);
+          });
+        }
       },
     );
   }

@@ -1,34 +1,40 @@
-//By: Kole Espenschied
-//April 8th, 2019
-
 //********************************************
 //This class holds all the Books Page widgets
 //********************************************
 
-
 import 'package:flutter/material.dart';
 
-import './drawer.dart';
+import './user_select.dart';
 
-class NewBookCard extends StatelessWidget{
+class NewBookCard extends StatefulWidget {
   final List<String> bookEntries;
 
   NewBookCard(this.bookEntries);
 
-  Widget makeListTile(String title){ //Need to add author and pages to this in future for dynamic updates on book
+  @override
+  _NewBookCardState createState() => _NewBookCardState();
+}
+
+class _NewBookCardState extends State<NewBookCard> {
+  Widget makeListTile(String desc) {
+    int index = desc.lastIndexOf('~~~~~');
+    //Need to add author and pages to this in future for dynamic updates on book
     return Container(
       height: 100.0,
       child: ListTile(
-        onTap: (){
+        onTap: () {
           //This is where we go to a new page of the book description
         },
-        onLongPress: (){
+        onLongPress: () {
           //This is where we can rearrange if possible
         },
-        leading: Image(image: AssetImage('assets/rainbowfish.jpg'), height: 70,),
+        leading: Image(
+          image: AssetImage('assets/pictures/rainbowfish.jpg'),
+          height: 70,
+        ),
         isThreeLine: true,
         title: Text(
-          title,
+          desc.substring(0, index),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 25.0,
@@ -37,7 +43,7 @@ class NewBookCard extends StatelessWidget{
           ),
         ),
         subtitle: Text(
-          'By: ' + 'Marcus Pfister\n' + '15/30 pages read',
+          desc.substring(index + 5),
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black87,
@@ -45,48 +51,34 @@ class NewBookCard extends StatelessWidget{
           ),
         ),
         trailing: FavoriteWidget(),
-        
-        //IconButton(
-        //   onPressed: (){
-        //     //We add functionality to make the icon change to red if possible.
-        //     // setState(){
-              
-        //     // } 
-        //   },
-        //   icon: Icon(Icons.favorite),
-        //   tooltip: "Favorite",
-        // ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
-        children: 
-          bookEntries.map(
-            (title) => Card(
-              child: Column(
-                children: <Widget>[
-                  makeListTile(title)
-                ],
-              ),
-            )
-          ).toList(),
+        children: widget.bookEntries
+            .map((title) => Card(
+                  child: Column(
+                    children: <Widget>[makeListTile(title)],
+                  ),
+                ))
+            .toList(),
       ),
     );
   }
-
 }
+
 class BooksPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BookManager();
 }
 
-class _BookManager extends State<BooksPage>{
-  List<String> _newBookEntry = ["The Rainbow Fish", "The Rainbow Fish", "The Rainbow Fish"];
-  int _selectedIndex = 0;
+class _BookManager extends State<BooksPage> {
+  List<String> _newBookEntry = [];
+  //int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -97,63 +89,47 @@ class _BookManager extends State<BooksPage>{
         title: Text('Books'),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
       body: ListView(
         children: <Widget>[
+          UserDrawer(),
           NewBookCard(_newBookEntry),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 40.0,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.orange,), title: Text('Josh', style: TextStyle(fontSize: 20.0),),),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.pink[200],), title: Text('Katie', style: TextStyle(fontSize: 20.0),),),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.green,), title: Text('David', style: TextStyle(fontSize: 20.0),),),
-        ],
-        currentIndex: _selectedIndex,
-        fixedColor: Colors.black,
-        onTap: _onItemTapped,
-        ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            //This section needs to be set in the future to be taken to a new page in order to enter details
-            //about the book that's being added as well as scanning ISBN possibly. This is fine for HI FI
-            _newBookEntry.add("The Rainbow Fish");
-          });
+        onPressed: () async {
+          var temp = await _navigateAndDisplaySelection(context);
+          print(temp);
+          _newBookEntry.add(temp);
         },
         backgroundColor: Colors.black87,
-        child: Icon(Icons.add,),
+        child: Icon(
+          Icons.add,
+        ),
       ),
     );
   }
-
-  void _onItemTapped(int index) {
-    setState(() {
-     _selectedIndex = index; 
-    });
-  }
 }
+
 //Creation of new custom widget that has interaction and states
 class FavoriteWidget extends StatefulWidget {
   @override
   _FavoriteWidgetState createState() => _FavoriteWidgetState();
 }
 
-
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
 
 //For toggling the state of the widget
   void _toggleFavorite() {
-  setState(() {
-    if (_isFavorited) {
-      _isFavorited = false;
-    } else {
-      _isFavorited = true;
-    }
-  });
-}
+    setState(() {
+      if (_isFavorited) {
+        _isFavorited = false;
+      } else {
+        _isFavorited = true;
+      }
+    });
+  }
+
 //Build the custom favorite widget to be
   @override
   Widget build(BuildContext context) {
@@ -163,7 +139,9 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
         Container(
           padding: EdgeInsets.all(0),
           child: IconButton(
-            icon: (_isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border)),
+            icon: (_isFavorited
+                ? Icon(Icons.favorite)
+                : Icon(Icons.favorite_border)),
             color: Colors.red,
             onPressed: _toggleFavorite,
             tooltip: "Favorite",
@@ -172,4 +150,79 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
       ],
     );
   }
-}  
+}
+
+// A method that launches the SelectionScreen and awaits the result from
+// Navigator.pop.
+_navigateAndDisplaySelection(BuildContext context) async {
+  // Navigator.push returns a Future that completes after calling
+  // Navigator.pop on the Selection Screen.
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SelectionScreen()),
+  );
+  //print(Text("$result"));
+  return result;
+  // After the Selection Screen returns a result, hide any previous snackbars
+  // and show the new result.
+  //Scaffold.of(context)
+  //..removeCurrentSnackBar()
+  //..showSnackBar(SnackBar(content: Text("$result")));
+}
+
+class SelectionScreen extends StatefulWidget {
+  //TextEditingController _textInputController = TextEditingController();
+
+  @override
+  _SelectionScreenState createState() => _SelectionScreenState();
+}
+
+class _SelectionScreenState extends State<SelectionScreen> {
+  String title = "tempTitle", description = "tempdesc";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Entry'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  title = text;
+                },
+                autocorrect: true,
+                decoration: InputDecoration(hintText: 'Enter the Title here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  description = text;
+                },
+                autocorrect: true,
+                decoration:
+                    InputDecoration(hintText: 'Enter the Description here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                onPressed: () {
+                  // Close the screen and return "Yep!" as the result.
+                  Navigator.pop(context, title + "~~~~~" + description);
+                },
+                child: Text('Submit'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
