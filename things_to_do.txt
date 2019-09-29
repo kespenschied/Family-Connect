@@ -1,0 +1,20 @@
+1) Pages to do:
+    Drawer Pages:
+        Account - CHRIS
+        Notifications -Done
+        Edit Users - Going to merege with 'account.dart'
+        Permissions - Chris/Done
+        Print - Moved to home page
+    Floating-Action Pages:
+        Add Calendar Event
+        Add Journal
+        Add/Scan Book
+        Add Chores
+        Add Homework
+        Add List
+        Add Achievements
+
+3) Just About Done, I will do this - Kole
+
+4) Make Calendar events scrollable/functional
+

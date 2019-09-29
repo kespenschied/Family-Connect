@@ -11,7 +11,7 @@ import './achievements.dart';
 import './books.dart';
 import './chores.dart';
 import './events.dart';
-import './extracurriculars.dart';
+import './reports.dart';
 import './homework.dart';
 import './journal.dart';
 import './lists.dart';
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      endDrawer: MyDrawer(),
+      drawer: MyDrawer(),
       body: Center(
         child: HomeController(),
       ),
@@ -50,7 +50,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/calendar.jpg', 'Events'),
+                child: HomeIconsInfo('assets/pictures/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -59,7 +59,7 @@ class HomeController extends StatelessWidget {
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo('assets/journal.jpg', 'Journal'),
+                child: HomeIconsInfo('assets/pictures/journal.jpg', 'Journal'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -72,7 +72,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/books.jpg', 'Books'),
+                child: HomeIconsInfo('assets/pictures/books.jpg', 'Books'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -81,7 +81,7 @@ class HomeController extends StatelessWidget {
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo('assets/chores.jpg', 'Chores'),
+                child: HomeIconsInfo('assets/pictures/chores.jpg', 'Chores'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -94,7 +94,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/homework.jpg', 'Homework'),
+                child: HomeIconsInfo('assets/pictures/homework.jpg', 'Homework'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -103,7 +103,7 @@ class HomeController extends StatelessWidget {
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo('assets/list.jpg', 'Lists'),
+                child: HomeIconsInfo('assets/pictures/list.jpg', 'Lists'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -116,16 +116,16 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo('assets/extra.jpg', 'Extracurriculars'),
+                child: HomeIconsInfo('assets/pictures/reports.jpg', 'Reports'),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ExtracurPage()),
+                    MaterialPageRoute(builder: (context) => ReportsPage()),
                   );
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo('assets/achievements.jpg', 'Achievements'),
+                child: HomeIconsInfo('assets/pictures/achievements.jpg', 'Achievements'),
                 onTap: () {
                   Navigator.push(
                     context,

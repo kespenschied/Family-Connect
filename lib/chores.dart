@@ -3,12 +3,14 @@
 
 //*********************************************
 //This class holds all the Chores Page widgets
+//I'm in a process of redesigning this page 9/17/19 -Kole
+//Will need to add a floating action button to allow
+//the user to add a new list to the page.
 //*********************************************
 
 
 import 'package:flutter/material.dart';
-
-import './drawer.dart';
+import './user_select.dart';
 
 class ChoresPage extends StatefulWidget {
   @override
@@ -28,7 +30,6 @@ class _ChoresState extends State<ChoresPage> {
       ),
       body: drawBody(width),
       backgroundColor: Colors.grey,
-      endDrawer: MyDrawer(),
     );
   }
 
@@ -55,19 +56,20 @@ class _ChoresState extends State<ChoresPage> {
     
     return ListView(
       children: <Widget>[
+        UserDrawer(),
         Center(
           child: Container(
             child: Column(
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.pink[200],'assets/daughter.jpg', 'Katie', 'April 20th'),
+                    drawLeftCards(width, Colors.pink[200],'assets/pictures/daughter.jpg', 'Katie', 'April 20th'),
                     drawRightCards(width, chores1),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    drawLeftCards(width, Colors.orange,'assets/collegekid.jpg', 'Josh', 'April 20th'),
+                    drawLeftCards(width, Colors.orange,'assets/pictures/collegekid.jpg', 'Josh', 'April 20th'),
                     drawRightCards(width, chores2),
                   ],
                 ),
