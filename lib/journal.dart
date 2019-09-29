@@ -6,8 +6,6 @@
 //**********************************************
 
 import 'package:flutter/material.dart';
-import './account.dart';
-import './entry.dart';
 
 //This class builds the cards for the page
 class NewJournalCard extends StatefulWidget {
@@ -31,14 +29,15 @@ class _NewJournalCardState extends State<NewJournalCard> {
             color: Colors.blue,
             child: Center(
               child: CircleAvatar(
-                minRadius: 10.0,
-                backgroundColor: Colors.white,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/pictures/connie.jpg'),
-                      fit: BoxFit.cover,
+                  minRadius: 10.0,
+                  backgroundColor: Colors.white,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/pictures/connie.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -130,16 +129,9 @@ class _JournalManager extends State<JournalPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          var temp = await _navigateAndDisplaySelection(context);
-          print(temp);
-          //makeListTile(temp, MediaQuery.of(context).size.width, temp);
-          _newJournalEntry.add(temp); //add a new string to the List
-          /*setState(() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EntryPage()),
-            );
+        //this onPressed function will need to open a new page where the user types in a journal title, body, and adds attachments
+        onPressed: () {
+          setState(() {
             _newJournalEntry
                 .add('Title: $_counter'); //add a new string to the List
             _counter++; //increment counter
