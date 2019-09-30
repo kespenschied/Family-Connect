@@ -5,6 +5,12 @@
 //This class holds all the Events/Calendar Page widgets
 //******************************************************
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter_widget_app/models/event_model.dart';
+import 'package:intl/intl.dart';
 
 //for help refer to https://pub.dev/packages/flutter_calendar_carousel
 import 'package:flutter/material.dart';
