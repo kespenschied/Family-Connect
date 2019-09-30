@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import './account.dart';
-import './entry.dart';
+//import './entry.dart';
 
 //This class builds the cards for the page
 class NewJournalCard extends StatefulWidget {
