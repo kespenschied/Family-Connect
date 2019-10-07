@@ -7,6 +7,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import './account.dart';
 import './notifications.dart';
@@ -26,6 +28,10 @@ class MyDrawer extends StatefulWidget {
   _MyDrawerState createState() => _MyDrawerState();
 }
 class _MyDrawerState extends State<MyDrawer>{
+
+String profileName = "";
+String profileEmail = "";
+final databaseReference = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +155,22 @@ class _MyDrawerState extends State<MyDrawer>{
               size: 35.0,
             ),
             onTap: () {
-              _showLogOutConfirmation(context);
+              getData();
+              //_showLogOutConfirmation(context);
             },
           ),
         ],
       ),
     );
+  }
+
+  void getData() {
+    databaseReference
+        .collection("Users")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) => print('${f.data}}'));
+    });
   }
 
   //logout confirmation box
