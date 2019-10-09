@@ -5,6 +5,8 @@
 //This class holds all the Drawer (appBar hamburger menu) Page widgets
 //********************************************************************
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -20,21 +22,22 @@ class MyDrawer extends StatefulWidget {
  const MyDrawer({
     Key key,
     @required this.user
+    
   }) : super(key: key);
 
   final AuthResult user;
-
   @override
   _MyDrawerState createState() => _MyDrawerState();
 }
 class _MyDrawerState extends State<MyDrawer>{
 
-String profileName = "";
-String profileEmail = "";
-final databaseReference = Firestore.instance;
+List<String> documentList = new List(1);
+//String profileName = "";
 
   @override
   Widget build(BuildContext context) {
+    var profileEmail = widget.user.user.email;
+    
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0.0),
@@ -42,11 +45,11 @@ final databaseReference = Firestore.instance;
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
-              "Name",
+              profileEmail,
               style: TextStyle(fontSize: 20.0),
             ),
             accountEmail: Text(
-              widget.user.user.email
+              getProfileName(profileEmail),  
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
@@ -155,8 +158,7 @@ final databaseReference = Firestore.instance;
               size: 35.0,
             ),
             onTap: () {
-              getData();
-              //_showLogOutConfirmation(context);
+              _showLogOutConfirmation(context);
             },
           ),
         ],
@@ -164,14 +166,29 @@ final databaseReference = Firestore.instance;
     );
   }
 
-  void getData() {
+  String testFunc(){
+    var name = "name";
+    return name;
+  }
+
+  String getProfileName(profileEmail) {
+  final databaseReference = Firestore.instance;
+  String profileName = "before";
     databaseReference
         .collection("Users")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) => print('${f.data}}'));
-    });
-  }
+      snapshot.documents.forEach((doc) {
+        if(doc["email"] ==  profileEmail){
+          profileName = doc["name"];
+          return profileName;
+          }
+          
+      });
+        });
+        return Future.delayed(Duration(seconds: 10), () => profileName);
+        }
+
 
   //logout confirmation box
   void _showLogOutConfirmation(BuildContext context) {
