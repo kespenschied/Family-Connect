@@ -7,10 +7,15 @@
 
 import 'dart:io';
 
+import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'coreClasses/User.dart';
+import 'coreClasses/locator.dart';
+import 'coreClasses/api.dart';
 
 import './account.dart';
 import './notifications.dart';
@@ -26,30 +31,52 @@ class MyDrawer extends StatefulWidget {
   }) : super(key: key);
 
   final AuthResult user;
+  
   @override
   _MyDrawerState createState() => _MyDrawerState();
 }
+
 class _MyDrawerState extends State<MyDrawer>{
 
-List<String> documentList = new List(1);
-//String profileName = "";
+List<User> userDocuments;
+
+String _profileName = "";
+var _profileEmail = "";
+
+@override
+  void initState() {
+    var _profileEmail = widget.user.user.email;
+    super.initState();
+  }
+
 
   @override
-  Widget build(BuildContext context) {
-    var profileEmail = widget.user.user.email;
-    
-    return Drawer(
+  Widget build(BuildContext context){
+     final productProvider = User.of<UserCRUD>(context);
+        return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
-          UserAccountsDrawerHeader(
+          Container( //firestore starts here
+            child: StreamBuilder(
+              stream: productProvider.fetchProductsAsStream(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                userDocuments = snapshot.data.documents
+                    .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
+                    for (User profile in userDocuments) {
+                      if(profile.email ==  _profileEmail){
+                        _profileName = profile.name;
+                      }
+                    }
+         return UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
-              profileEmail,
+              _profileEmail,
               style: TextStyle(fontSize: 20.0),
             ),
-            accountEmail: Text(
-              getProfileName(profileEmail),  
+            accountEmail: Text( 
+              _profileName,
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
@@ -63,6 +90,12 @@ List<String> documentList = new List(1);
                 ),
               ),
             ),
+          );
+              }
+              else {
+                return Text("fetching data");
+              }
+            }),
           ),
           ListTile(
             title: Text(
@@ -106,7 +139,7 @@ List<String> documentList = new List(1);
           ),
           ListTile(
             title: Text(
-              'Edit Users',
+              'Edit User',
               textAlign: TextAlign.end,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -164,6 +197,8 @@ List<String> documentList = new List(1);
         ],
       ),
     );
+      }
+    
   }
 
   String testFunc(){
@@ -171,24 +206,22 @@ List<String> documentList = new List(1);
     return name;
   }
 
-  String getProfileName(profileEmail) {
-  final databaseReference = Firestore.instance;
-  String profileName = "before";
-    databaseReference
-        .collection("Users")
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((doc) {
-        if(doc["email"] ==  profileEmail){
-          profileName = doc["name"];
-          return profileName;
-          }
-          
-      });
-        });
-        return Future.delayed(Duration(seconds: 10), () => profileName);
-        }
+  
 
+  Future<String> getProfileName(profileEmail, profileName) async{
+    
+          _db
+          .collection("User")
+          .getDocuments()
+          .then((QuerySnapshot snapshot) {
+        snapshot.documents.forEach((doc) {
+          if(doc["email"] ==  profileEmail){
+             profileName = doc["name"];
+            }
+        });
+          });  
+    return _profileName;
+    }
 
   //logout confirmation box
   void _showLogOutConfirmation(BuildContext context) {
