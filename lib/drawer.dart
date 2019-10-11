@@ -6,9 +6,11 @@
 //********************************************************************
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,11 +46,12 @@ List<User> userDocuments;
 String _profileName = "";
 var _profileEmail = "";
 
-@override
-  void initState() {
-    
-    super.initState();
-  }
+final FirebaseStorage storage = FirebaseStorage(
+      app: Firestore.instance.app,
+      storageBucket: 'gs://my-project.appspot.com');
+
+  Uint8List imageBytes;
+  String errorMsg;
 
 
   @override
@@ -88,7 +91,7 @@ var _profileEmail = "";
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/pictures/connie.jpg'),
+                    image: getProfilePic(),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -208,6 +211,17 @@ var _profileEmail = "";
   String testFunc(){
     var name = "name";
     return name;
+  }
+
+  getProfilePic() async {
+    final StorageReference ref = FirebaseStorage.instance.ref().child('connie.jpg');
+    String downloadURL = await ref.getDownloadURL();
+
+    downloadURL = Uri.decodeFull(downloadURL.toString());
+    print("FB Storage URL: $downloadURL");
+
+
+    return new NetworkImage(downloadURL);
   }
 
   
