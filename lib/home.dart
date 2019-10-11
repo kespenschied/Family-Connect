@@ -6,6 +6,7 @@
 //**********************************************
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './achievements.dart';
 import './books.dart';
@@ -16,9 +17,11 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
+import './chorechart.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 class HomePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
