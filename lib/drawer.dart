@@ -12,8 +12,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
-import 'coreClasses/User.dart';
+import 'coreClasses/UserModel.dart';
 import 'coreClasses/locator.dart';
 import 'coreClasses/api.dart';
 
@@ -45,30 +46,33 @@ var _profileEmail = "";
 
 @override
   void initState() {
-    var _profileEmail = widget.user.user.email;
+    
     super.initState();
   }
 
 
   @override
   Widget build(BuildContext context){
-     final productProvider = User.of<UserCRUD>(context);
+    var _profileEmail = widget.user.user.email;
+     final userProvider = Provider.of<UserCRUD>(context);
         return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
           Container( //firestore starts here
             child: StreamBuilder(
-              stream: productProvider.fetchProductsAsStream(),
+              stream: userProvider.fetchUsersAsStream(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+              if(snapshot.data == null) return CircularProgressIndicator();
               if (snapshot.hasData) {
                 userDocuments = snapshot.data.documents
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
-                    for (User profile in userDocuments) {
-                      if(profile.email ==  _profileEmail){
-                        _profileName = profile.name;
-                      }
-                    }
+                     for (User profile in userDocuments) {
+                       if(profile.email ==  _profileEmail){
+                         _profileName = profile.name;
+                       }
+                     }
          return UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
@@ -197,9 +201,9 @@ var _profileEmail = "";
         ],
       ),
     );
-      }
-    
   }
+    
+  
 
   String testFunc(){
     var name = "name";
@@ -210,17 +214,17 @@ var _profileEmail = "";
 
   Future<String> getProfileName(profileEmail, profileName) async{
     
-          _db
-          .collection("User")
-          .getDocuments()
-          .then((QuerySnapshot snapshot) {
-        snapshot.documents.forEach((doc) {
-          if(doc["email"] ==  profileEmail){
-             profileName = doc["name"];
-            }
-        });
-          });  
-    return _profileName;
+    //       _db
+    //       .collection("User")
+    //       .getDocuments()
+    //       .then((QuerySnapshot snapshot) {
+    //     snapshot.documents.forEach((doc) {
+    //       if(doc["email"] ==  profileEmail){
+    //          profileName = doc["name"];
+    //         }
+    //     });
+    //       });  
+    // return _profileName;
     }
 
   //logout confirmation box

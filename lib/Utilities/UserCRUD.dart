@@ -3,10 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_connect/coreClasses/api.dart';
 import 'package:family_connect/coreClasses/locator.dart';
-import 'package:family_connect/coreClasses/User.dart';
+import 'package:family_connect/coreClasses/UserModel.dart';
 import 'package:family_connect/drawer.dart';
+import 'package:flutter/material.dart';
 
-class UserCRUD extends MyDrawer{
+class UserCRUD extends ChangeNotifier{
 Api _api = locator<Api>();
 
 List<User> userDocuments;
@@ -38,8 +39,6 @@ Future removeUser(String id) async{
 
   Future addUser(User data) async{
     var result  = await _api.addDocument(data.toJson()) ;
-
     return ;
-
   }
 }

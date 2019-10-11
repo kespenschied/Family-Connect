@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.all(10.0),
               ),
               GoogleSignInButton(
-                onPressed: () {},
+                onPressed: signIn,
                 darkMode: true,
               ),
             ],

@@ -1,8 +1,4 @@
-import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Api{
@@ -32,6 +28,4 @@ class Api{
   Future<void> updateDocument(Map data , String id) {
     return ref.document(id).updateData(data) ;
   }
-
-
 }
