@@ -5,6 +5,8 @@
 
 //********************************************************************
 //This class holds all the Drawer (appBar hamburger menu) Page widgets
+//We can add the 'user_select.dart' to the top of 'account.dart' and
+//eliminate the need for an editUsers page. Also on the logOut
 //********************************************************************
 
 //Firebase

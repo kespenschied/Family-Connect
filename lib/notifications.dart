@@ -1,3 +1,5 @@
+//Notifications page. Has swipe to delete.
+
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:faker/faker.dart';
@@ -9,6 +11,8 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationState extends State<NotificationPage> {
+  //******************************************************************* */
+  //      This list will be populated by database data eventually
   //******************************************************************* */
   final _listOfNotifications =
       List<String>.generate(20, (i) => "Notification ${i + 1}");
@@ -39,7 +43,7 @@ class _NotificationState extends State<NotificationPage> {
         decoration: _backgroundStyling(),
         child: _buildNotifications(context),
       ),
-      bottomNavigationBar: _clearAllButton(context),        
+      bottomNavigationBar: _clearAllButton(context),      
     );
   }
   ///////////////////////////////////////////

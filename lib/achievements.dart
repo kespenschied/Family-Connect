@@ -32,7 +32,10 @@ class AchievementsPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        //******************************************************************************************** */
+        //Here we'll add to onPressed to open a new page where an admin user can create new achievements
         onPressed: () {},
+        //******************************************************************************************** */
         backgroundColor: Colors.black87,
         child: Icon(
           Icons.add,
