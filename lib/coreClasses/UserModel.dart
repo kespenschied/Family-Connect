@@ -1,8 +1,10 @@
+//DB
+//By: Sean Mathews
+//October 13th, 2019
 
-
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+//*******************************************************************************
+//This class holds all the references for all the User data passed from firebase
+//*******************************************************************************
 
 class User {
   String id;

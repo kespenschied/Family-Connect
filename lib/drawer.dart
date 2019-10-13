@@ -11,11 +11,8 @@
 //By: Sean Mathews
 //October 12th, 2019
 
-import 'dart:typed_data';
-
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -57,21 +54,21 @@ String _imageURL = "";
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
-          Container( //firestore starts here
-            child: StreamBuilder(
-              stream: userProvider.fetchUsersAsStream(),
+          Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: userProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if(snapshot.data == null) return CircularProgressIndicator();
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
               if (snapshot.hasData) {
-                userDocuments = snapshot.data.documents
+                userDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
-                         _profileName = profile.name;
+                         _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
                      }
-         return UserAccountsDrawerHeader(
+         return UserAccountsDrawerHeader( //this widget uses the values returned from the streambuilder widget to get a user profile from firebase
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
               _profileEmail,
@@ -98,7 +95,7 @@ String _imageURL = "";
                 return Text("fetching data");
               }
             }),
-          ),
+          ), //firestore ends here
           ListTile(
             title: Text(
               'Account',

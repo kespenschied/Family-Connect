@@ -1,3 +1,10 @@
+//DB
+//By: Sean Mathews
+//October 13th, 2019
+
+//********************************************************************
+//This class holds CRUD functions, communicating to firebase
+//********************************************************************
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

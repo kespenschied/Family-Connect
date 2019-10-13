@@ -1,10 +1,17 @@
+//DB
+//By: Sean Mathews
+//October 13th, 2019
 
+//****************************************************************************************
+//This class holds functions for getting user data, from the api.dart class
+//
+//Note: There should be a class like this one for anything else besides users
+//****************************************************************************************
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_connect/coreClasses/api.dart';
 import 'package:family_connect/coreClasses/locator.dart';
 import 'package:family_connect/coreClasses/UserModel.dart';
-import 'package:family_connect/drawer.dart';
 import 'package:flutter/material.dart';
 
 class UserCRUD extends ChangeNotifier{

@@ -1,3 +1,12 @@
+//DB
+//By: Sean Mathews
+//October 13th, 2019
+
+//********************************************************************
+//This file is used as the initital connection to the firebase DB, 
+//which passes the Users collection to the file "userCRUD.dart" for 
+//CRUD operations
+//********************************************************************
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:get_it/get_it.dart';
 import 'api.dart';
