@@ -9,17 +9,17 @@ class User {
   String email;
   String permissionLevel;
   String name;
-  DocumentReference userPicture;
+  String userImageURL;
   String password;
 
-  User({this.id,this.email, this.permissionLevel, this.name,this.userPicture, this.password});
+  User({this.id,this.email, this.permissionLevel, this.name,this.userImageURL, this.password});
 
   User.fromMap(Map snapshot,String id) :
         id = id ?? '',
         email = snapshot['email'] ?? '',
         permissionLevel = snapshot['permissionLevel'] ?? '',
         name = snapshot['name'] ?? '',
-        userPicture = snapshot['userPicture'] ?? '',
+        userImageURL = snapshot['userImageURL'] ?? '',
         password = snapshot['password'] ?? '';
 
   toJson() {
@@ -28,7 +28,7 @@ class User {
       "permissionLevel": permissionLevel,
       "password": password,
       "name": name,
-      "userPicture": userPicture,
+      "userImageURL": userImageURL,
     };
   }
 }

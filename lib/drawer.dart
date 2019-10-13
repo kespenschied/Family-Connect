@@ -1,3 +1,5 @@
+
+//UI
 //By: Kole Espenschied
 //April 8th, 2019
 
@@ -5,21 +7,20 @@
 //This class holds all the Drawer (appBar hamburger menu) Page widgets
 //********************************************************************
 
-import 'dart:io';
+//Firebase
+//By: Sean Mathews
+//October 12th, 2019
+
 import 'dart:typed_data';
 
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'coreClasses/UserModel.dart';
-import 'coreClasses/locator.dart';
-import 'coreClasses/api.dart';
-
 import './account.dart';
 import './notifications.dart';
 import './editusers.dart';
@@ -45,17 +46,11 @@ List<User> userDocuments;
 
 String _profileName = "";
 var _profileEmail = "";
-
-final FirebaseStorage storage = FirebaseStorage(
-      app: Firestore.instance.app,
-      storageBucket: 'gs://my-project.appspot.com');
-
-  Uint8List imageBytes;
-  String errorMsg;
-
+String _imageURL = "";
 
   @override
   Widget build(BuildContext context){
+
     var _profileEmail = widget.user.user.email;
      final userProvider = Provider.of<UserCRUD>(context);
         return Drawer(
@@ -66,7 +61,6 @@ final FirebaseStorage storage = FirebaseStorage(
             child: StreamBuilder(
               stream: userProvider.fetchUsersAsStream(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
               if(snapshot.data == null) return CircularProgressIndicator();
               if (snapshot.hasData) {
                 userDocuments = snapshot.data.documents
@@ -74,6 +68,7 @@ final FirebaseStorage storage = FirebaseStorage(
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
                          _profileName = profile.name;
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
                      }
          return UserAccountsDrawerHeader(
@@ -91,7 +86,7 @@ final FirebaseStorage storage = FirebaseStorage(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: getProfilePic(),
+                    image: new NetworkImage(_imageURL),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -205,42 +200,6 @@ final FirebaseStorage storage = FirebaseStorage(
       ),
     );
   }
-    
-  
-
-  String testFunc(){
-    var name = "name";
-    return name;
-  }
-
-  getProfilePic() async {
-    final StorageReference ref = FirebaseStorage.instance.ref().child('connie.jpg');
-    String downloadURL = await ref.getDownloadURL();
-
-    downloadURL = Uri.decodeFull(downloadURL.toString());
-    print("FB Storage URL: $downloadURL");
-
-
-    return new NetworkImage(downloadURL);
-  }
-
-  
-
-  Future<String> getProfileName(profileEmail, profileName) async{
-    
-    //       _db
-    //       .collection("User")
-    //       .getDocuments()
-    //       .then((QuerySnapshot snapshot) {
-    //     snapshot.documents.forEach((doc) {
-    //       if(doc["email"] ==  profileEmail){
-    //          profileName = doc["name"];
-    //         }
-    //     });
-    //       });  
-    // return _profileName;
-    }
-
   //logout confirmation box
   void _showLogOutConfirmation(BuildContext context) {
     showDialog(
