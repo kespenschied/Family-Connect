@@ -1,35 +1,86 @@
 {
   "project_info": {
-    "project_number": "578757689999",
-    "firebase_url": "https://familyconnect-b8fc3.firebaseio.com",
-    "project_id": "familyconnect-b8fc3",
-    "storage_bucket": "familyconnect-b8fc3.appspot.com"
+    "project_number": "514227908090",
+    "firebase_url": "https://family-connect-7ce0c.firebaseio.com",
+    "project_id": "family-connect-7ce0c",
+    "storage_bucket": "family-connect-7ce0c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:578757689999:android:7037d816b9c0c9272766fa",
+        "mobilesdk_app_id": "1:514227908090:android:e3c0c2c3433568b3834843",
         "android_client_info": {
           "package_name": "family.connect"
         }
       },
       "oauth_client": [
         {
-          "client_id": "578757689999-5dhcjvhqmdbq78js0etpmnobttc1u0vn.apps.googleusercontent.com",
+          "client_id": "514227908090-71ichkpt2b73ef00p5tbhhrj3niljr63.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBG1ibAUpgA61GtJzxIXEZL005FYrOI03w"
+          "current_key": "AIzaSyALjlwU_INs0iwKsrGsWqmVhUKvQH__MaM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "578757689999-5dhcjvhqmdbq78js0etpmnobttc1u0vn.apps.googleusercontent.com",
+              "client_id": "514227908090-71ichkpt2b73ef00p5tbhhrj3niljr63.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "514227908090-vfd44vcdhjgmfajnnvrv15tjm2eic16c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.familyConnect"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514227908090:android:1ab968ba3dce00c1834843",
+        "android_client_info": {
+          "package_name": "com.family_connect.family_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514227908090-71ichkpt2b73ef00p5tbhhrj3niljr63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+<<<<<<< HEAD
+          "current_key": "AIzaSyBG1ibAUpgA61GtJzxIXEZL005FYrOI03w"
+=======
+          "current_key": "AIzaSyALjlwU_INs0iwKsrGsWqmVhUKvQH__MaM"
+>>>>>>> 721b97c9a379c661288ef88234a60e6232f74474
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+<<<<<<< HEAD
+              "client_id": "578757689999-5dhcjvhqmdbq78js0etpmnobttc1u0vn.apps.googleusercontent.com",
+=======
+              "client_id": "514227908090-71ichkpt2b73ef00p5tbhhrj3niljr63.apps.googleusercontent.com",
+>>>>>>> 721b97c9a379c661288ef88234a60e6232f74474
+              "client_type": 3
+            },
+            {
+              "client_id": "514227908090-vfd44vcdhjgmfajnnvrv15tjm2eic16c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.familyConnect"
+              }
             }
           ]
         }
