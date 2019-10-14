@@ -5,10 +5,7 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
-import 'package:family_connect/event_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import './achievements.dart';
 import './books.dart';
@@ -19,42 +16,24 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
-import 'Utilities/UserCRUD.dart';
-import './event_creator.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
-
-import 'coreClasses/locator.dart';class HomePage extends StatelessWidget {
-const HomePage({
-    Key key,
-    @required this.user
-  }) : super(key: key);
-
-  final AuthResult user;
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
-      ],
-      child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      drawer: MyDrawer(user: user),
+      drawer: MyDrawer(),
       body: Center(
         child: HomeController(),
       ),
-    ),
     );
   }
-
-
-
 }
 
 //This class defines the layout for the Home Page widgets. It also
@@ -75,7 +54,7 @@ class HomeController extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventCreator(null),
+                    MaterialPageRoute(builder: (context) => EventsPage()),
                   );
                 },
               ),
