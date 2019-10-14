@@ -18,8 +18,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_app/event_creator.dart';
-import 'package:flutter_widget_app/models/event_model.dart';
+import 'package:family_connect/event_creator.dart';
+//import 'package:flutter_widget_app/models/event_model.dart';
 import 'package:intl/intl.dart';
 
 class EventsView extends StatefulWidget {
@@ -142,7 +142,7 @@ class EventsViewState extends State<EventsView> {
 
   void _onCardClicked(DocumentSnapshot document) {
     Event event = new Event(document.data['name'], document.data['summary'],
-        document.data['time'], document.documentID);
+        document.data['time'], title: document.documentID);
     Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context)
       => new EventCreator(event)));
   }
@@ -158,7 +158,7 @@ class EventsViewState extends State<EventsView> {
     DateTime _createDateTime = new DateTime(_eventDate.year, _eventDate.month, _eventDate.day,
                                             DateTime.now().hour, DateTime.now().minute);
 
-    Event _event = new Event("", "",_createDateTime, null);
+    Event _event = new Event(title: "", "",date: _createDateTime, null);
 
     Navigator.push(context, MaterialPageRoute(
             builder: (context) => EventCreator(_event)
