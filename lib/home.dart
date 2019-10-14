@@ -5,6 +5,7 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:family_connect/event_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
 import 'Utilities/UserCRUD.dart';
+import './event_creator.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
@@ -73,7 +75,7 @@ class HomeController extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventsPage()),
+                    MaterialPageRoute(builder: (context) => EventCreator(null),
                   );
                 },
               ),
