@@ -1,3 +1,7 @@
+//This page will be the page that opens when the user presses the floating
+//action button in 'books.dart' allowing the user to scan in a new book to the list
+
+
 import 'package:flutter/material.dart';
 
 class BookscanningPage extends StatelessWidget {

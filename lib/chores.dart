@@ -3,6 +3,9 @@
 
 //*********************************************
 //This class holds all the Chores Page widgets
+//I'm in a process of redesigning this page 9/17/19 -Kole
+//Will need to add a floating action button to allow
+//the user to add a new list to the page.
 //*********************************************
 
 

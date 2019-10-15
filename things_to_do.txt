@@ -2,8 +2,8 @@
     Drawer Pages:
         Account - CHRIS
         Notifications -Done
-        Edit Users
-        Permissions
+        Edit Users - Going to merege with 'account.dart'
+        Permissions - Chris/Done
         Print - Moved to home page
     Floating-Action Pages:
         Add Calendar Event
@@ -14,7 +14,7 @@
         Add List
         Add Achievements
 
-3) Redesign nested scrolls in Homework/Chores/Lists
+3) Just About Done, I will do this - Kole
 
-4) Make Calendar events scrollable
+4) Make Calendar events scrollable/functional
 

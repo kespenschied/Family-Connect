@@ -3,255 +3,148 @@
 
 //***********************************************
 //This class holds all the Homework Page widgets
+//In the process of redesigning this page 9/17/19 -Kole
+//Will need to add a floating action button to allow the
+//user to create a new homework list.
 //***********************************************
 
 import 'package:flutter/material.dart';
-import './user_select.dart';
+import 'package:family_connect/user_select.dart';
+
+//final GlobalKey<UserDrawerState> userKey = new GlobalKey<UserDrawerState>();
 
 class HomeworkPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomeworkState();
 }
 
-class _HomeworkState extends State<HomeworkPage> {
+class _HomeworkState extends State<HomeworkPage> {      
+   var isItChecked = List<bool>.generate(9, (i) => false);
+  
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Homework'),
         backgroundColor: Colors.black,
       ),
-      body: drawBody(width),
-      backgroundColor: Colors.grey,
-    );
-  }
-
-  Widget drawBody(double width) {
-    List<Widget> homework1 = [rightCardTitleBar(width, Colors.green, 'David\'s Homework', Icons.create),
-                              rightCardListItems(width, 'Math', 'Problems 1-10\nDue: 04/19', true),
-                              rightCardListItems(width, 'History', 'Read Chapter 3\nDue: 04/20', false),
-                              rightCardListItems(width, 'History', 'Do Ch. 3 Problems\nDue: 04/22', false),
-                              rightCardListItems(width, 'English', 'Do Grammar Assignment\nDue: 04/23', true),
-                              rightCardListItems(width, 'Art', 'Finish Poster\nDue: 04/23', true),];
-
-    List<Widget> homework2 = [rightCardTitleBar(width, Colors.orange, 'Josh\'s Homework', Icons.create),
-                              rightCardListItems(width, 'Calculus I', 'Ch 5-Problems 1-10\nDue: 04/19', false),
-                              rightCardListItems(width, 'History', 'Read Chapter 5\nDue: 04/20', true),
-                              rightCardListItems(width, 'History', 'Write Paper\nDue: 04/22', false),
-                              rightCardListItems(width, 'Biology', 'Finish Lab Report\nDue: 04/23', true),
-                              rightCardListItems(width, 'Speech', 'Finish Speech\nDue: 04/23', false),];
-
-    List<Widget> homework3 = [rightCardTitleBar(width, Colors.pink[200], 'Katie\'s Homework', Icons.create),
-                              rightCardListItems(width, 'Art', 'Finish Painting\nDue: 04/19', true),
-                              rightCardListItems(width, 'History', 'Read Chapter 5\nDue: 04/20', true),
-                              rightCardListItems(width, 'History', 'Write Paper\nDue: 04/22', true),
-                              rightCardListItems(width, 'English', 'Read Chapter 7\nDue: 04/23', true),
-                              rightCardListItems(width, 'Math', 'Long Division Problems 1-15\nDue: 04/23', true),];
-
-    return ListView(
+      body: ListView(
       children: <Widget>[
+        //UserDrawer(key: userKey),
         UserDrawer(),
         Center(
           child: Container(
             child: Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.green, 'assets/pictures/youngboy.png',
-                        'David', '4th Grade', '2.5 GPA'),
-                    drawRightCards(width, homework1),
-                  ],
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),                  
                 ),
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.orange, 'assets/pictures/collegekid.jpg',
-                        'Josh', '12th Grade', '3.35 GPA'),
-                    drawRightCards(width, homework2),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.pink[200],
-                        'assets/pictures/daughter.jpg', 'Katie', '5th Grade', '4.0 GPA'),
-                    drawRightCards(width, homework3),
-                  ],
-                ),
+                //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
+                titleBar(Colors.green, 'NAME', Icons.create),
+                listItems('Math', 'Problems 1-10\nDue: 04/19', 0),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 1),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 2),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 3),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 4),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 5),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 6),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 7),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 8),
               ],
             ),
           ),
         ),
       ],
+    ),
+      backgroundColor: Colors.grey,
     );
   }
 
-  Widget drawLeftCards(double width, Color accountColor, String image,
-      String account, String grade, String gpa) {
-    double leftCardWidth = width / 3;
+  /* Widget userChanged() {
+    
 
+    return ValueListenableBuilder(valueListenable: data, builder: (BuildContext context, String value, Widget child) {
+      return titleBar(Colors.red, value, Icons.create);
+    });
+  } */
+
+  /* Future testFuture() async {
+    return titleBar(Colors.green, (userKey.currentState != null) ? "WORKED" : "FAILED", Icons.create);
+  } */
+
+  Widget titleBar(
+      Color accountColor, String title, IconData listIcon) {
     return Container(
-      width: leftCardWidth,
-      height: 360.0,
+      height: 55.0,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.black),
+        ),
+      ),
       child: Card(
         shape: BeveledRectangleBorder(),
         elevation: 5.0,
-        margin: EdgeInsets.fromLTRB(2.0, 2.0, 0, 5.0),
         color: accountColor,
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                  top: 30.0,
-                ),
-                child: CircleAvatar(
-                  maxRadius: 60.0,
-                  backgroundColor: Colors.white,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage(image),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 10.0,
-                ),
-                child: Text(
-                  account,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                'Grade:',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              Text(
-                grade,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                gpa,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+        margin: EdgeInsets.all(0),
+        child: ListTile(
+          leading: Icon(
+            listIcon,
+            size: 30.0,
+            color: Colors.black,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget drawRightCards(double width, List<Widget> widgetList) {
-    double rightCardWidth = width / 3 * 2;
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
+          title: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          trailing: Icon(
+            Icons.more_vert,
+            size: 30.0,
             color: Colors.black,
           ),
         ),
       ),
-      width: rightCardWidth,
-      height: 360.0,
-      child: Card(
-        shape: BeveledRectangleBorder(),
-        elevation: 5.0,
-        margin: EdgeInsets.fromLTRB(0, 2.0, 2.0, 5.0),
-        color: Colors.white70,
-        child: ListView(children: widgetList),
-      ),
     );
   }
-}
 
-Widget rightCardTitleBar(double rightCardWidth, Color accountColor,
-    String title, IconData listIcon) {
-  return Container(
-    width: rightCardWidth,
-    height: 55.0,
-    decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(color: Colors.black),
-      ),
-    ),
-    child: Card(
-      shape: BeveledRectangleBorder(),
-      elevation: 5.0,
-      color: accountColor,
-      margin: EdgeInsets.all(0),
-      child: ListTile(
-        leading: Icon(
-          listIcon,
-          size: 30.0,
-          color: Colors.black,
-        ),
+  Widget listItems(String listItem, String info, int index) {
+    return Card(
+      elevation: 15.0,
+      margin: EdgeInsets.all(1),
+      child: CheckboxListTile(
+        activeColor: Colors.green,
+        isThreeLine: true,
         title: Text(
-          title,
-          textAlign: TextAlign.center,
+          listItem,
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
           ),
         ),
-        trailing: Icon(
-          Icons.more_vert,
-          size: 30.0,
-          color: Colors.black,
+        subtitle: Text(
+          info,
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
         ),
+        value: isItChecked[index],
+        onChanged: (bool val) {
+          setState(() {
+            isItChecked[index] = val;
+          });
+        },
       ),
-    ),
-  );
-}
-
-Widget rightCardListItems(
-    double rightCardWidth, String listItem, String info, bool value) {
-  return Card(
-    elevation: 15.0,
-    margin: EdgeInsets.all(1),
-    child: CheckboxListTile(
-      activeColor: Colors.green,
-      isThreeLine: true,
-      title: Text(
-        listItem,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          decoration: TextDecoration.underline,
-        ),
-      ),
-      subtitle: Text(
-        info,
-        style: TextStyle(
-          fontSize: 20.0,
-        ),
-      ),
-      value: value,
-      onChanged: (bool val) {},
-    ),
-  );
+    );
+  }
 }
