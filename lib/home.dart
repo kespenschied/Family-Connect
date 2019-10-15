@@ -22,7 +22,9 @@ import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
-import 'coreClasses/locator.dart';class HomePage extends StatelessWidget {
+import 'coreClasses/locator.dart';
+
+class HomePage extends StatelessWidget {
 const HomePage({
     Key key,
     @required this.user

@@ -9,8 +9,17 @@
 //*********************************************
 
 
+import 'package:family_connect/Utilities/ChoreCRUD.dart';
+import 'package:family_connect/coreClasses/ChoreModel.dart';
 import 'package:flutter/material.dart';
 import './user_select.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'coreClasses/api.dart';
+import 'coreClasses/locator.dart';
+
 
 class ChoresPage extends StatefulWidget {
   @override
@@ -18,10 +27,18 @@ class ChoresPage extends StatefulWidget {
 }
 
 class _ChoresState extends State<ChoresPage> {
+
+@override
+  void initState() {
+   locator.registerLazySingleton(() => Api('Chores')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
+   locator.registerLazySingleton(() => ChoreCRUD());
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,6 +51,8 @@ class _ChoresState extends State<ChoresPage> {
   }
 
   Widget drawBody(double width) {
+    final choreProvider = Provider.of<ChoreCRUD>(context);
+    List<Chore> choreDocuments;
     List<Widget> chores1 = [rightCardTitleBar(width, Colors.pink[200],'Katie\'s Chores', Icons.build),
                               rightCardListItems(width, 'Do Laundry', true),
                               rightCardListItems(width, 'Wash Dishes', true),
@@ -58,29 +77,50 @@ class _ChoresState extends State<ChoresPage> {
       children: <Widget>[
         UserDrawer(),
         Center(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.pink[200],'assets/pictures/daughter.jpg', 'Katie', 'April 20th'),
-                    drawRightCards(width, chores1),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.orange,'assets/pictures/collegekid.jpg', 'Josh', 'April 20th'),
-                    drawRightCards(width, chores2),
-                  ],
-                ),
-              ],
+          child:  Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: choreProvider.fetchChoresAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                choreDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Chore.fromMap(doc.data, doc.documentID)).toList();
+                     for (Chore chore in choreDocuments) {
+                      //  if(chore.user ==  _profileEmail){
+                      //    _profileName = profile.name; 
+                      //    _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                      //  }
+                     }
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      drawLeftCards(width, Colors.pink[200],'assets/pictures/daughter.jpg', 'Katie', 'April 20th'),
+                      drawRightCards(width, chores1),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      drawLeftCards(width, Colors.orange,'assets/pictures/collegekid.jpg', 'Josh', 'April 20th'),
+                      drawRightCards(width, chores2),
+                    ],
+                  ),
+                ],
+              ),
+            );
+                }
+                else {
+                  return Text("fetching data");
+                  }
+              }),
             ),
           ),
-        ),
-      ],
-    );
-  }
-
+        ],
+      );
+    } 
+  
+           
   Widget drawLeftCards(double width, Color accountColor, String image, String account, String date) {
     double leftCardWidth = width / 3;
 

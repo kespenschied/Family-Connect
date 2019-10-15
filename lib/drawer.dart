@@ -25,6 +25,7 @@ import './notifications.dart';
 import './editusers.dart';
 import './permissions.dart';
 import './login.dart';
+import 'coreClasses/locator.dart';
 
 class MyDrawer extends StatefulWidget {
  const MyDrawer({
@@ -44,13 +45,17 @@ class _MyDrawerState extends State<MyDrawer>{
 List<User> userDocuments;
 
 String _profileName = "";
-var _profileEmail = "";
 String _imageURL = "";
+
+@override
+  void initState() {
+   setupLocator();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context){
-
-    var _profileEmail = widget.user.user.email;
+     var _profileEmail = widget.user.user.email;
      final userProvider = Provider.of<UserCRUD>(context);
         return Drawer(
       child: ListView(
