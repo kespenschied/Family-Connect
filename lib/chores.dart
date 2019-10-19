@@ -30,8 +30,8 @@ class _ChoresState extends State<ChoresPage> {
 
 @override
   void initState() {
-   locator.registerLazySingleton(() => Api('Chores')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
-   locator.registerLazySingleton(() => ChoreCRUD());
+   //locator.registerLazySingleton(() => Api('Chores')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
+   //locator.registerLazySingleton(() => ChoreCRUD());
     super.initState();
   }
 

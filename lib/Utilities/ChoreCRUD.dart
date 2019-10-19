@@ -15,37 +15,37 @@ import 'package:family_connect/coreClasses/locator.dart';
 import 'package:flutter/material.dart';
 
 class ChoreCRUD extends ChangeNotifier{
-Api _api = locator<Api>();
+Api _choreApi = locator<Api>();
 
 List<Chore> choreDocuments;
 
 Future<List<Chore>> fetchChores() async {
-    var result = await _api.getDataCollection();
+    var result = await _choreApi.getDataCollection();
     choreDocuments = result.documents
         .map((doc) => Chore.fromMap(doc.data, doc.documentID))
         .toList();
     return choreDocuments;
   }
 Stream<QuerySnapshot> fetchChoresAsStream() {
-    return _api.streamDataCollection();
+    return _choreApi.streamDataCollection();
   }
 
 Future<Chore> getChoreById(String id) async {
-    var doc = await _api.getDocumentById(id);
+    var doc = await _choreApi.getDocumentById(id);
     return  Chore.fromMap(doc.data, doc.documentID) ;
   }
 
 Future removeChore(String id) async{
-     await _api.removeDocument(id) ;
+     await _choreApi.removeDocument(id) ;
      return ;
   }
   Future updateChore(Chore data,String id) async{
-    await _api.updateDocument(data.toJson(), id) ;
+    await _choreApi.updateDocument(data.toJson(), id) ;
     return ;
   }
 
   Future addChore(Chore data) async{
-    var result  = await _api.addDocument(data.toJson()) ;
+    var result  = await _choreApi.addDocument(data.toJson()) ;
     return ;
   }
 }

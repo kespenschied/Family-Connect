@@ -9,7 +9,7 @@
 //eliminate the need for an editUsers page. Also on the logOut
 //********************************************************************
 
-//Firebase
+//DB
 //By: Sean Mathews
 //October 12th, 2019
 
@@ -49,7 +49,6 @@ String _imageURL = "";
 
 @override
   void initState() {
-   setupLocator();
     super.initState();
   }
 
@@ -119,7 +118,7 @@ String _imageURL = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage()),
+                MaterialPageRoute(builder: (context) => AccountPage(profileEmail: _profileEmail, userProvider: userProvider)),
               );
             },
           ),
