@@ -1,9 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AccountPage extends StatelessWidget {
+import 'Utilities/UserCRUD.dart';
+import 'coreClasses/UserModel.dart';
+
+class AccountPage extends StatefulWidget {
+ 
+  
+  AccountPage({Key key, @required this.profileID, @required this.userDocuments}) : super(key: key); //how to pass values to other widgets
+  final String profileID;
+  final List<User> userDocuments;
+  @override
+  _AccountPage createState() => _AccountPage();
+}
+
+class _AccountPage extends State<AccountPage>{
+String _profileName = "";
+String _imageURL = "";
+String _profileEmail = "";
+
+@override
+  void initState() {
+    setUserValues(widget.userDocuments, widget.profileID);
+        super.initState();
+  }
+
+  void setUserValues(List<User> userDocuments, String _profileID){
+        for (User profile in userDocuments) {
+                       if(profile.id ==  _profileID){
+                         _profileEmail = profile.email;
+                         _profileName = profile.name; 
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -33,31 +70,7 @@ class AccountPage extends StatelessWidget {
                 ],
               ),
             ),
-        // child: 
-        // Column(
-        //   //mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-          
-        //   children: [
-        //     // Row(
-        //     //   mainAxisAlignment: MainAxisAlignment.center,
-        //     //   crossAxisAlignment: CrossAxisAlignment.center,
-        //     //   children:[
-        //     //     ProfileImage(),
-        //     //     Text('Edit Photo',
-        //     //       style: TextStyle(
-        //     //         fontSize: 24,
-        //     //       ),
-        //     //     )
-        //     //   ]
-        //     // ),
-        //     ProfileImage(),
-        //     //TextContainer("Connie Barber", "conniebarb27", "cobarbe@siue.edu", ""),
-        //     SizedBox(height: 90.0,),
-        //     Text('Sized Box'),
-        //     ],
-        //   ),
-        ), 
+        ),
         Positioned(
           width: MediaQuery.of(context).size.width,
           top: MediaQuery.of(context).size.height / 15,
@@ -71,7 +84,7 @@ class AccountPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.grey,
                   image: new DecorationImage(
-                    image: AssetImage('assets/pictures/connie.jpg'),
+                    image: new NetworkImage(_imageURL),
                     fit: BoxFit.fill,
                     
                   ),
@@ -80,7 +93,9 @@ class AccountPage extends StatelessWidget {
                   boxShadow: [BoxShadow(blurRadius: 5.0, color: Colors.black)]
                 ),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    
+                  },
                   child: Container(
                     width: 140.0,
                     height: 30.0,
@@ -90,7 +105,7 @@ class AccountPage extends StatelessWidget {
                 )
               ),
               SizedBox(height: 20.0,), //Space between items.
-              Text('Connie Barber', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+              Text(_profileName, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
               SizedBox(height: 15,), //Space between items.
               Container( // Create space for text
                 height: 30.0,
@@ -109,7 +124,7 @@ class AccountPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25.0,),
-              Text('cobarbe@siue.edu', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+              Text(_profileEmail, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
               SizedBox(height: 15.0,),
               Container(
                 height: 30.0,
@@ -120,7 +135,9 @@ class AccountPage extends StatelessWidget {
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {}, //Implement functionality of changing the user's name.
+                    onTap:() {
+                      _updateEmail(context, widget.profileID);
+                    }, //Implement functionality of changing the user's name.
                     child: Center(
                       child: Text('Edit email', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
@@ -148,8 +165,63 @@ class AccountPage extends StatelessWidget {
           ),
         )
         ]
-      )
+        )
     );
+  }
+
+   _updateEmail(BuildContext context, String _profileID) async{
+    
+    TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
+
+    String newEmail = "";
+    return showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+        title: Text('Enter New Email'),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+                child: new TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
+              onChanged: (value) {
+                newEmail = value;
+              },
+            ))
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail});
+              Navigator.of(context).pop(newEmail);
+            }
+          ),
+          FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(newEmail);
+            }
+           ) 
+           ],
+      );
+      }
+    );
+
+
+    
+  }
+  void _updateName(BuildContext context) {
+
+  }
+  void _updatePhoto(BuildContext context) {
+
+  }
+  void _updatePass(BuildContext context) {
+
   }
 }
 
