@@ -46,6 +46,7 @@ List<User> userDocuments;
 
 String _profileName = "";
 String _imageURL = "";
+String _profileID = "";
 
 @override
   void initState() {
@@ -70,6 +71,7 @@ String _imageURL = "";
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
+                         _profileID = profile.id;
                          _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
@@ -118,7 +120,7 @@ String _imageURL = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage(profileEmail: _profileEmail, userProvider: userProvider)),
+                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments )),
               );
             },
           ),

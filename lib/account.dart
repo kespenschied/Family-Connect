@@ -10,28 +10,36 @@ import 'coreClasses/UserModel.dart';
 class AccountPage extends StatefulWidget {
  
   
-  AccountPage({Key key, @required this.profileEmail, @required this.userProvider}) : super(key: key); //how to pass values to other widgets
-  final String profileEmail;
-  final userProvider;
+  AccountPage({Key key, @required this.profileID, @required this.userDocuments}) : super(key: key); //how to pass values to other widgets
+  final String profileID;
+  final List<User> userDocuments;
   @override
   _AccountPage createState() => _AccountPage();
 }
 
 class _AccountPage extends State<AccountPage>{
-
-  
-
-List<User> userDocuments;
-
 String _profileName = "";
 String _imageURL = "";
-String _profileID = "";
+String _profileEmail = "";
 
+@override
+  void initState() {
+    setUserValues(widget.userDocuments, widget.profileID);
+        super.initState();
+  }
 
+  void setUserValues(List<User> userDocuments, String _profileID){
+        for (User profile in userDocuments) {
+                       if(profile.id ==  _profileID){
+                         _profileEmail = profile.email;
+                         _profileName = profile.name; 
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+  }
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,24 +71,6 @@ String _profileID = "";
               ),
             ),
         ),
-        Container( //firebase starts here
-            child: StreamBuilder( //a widget that fetches the database data from firestore
-              stream: widget.userProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              //if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
-              if (snapshot.hasData) {
-                userDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
-                    .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
-                     for (User profile in userDocuments) {
-                       if(profile.email == widget.profileEmail){
-                         _profileID = profile.id;
-                         _profileName = profile.name; 
-                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
-                       }
-                     } 
-                     return ListView(
-                     padding: const EdgeInsets.all(0.0),
-                    children: <Widget>[             
         Positioned(
           width: MediaQuery.of(context).size.width,
           top: MediaQuery.of(context).size.height / 15,
@@ -134,7 +124,7 @@ String _profileID = "";
                 ),
               ),
               SizedBox(height: 25.0,),
-              Text(widget.profileEmail, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+              Text(_profileEmail, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
               SizedBox(height: 15.0,),
               Container(
                 height: 30.0,
@@ -146,7 +136,7 @@ String _profileID = "";
                   elevation: 7.0,
                   child: GestureDetector(
                     onTap:() {
-                      _updateEmail(context, _profileID);
+                      _updateEmail(context, widget.profileID);
                     }, //Implement functionality of changing the user's name.
                     child: Center(
                       child: Text('Edit email', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
@@ -175,46 +165,54 @@ String _profileID = "";
           ),
         )
         ]
-      );
-      }
-              else {
-                return Text("fetching data");
-              }
-            }),
-    )
-        ]
         )
     );
   }
 
-  void _updateEmail(BuildContext context, String _profileID) {
+   _updateEmail(BuildContext context, String _profileID) async{
     
+    TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
+
     String newEmail = "";
-    showDialog(
+    return showDialog(
       context: context,
-      builder: (BuildContext context){
-        return Container(
-          child: TextFormField(decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                    ),
-                    labelText: 'Email',
-                    filled: true,
-                  ),
-                  validator: (input) { 
-                    if (!input.contains('@')) {
-                    return 'Not A Valid Email';
-                    }
-                  },
-                      onSaved: (input) => newEmail = input
+      builder: (context){
+        return AlertDialog(
+        title: Text('Enter New Email'),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+                child: new TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
+              onChanged: (value) {
+                newEmail = value;
+              },
+            ))
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail});
+              Navigator.of(context).pop(newEmail);
+            }
           ),
-        );
+          FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(newEmail);
+            }
+           ) 
+           ],
+      );
       }
     );
 
-    Firestore.instance.collection("Users").document(_profileID)
-        .updateData({'email' : newEmail});
+
+    
   }
   void _updateName(BuildContext context) {
 
