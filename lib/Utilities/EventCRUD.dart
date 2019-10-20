@@ -27,25 +27,25 @@ Future<List<Event>> fetchEvents() async {
     return eventDocuments;
   }
 Stream<QuerySnapshot> fetchChoresAsStream() {
-    return _choreApi.streamDataCollection();
+    return _eventApi.streamDataCollection();
   }
 
-Future<Chore> getChoreById(String id) async {
-    var doc = await _choreApi.getDocumentById(id);
-    return  Chore.fromMap(doc.data, doc.documentID) ;
+Future<Event> getEventById(String id) async {
+    var doc = await _eventApi.getDocumentById(id);
+    return  Event.fromMap(doc.data, doc.documentID) ;
   }
 
-Future removeChore(String id) async{
-     await _choreApi.removeDocument(id) ;
+Future removeEvent(String id) async{
+     await _eventApi.removeDocument(id) ;
      return ;
   }
-  Future updateChore(Chore data,String id) async{
-    await _choreApi.updateDocument(data.toJson(), id) ;
+  Future updateEvent(Chore data,String id) async{
+    await _eventApi.updateDocument(data.toJson(), id) ;
     return ;
   }
 
-  Future addChore(Chore data) async{
-    var result  = await _choreApi.addDocument(data.toJson()) ;
+  Future addEvent(Chore data) async{
+    var result  = await _eventApi.addDocument(data.toJson()) ;
     return ;
   }
 }
