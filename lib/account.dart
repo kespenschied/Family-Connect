@@ -1,11 +1,20 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:file_picker/file_picker.dart';
 import 'Utilities/UserCRUD.dart';
 import 'coreClasses/UserModel.dart';
+
+import 'dart:io';    
+import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore    
+import 'package:flutter/material.dart';    
+import 'package:image_picker/image_picker.dart'; // For Image Picker    
+import 'package:path/path.dart' as Path; 
 
 class AccountPage extends StatefulWidget {
  
@@ -22,6 +31,9 @@ String _profileName = "";
 String _imageURL = "";
 String _profileEmail = "";
 
+File _image;    
+String _uploadedFileURL; 
+
 @override
   void initState() {
     setUserValues(widget.userDocuments, widget.profileID);
@@ -37,6 +49,8 @@ String _profileEmail = "";
                        }
                      }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +108,7 @@ String _profileEmail = "";
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    
+                    _updatePhoto(context, widget.profileID);
                   },
                   child: Container(
                     width: 140.0,
@@ -116,7 +130,7 @@ String _profileEmail = "";
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {}, //Implement functionality of changing the user's name.
+                    onTap:() {_updateName(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
                       child: Text('Edit name', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
@@ -154,7 +168,7 @@ String _profileEmail = "";
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {}, //Implement functionality of changing the user's name.
+                    onTap:() {_updatePass(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
                       child: Text('Change password', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
@@ -210,17 +224,162 @@ String _profileEmail = "";
       );
       }
     );
-
-
-    
   }
-  void _updateName(BuildContext context) {
+   _updateName(BuildContext context, String _profileID) async {
+
+      TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
+
+    String newName = "";
+    return showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+        title: Text('Enter New Email'),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+                child: new TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
+              onChanged: (value) {
+                newName = value;
+              },
+            ))
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Firestore.instance.collection("Users").document(_profileID).updateData({'name' : newName});
+              Navigator.of(context).pop(newName);
+            }
+          ),
+          FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(newName);
+            }
+           ) 
+           ],
+      );
+      }
+    );
 
   }
-  void _updatePhoto(BuildContext context) {
+ _updatePhoto(BuildContext context, String _profileID) async{
 
+   return showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title:  Text('Pick a Photo'),
+          content: Column(
+            children: <Widget>[    
+           Text('Selected Image'),    
+           _image != null    
+               ? Image.asset(    
+                   _image.path,    
+                   height: 150,    
+                 )    
+               : Container(height: 150),    
+           _image == null    
+               ? RaisedButton(    
+                   child: Text('Choose File'),    
+                   onPressed: chooseFile,    
+                   color: Colors.cyan,    
+                 )    
+               : Container(),    
+           _image != null    
+               ? RaisedButton(    
+                   child: Text('Upload File'),    
+                   onPressed: uploadFile,    
+                   color: Colors.cyan,    
+                 )    
+               : Container(),    
+           _image != null    
+               ? RaisedButton(    
+                   child: Text('Clear Selection'),    
+                   onPressed: chooseFile,    
+                 )    
+               : Container(),    
+           Text('Uploaded Image'),    
+           _uploadedFileURL != null    
+               ? Image.network(    
+                   _uploadedFileURL,    
+                   height: 150,    
+                 )    
+               : Container(),    
+         ],    
+          ),
+        );
+      }
+   );
   }
-  void _updatePass(BuildContext context) {
+
+  Future chooseFile() async {    
+   await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
+     setState(() {    
+       _image = image;    
+     });    
+   });    
+ }
+
+ Future uploadFile() async {    
+   StorageReference storageReference = FirebaseStorage.instance    
+       .ref()    
+       .child('chats/${Path.basename(_image.path)}}');    
+   StorageUploadTask uploadTask = storageReference.putFile(_image);    
+   await uploadTask.onComplete;    
+   print('File Uploaded');    
+   storageReference.getDownloadURL().then((fileURL) {    
+     setState(() {    
+       _uploadedFileURL = fileURL;    
+     });    
+   });    
+ }    
+   _updatePass(BuildContext context, String _profileID) async{
+
+      TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
+
+    String newEmail = "";
+    return showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+        title: Text('Enter New Email'),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+                child: new TextField(
+              autofocus: true,
+              decoration: new InputDecoration(
+                  labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
+              onChanged: (value) {
+                newEmail = value;
+              },
+            ))
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Firestore.instance.collection("Users").document(_profileID).updateData({'password' : newEmail});
+              Navigator.of(context).pop(newEmail);
+            }
+          ),
+          FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(newEmail);
+            }
+           ) 
+           ],
+      );
+      }
+    );
 
   }
 }
