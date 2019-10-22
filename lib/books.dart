@@ -3,8 +3,10 @@
 //********************************************
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_slidable/flutter_slidable.dart';
 import './user_select.dart';
+
+List<String> _newBookEntry = [];
 
 class NewBookCard extends StatefulWidget {
   final List<String> bookEntries;
@@ -16,10 +18,76 @@ class NewBookCard extends StatefulWidget {
 }
 
 class _NewBookCardState extends State<NewBookCard> {
-  Widget makeListTile(String desc) {
+  void _showSnackBar(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  Slidable makeListTile(String desc) {
+    slideToDismissDelegate:
+    new SlideToDismissDrawerDelegate(
+      onWillDismiss: (actionType) {
+        return showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return new AlertDialog(
+              title: new Text('Delete'),
+              content: new Text('Item will be deleted'),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                new FlatButton(
+                  child: new Text('Ok'),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    /*slideToDismissDelegate: new SlideToDismissDrawerDelegate(
+      onDismissed: (actionType) {
+        _showSnackBar(
+            context,
+            actionType == SlideActionType.primary
+                ? 'Dismiss Archive'
+                : 'Dimiss Delete');
+        setState(() {
+          items.removeAt(index);
+        });
+      },
+    ),*/
+
     int index = desc.lastIndexOf('~~~~~');
     //Need to add author and pages to this in future for dynamic updates on book
-    return Container(
+    return Slidable(
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading: new CircleAvatar(
+            backgroundColor: Colors.indigoAccent,
+            child: new Text('fish'),
+            foregroundColor: Colors.white,
+          ),
+          title: new Text(desc.substring(0, index)),
+          subtitle: new Text(desc.substring(index + 5)),
+        ),
+      ),
+      actions: <Widget>[
+        new IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          //onTap: () => _showSnackBar('Delete'),
+        ),
+      ],
+    );
+    /*return Container(  
       height: 100.0,
       child: ListTile(
         onTap: () {
@@ -52,7 +120,7 @@ class _NewBookCardState extends State<NewBookCard> {
         ),
         trailing: FavoriteWidget(),
       ),
-    );
+    );*/
   }
 
   @override
@@ -62,7 +130,7 @@ class _NewBookCardState extends State<NewBookCard> {
         children: widget.bookEntries
             .map((title) => Card(
                   child: Column(
-                    children: <Widget>[makeListTile(title)],
+                    children: <Slidable>[makeListTile(title)],
                   ),
                 ))
             .toList(),
@@ -77,7 +145,6 @@ class BooksPage extends StatefulWidget {
 }
 
 class _BookManager extends State<BooksPage> {
-  List<String> _newBookEntry = [];
   //int _selectedIndex = 0;
 
   @override
@@ -214,7 +281,6 @@ class _SelectionScreenState extends State<SelectionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 onPressed: () {
-                  // Close the screen and return "Yep!" as the result.
                   Navigator.pop(context, title + "~~~~~" + description);
                 },
                 child: Text('Submit'),

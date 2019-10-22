@@ -1,231 +1,171 @@
-//By: Kole Espenschied
-//April 8th, 2019
-
-//*********************************************
+//********************************************
 //This class holds all the Chores Page widgets
-//*********************************************
-
+//********************************************
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import './user_select.dart';
 
-class ChoresPage extends StatefulWidget {
+List<String> _newChoreEntry = [];
+
+class NewChoreCard extends StatefulWidget {
+  final List<String> ChoreEntries;
+
+  NewChoreCard(this.ChoreEntries);
+
   @override
-  State<StatefulWidget> createState() => _ChoresState();
+  _NewChoreCardState createState() => _NewChoreCardState();
 }
 
-class _ChoresState extends State<ChoresPage> {
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Chores'),
-        backgroundColor: Colors.black,
-      ),
-      body: drawBody(width),
-      backgroundColor: Colors.grey,
-    );
+class _NewChoreCardState extends State<NewChoreCard> {
+  void _showSnackBar(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
-  Widget drawBody(double width) {
-    List<Widget> chores1 = [rightCardTitleBar(width, Colors.pink[200],'Katie\'s Chores', Icons.build),
-                              rightCardListItems(width, 'Do Laundry', true),
-                              rightCardListItems(width, 'Wash Dishes', true),
-                              rightCardListItems(width, 'Clean Bathroom', false),
-                              rightCardListItems(width, 'Clean Bedroom', true),
-                              rightCardListItems(width, 'Make Bed', false),
-                              rightCardListItems(width, 'Walk Dog', false),
-                              rightCardListItems(width, 'Water Plants', false),
-                              rightCardListItems(width, 'Take Out Trash', true)];
-
-    List<Widget> chores2 = [rightCardTitleBar(width, Colors.orange,'Josh\'s Chores', Icons.build),
-                              rightCardListItems(width, 'Make Bed', true),
-                              rightCardListItems(width, 'Clean Bedroom', false),
-                              rightCardListItems(width, 'Do Laundry', true),
-                              rightCardListItems(width, 'Pick Up Sticks', true),
-                              rightCardListItems(width, 'Mow Lawn', false),
-                              rightCardListItems(width, 'Trash to Curb', false),
-                              rightCardListItems(width, 'Empty Dishwasher', false),
-                              rightCardListItems(width, 'Clean Kitchen', true)];
-    
-    return ListView(
-      children: <Widget>[
-        UserDrawer(),
-        Center(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.pink[200],'assets/pictures/daughter.jpg', 'Katie', 'April 20th'),
-                    drawRightCards(width, chores1),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    drawLeftCards(width, Colors.orange,'assets/pictures/collegekid.jpg', 'Josh', 'April 20th'),
-                    drawRightCards(width, chores2),
-                  ],
-                ),
-              ],
-            ),
+  Slidable makeListTile(String desc) {
+    int index = desc.lastIndexOf('~~~~~');
+    //Need to add author and pages to this in future for dynamic updates on Chore
+    return Slidable(
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading: new CircleAvatar(
+            backgroundColor: Colors.indigoAccent,
+            child: new Text('fish'),
+            foregroundColor: Colors.white,
           ),
+          title: new Text(desc.substring(0, index)),
+          subtitle: new Text(desc.substring(index + 5)),
+        ),
+      ),
+      actions: <Widget>[
+        new IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () => _showSnackBar(context, 'Deleted'),
         ),
       ],
     );
   }
 
-  Widget drawLeftCards(double width, Color accountColor, String image, String account, String date) {
-    double leftCardWidth = width / 3;
-
-    return Container(
-      width: leftCardWidth,
-      height: 360.0,
-      child: Card(
-        shape: BeveledRectangleBorder(),
-        elevation: 5.0,
-        margin: EdgeInsets.fromLTRB(2.0, 2.0, 0, 5.0),
-        color: accountColor,
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                  top: 30.0,
-                ),
-                child: CircleAvatar(
-                  maxRadius: 60.0,
-                  backgroundColor: Colors.white,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage(image),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: widget.ChoreEntries.map((title) => Card(
+              child: Column(
+                children: <Slidable>[makeListTile(title)],
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 10.0,
-                ),
-                child: Text(
-                  account,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                'Finish By:',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              Text(
-                date,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
+            )).toList(),
       ),
     );
   }
+}
 
-  Widget drawRightCards(double width, List<Widget> widgetList) {
-    double rightCardWidth = width / 3 * 2;
+class ChoresPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ChoreManager();
+}
 
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
-            color: Colors.black,
-          ),
-        ),
+class _ChoreManager extends State<ChoresPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Chores'),
+        backgroundColor: Colors.black,
       ),
-      width: rightCardWidth,
-      height: 360.0,
-      child: Card(
-        shape: BeveledRectangleBorder(),
-        elevation: 5.0,
-        margin: EdgeInsets.fromLTRB(0, 2.0, 2.0, 5.0),
-        color: Colors.white70,
-        child: ListView(
-          children: widgetList
+      body: ListView(
+        children: <Widget>[
+          UserDrawer(),
+          NewChoreCard(_newChoreEntry),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          var temp = await _navigateAndDisplaySelection(context);
+          print(temp);
+          _newChoreEntry.add(temp);
+        },
+        backgroundColor: Colors.black87,
+        child: Icon(
+          Icons.add,
         ),
       ),
     );
   }
 }
 
-Widget rightCardTitleBar(double rightCardWidth, Color accountColor, String title, IconData listIcon) {
-  return Container(
-    width: rightCardWidth,
-    height: 55.0,
-    decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(color: Colors.black),
-      ),
-    ),
-    child: Card(
-      shape: BeveledRectangleBorder(),
-      elevation: 5.0,
-      color: accountColor,
-      margin: EdgeInsets.all(0),
-      child: ListTile(
-        leading: Icon(
-          listIcon,
-          size: 30.0,
-          color: Colors.black,
-        ),
-        title: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        trailing: Icon(
-          Icons.more_vert,
-          size: 30.0,
-          color: Colors.black,
-        ),
-      ),
-    ),
+// A method that launches the SelectionScreen and awaits the result from
+// Navigator.pop.
+_navigateAndDisplaySelection(BuildContext context) async {
+  // Navigator.push returns a Future that completes after calling
+  // Navigator.pop on the Selection Screen.
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SelectionScreen()),
   );
+  //print(Text("$result"));
+  return result;
 }
 
-Widget rightCardListItems(double rightCardWidth, String listItem, bool value) {
-  return Card(
-    elevation: 15.0,
-    margin: EdgeInsets.all(1),
-    child: CheckboxListTile(
-      activeColor: Colors.green,
-      title: Text(
-        listItem,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
+class SelectionScreen extends StatefulWidget {
+  //TextEditingController _textInputController = TextEditingController();
+
+  @override
+  _SelectionScreenState createState() => _SelectionScreenState();
+}
+
+class _SelectionScreenState extends State<SelectionScreen> {
+  String title = "tempTitle", description = "tempdesc";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Entry'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  title = text;
+                },
+                autocorrect: true,
+                decoration: InputDecoration(hintText: 'Enter the Title here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                onChanged: (text) {
+                  description = text;
+                },
+                autocorrect: true,
+                decoration:
+                    InputDecoration(hintText: 'Enter the Description here'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.pop(context, title + "~~~~~" + description);
+                },
+                child: Text('Submit'),
+              ),
+            ),
+          ],
         ),
       ),
-      value: value,
-      onChanged: (bool val) {},
-    ),
-  );
+    );
+  }
 }
