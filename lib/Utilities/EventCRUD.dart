@@ -1,6 +1,6 @@
 //DB
 //By: Megan Ramaker
-//October 19, 2019
+//October 19, 2019.
 
 //****************************************************************************************
 //This class holds functions for getting user data, from the api.dart class
