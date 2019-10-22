@@ -8,7 +8,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Chore {
+class Event {
   String id;
   String date;
   String time;
@@ -16,9 +16,9 @@ class Chore {
   String child; 
   DocumentReference user;
 
-  Chore({this.id,this.date, this.time, this.location, this.child, this.user});
+  Event({this.id,this.date, this.time, this.location, this.child, this.user});
 
-  Chore.fromMap(Map snapshot,String id) :
+  Event.fromMap(Map snapshot,String id) :
         id = id ?? '',
         date = snapshot['date'] ?? '',
         time = snapshot['time'] ?? '',
