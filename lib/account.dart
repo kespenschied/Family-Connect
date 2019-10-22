@@ -234,7 +234,7 @@ String _uploadedFileURL;
       context: context,
       builder: (context){
         return AlertDialog(
-        title: Text('Enter New Email'),
+        title: Text('Enter New Name'),
         content: new Row(
           children: <Widget>[
             new Expanded(
@@ -318,12 +318,12 @@ String _uploadedFileURL;
    );
   }
 
-  Future chooseFile() async {    
-   await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
-     setState(() {    
-       _image = image;    
-     });    
-   });    
+  Future chooseFile() async{    
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
+       _image = image;      
+   });
+
+   return _image;    
  }
 
  Future uploadFile() async {    
@@ -348,7 +348,7 @@ String _uploadedFileURL;
       context: context,
       builder: (context){
         return AlertDialog(
-        title: Text('Enter New Email'),
+        title: Text('Enter New Password'),
         content: new Row(
           children: <Widget>[
             new Expanded(
