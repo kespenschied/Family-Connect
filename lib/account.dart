@@ -270,24 +270,33 @@ String _uploadedFileURL;
   }
  _updatePhoto(BuildContext context, String _profileID) async{
 
+
    return showDialog(
       context: context,
       builder: (context){
         return AlertDialog(
           title:  Text('Pick a Photo'),
-          content: Column(
+          content: StatefulBuilder(  // You need this, notice the parameters below:
+          builder: (BuildContext context, StateSetter setState) {
+          return Column(
             children: <Widget>[    
            Text('Selected Image'),    
            _image != null    
                ? Image.asset(    
                    _image.path,    
-                   height: 150,    
+                   height: 350,    
                  )    
-               : Container(height: 150),    
+               : Container(),    
            _image == null    
                ? RaisedButton(    
                    child: Text('Choose File'),    
-                   onPressed: chooseFile,    
+                   onPressed: () async {
+                     await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
+                      setState(() { 
+                      _image = image;    
+                        }); 
+                   });
+                   },
                    color: Colors.cyan,    
                  )    
                : Container(),    
@@ -301,7 +310,11 @@ String _uploadedFileURL;
            _image != null    
                ? RaisedButton(    
                    child: Text('Clear Selection'),    
-                   onPressed: chooseFile,    
+                   onPressed: () async {
+                      setState(() { 
+                      _image = null;    
+                        }); 
+                   },   
                  )    
                : Container(),    
            Text('Uploaded Image'),    
@@ -310,8 +323,16 @@ String _uploadedFileURL;
                    _uploadedFileURL,    
                    height: 150,    
                  )    
-               : Container(),    
+               : Container(),
+               FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(_image);
+            }
+           )    
          ],    
+          );
+          }
           ),
         );
       }
@@ -320,22 +341,23 @@ String _uploadedFileURL;
 
   Future chooseFile() async{    
     await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
-       _image = image;      
-   });
-
-   return _image;    
+       setState(() { 
+       _image = image;    
+        });  
+   }); 
  }
 
  Future uploadFile() async {    
    StorageReference storageReference = FirebaseStorage.instance    
        .ref()    
-       .child('chats/${Path.basename(_image.path)}}');    
+       .child('Users/${Path.basename(_image.path)}}');    
    StorageUploadTask uploadTask = storageReference.putFile(_image);    
    await uploadTask.onComplete;    
    print('File Uploaded');    
    storageReference.getDownloadURL().then((fileURL) {    
      setState(() {    
-       _uploadedFileURL = fileURL;    
+       _uploadedFileURL = fileURL;                      //widget.profileID gets the profileID passed from another class at the top of this page
+        Firestore.instance.collection("Users").document(widget.profileID).updateData({'userImageURL' : _uploadedFileURL}); 
      });    
    });    
  }    
