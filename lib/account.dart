@@ -187,6 +187,8 @@ String _uploadedFileURL;
     
     TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
 
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
     String newEmail = "";
     return showDialog(
       context: context,
@@ -210,7 +212,10 @@ String _uploadedFileURL;
           FlatButton(
             child: Text('Ok'),
             onPressed: () {
-              Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail});
+              user.updateEmail(newEmail).then((_){
+                
+              }); //updates in Auth portion in firebase
+              Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail}); //updates in database portion of firebase
               Navigator.of(context).pop(newEmail);
             }
           ),
@@ -365,6 +370,7 @@ String _uploadedFileURL;
 
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
 
+      
     String newEmail = "";
     return showDialog(
       context: context,

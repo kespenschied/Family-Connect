@@ -3,6 +3,8 @@ import './home.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'drawer.dart';
+import 'packages:dropdown_banner/dropdown_banner.dart';
+
 
 
 //this will need to become stateful when doing functionality
@@ -151,9 +153,16 @@ class _LoginPageState extends State<LoginPage> {
        AuthResult loginUser = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)); 
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user: loginUser)));
       }catch(e){
+
+        failedSignIn();
         print(e.message);
       }
     }
+
+  }
+
+  failedSignIn(){
+    return 
 
   }
 }
