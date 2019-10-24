@@ -1,9 +1,9 @@
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:flutter/material.dart';
 import './home.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'drawer.dart';
-import 'packages:dropdown_banner/dropdown_banner.dart';
 
 
 
@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   //Styling for the 'Family Connect' Strings
   String _email, _password, input;
   final _formKey = new GlobalKey<FormState>();
+
+
 
   TextStyle _titleTextStyling() {
     return TextStyle(
@@ -154,15 +156,27 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user: loginUser)));
       }catch(e){
 
-        failedSignIn();
+        failedUpdate();
         print(e.message);
       }
     }
 
   }
 
-  failedSignIn(){
-    return 
+  //notification
+  void successfulupdate() {
+    DropdownBanner.showBanner(
+      text: 'Successfully Updated',
+      color: Colors.green,
+      textStyle: TextStyle(color: Colors.white),
+    );
+  }
 
+  void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Email or password is incorrect',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
+    );
   }
 }

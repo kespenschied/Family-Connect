@@ -36,7 +36,7 @@ const HomePage({
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
+        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
       ],
       child: Scaffold(
       backgroundColor: Colors.black,

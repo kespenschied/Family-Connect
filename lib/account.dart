@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -213,9 +214,12 @@ String _uploadedFileURL;
             child: Text('Ok'),
             onPressed: () {
               user.updateEmail(newEmail).then((_){
-                
+                Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail}); //updates in database portion of firebase
+                successfulupdate();
+              }).catchError((){
+                failedUpdate();
               }); //updates in Auth portion in firebase
-              Firestore.instance.collection("Users").document(_profileID).updateData({'email' : newEmail}); //updates in database portion of firebase
+              
               Navigator.of(context).pop(newEmail);
             }
           ),
@@ -369,9 +373,9 @@ String _uploadedFileURL;
    _updatePass(BuildContext context, String _profileID) async{
 
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
-
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
       
-    String newEmail = "";
+    String newPassword = "";
     return showDialog(
       context: context,
       builder: (context){
@@ -381,11 +385,12 @@ String _uploadedFileURL;
           children: <Widget>[
             new Expanded(
                 child: new TextField(
+                  obscureText: true,
               autofocus: true,
               decoration: new InputDecoration(
                   labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
               onChanged: (value) {
-                newEmail = value;
+                newPassword = value;
               },
             ))
           ],
@@ -394,14 +399,19 @@ String _uploadedFileURL;
           FlatButton(
             child: Text('Ok'),
             onPressed: () {
-              Firestore.instance.collection("Users").document(_profileID).updateData({'password' : newEmail});
-              Navigator.of(context).pop(newEmail);
+               user.updatePassword(newPassword).then((_){
+                Firestore.instance.collection("Users").document(_profileID).updateData({'password' : newPassword}); //updates in database portion of firebase
+                successfulupdate();
+              }).catchError((){
+                failedUpdate();
+              }); //updates in Auth portion in firebase
+              Navigator.of(context).pop(newPassword);
             }
           ),
           FlatButton(
             child: Text('Cancel'),
             onPressed: () {
-              Navigator.of(context).pop(newEmail);
+              Navigator.of(context).pop(newPassword);
             }
            ) 
            ],
@@ -409,6 +419,23 @@ String _uploadedFileURL;
       }
     );
 
+  }
+
+  //notification
+  void successfulupdate() {
+    DropdownBanner.showBanner(
+      text: 'Successfully updated, logout to refresh changes',
+      color: Colors.green,
+      textStyle: TextStyle(color: Colors.white),
+    );
+  }
+
+  void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Failed to update',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
+    );
   }
 }
 
