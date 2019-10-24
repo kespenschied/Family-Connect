@@ -50,6 +50,7 @@ class PermissionsPage extends StatelessWidget {
                               cardListItems(width, 'Homework', true),
                               cardListItems(width, 'Journal', true),
                               cardListItems(width, 'Lists', false),
+                              cardListItems(width, 'Permissions', true),
                               cardListItems(width, 'Users', false)];
                                   
     return ListView(
