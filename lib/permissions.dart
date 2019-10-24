@@ -59,7 +59,7 @@ class PermissionsPage extends StatelessWidget {
           child: Container(
             child: Column(
               children: <Widget>[
-                UserDrawer(),
+                //UserDrawer(),
                 SizedBox(height: 10.0,), //This is acting as padding for text.
                 SizedBox(
                   height: 50.0,

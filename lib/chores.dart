@@ -56,7 +56,7 @@ class _ChoresState extends State<ChoresPage> {
     
     return ListView(
       children: <Widget>[
-        UserDrawer(),
+        //UserDrawer(),
         Center(
           child: Container(
             child: Column(

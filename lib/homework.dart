@@ -32,7 +32,7 @@ class _HomeworkState extends State<HomeworkPage> {
       body: ListView(
       children: <Widget>[
         //UserDrawer(key: userKey),
-        UserDrawer(),
+        //UserDrawer(),
         Center(
           child: Container(
             child: Column(

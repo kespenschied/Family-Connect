@@ -55,7 +55,7 @@ class _ListsState extends State<ListsPage> {
     
     return ListView(
       children: <Widget>[
-        UserDrawer(),
+        //UserDrawer(),
         Center(
           child: Container(
             child: Column(

@@ -91,7 +91,7 @@ class _BookManager extends State<BooksPage> {
       ),
       body: ListView(
         children: <Widget>[
-          UserDrawer(),
+          //UserDrawer(),
           NewBookCard(_newBookEntry),
         ],
       ),
