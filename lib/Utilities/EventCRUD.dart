@@ -39,12 +39,12 @@ Future removeEvent(String id) async{
      await _eventApi.removeDocument(id) ;
      return ;
   }
-  Future updateEvent(Chore data,String id) async{
+  Future updateEvent(Event data,String id) async{
     await _eventApi.updateDocument(data.toJson(), id) ;
     return ;
   }
 
-  Future addEvent(Chore data) async{
+  Future addEvent(Event data) async{
     var result  = await _eventApi.addDocument(data.toJson()) ;
     return ;
   }
