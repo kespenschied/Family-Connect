@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:family_connect/user_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -88,9 +89,11 @@ String _uploadedFileURL;
         ),
         Positioned(
           width: MediaQuery.of(context).size.width,
-          top: MediaQuery.of(context).size.height / 15,
+          //top: MediaQuery.of(context).size.height / 15,
           child: Column(
             children: <Widget>[
+              UserDrawer(), //Need to pull the selected user which should be the value: of UserDrawer.
+              SizedBox(height: 20.0,), //Spacing
               Container(
                 alignment: Alignment.bottomCenter, //Aligns the text on top of photo.
                 padding: const EdgeInsets.only(bottom: 25,), //Extra padding to put text more central
@@ -115,7 +118,8 @@ String _uploadedFileURL;
                     width: 140.0,
                     height: 30.0,
                     alignment: Alignment.bottomCenter,
-                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
+                    ////Edit function should show if user has access
+                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),), 
                   )
                 )
               ),
@@ -133,6 +137,7 @@ String _uploadedFileURL;
                   child: GestureDetector(
                     onTap:() {_updateName(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
+                      ////Edit function should show if user has access
                       child: Text('Edit name', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
                   )
@@ -154,6 +159,7 @@ String _uploadedFileURL;
                       _updateEmail(context, widget.profileID);
                     }, //Implement functionality of changing the user's name.
                     child: Center(
+                      ////Edit function should show if user has access
                       child: Text('Edit email', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
                   )
@@ -171,6 +177,7 @@ String _uploadedFileURL;
                   child: GestureDetector(
                     onTap:() {_updatePass(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
+                      ////Edit function should show if user has access
                       child: Text('Change password', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
                     ),
                   )
@@ -438,74 +445,3 @@ String _uploadedFileURL;
     );
   }
 }
-
-// class ProfileImage extends StatelessWidget{
-//   @override
-//   Widget build(BuildContext context){
-//     return Container(
-      
-//       alignment: Alignment.bottomCenter,
-//       padding: const EdgeInsets.only(bottom: 25,),
-//       height: 150.0,
-//       width: 150.0,
-//       decoration: BoxDecoration(
-//         color: Colors.grey,
-//         image: new DecorationImage(
-//           image: AssetImage('assets/pictures/connie.jpg'),
-//           fit: BoxFit.fill,
-          
-//         ),
-//         borderRadius: BorderRadius.all(Radius.circular(75.0)
-
-//         ),
-//       ),
-//       child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
-      
-//     );
-//   }
-// }
-
-// class TextContainer extends StatelessWidget{ //Holds the text fields
-//   final String _name;
-//   final String _username;
-//   final String _email;
-//   final String _pw;
-//   static const double _txtPadL = 75.0;
-
-//   TextContainer(this._name, this._username, this._email, this._pw);
-
-//   @override 
-//   Widget build(BuildContext context){
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       crossAxisAlignment: CrossAxisAlignment.center,
-      
-//       children: [
-//         Container( // These text styles should be one single style to reduce redundancy.
-//           alignment: AlignmentDirectional.center,
-//           //padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-//           decoration: BoxDecoration(
-//             color: Colors.white54,
-//             borderRadius: BorderRadius.circular(25)
-//           ),
-//           child: Text(_name, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
-//         ),
-//         Container(
-//           alignment: AlignmentDirectional.centerStart,
-//           padding: const EdgeInsets.fromLTRB(_txtPadL, 20, 16.0, 16.0),
-//           child: Text("Username: " + _username, style: TextStyle(fontSize: 24),),
-//         ),
-//         Container(
-//           alignment: AlignmentDirectional.centerStart,
-//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
-//           child: Text("Email: " + _email, style: TextStyle(fontSize: 24)),
-//         ),
-//         Container(
-//           alignment: AlignmentDirectional.centerStart,
-//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
-//           child: Text("Password: " + _pw, style: TextStyle(fontSize: 24)),
-//         ),
-//       ],
-//     );
-//   }
-// }
