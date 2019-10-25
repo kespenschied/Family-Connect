@@ -40,7 +40,8 @@ class PermissionsPage extends StatelessWidget {
 
   }
   Widget drawBody(double width, double height) {
-    List<Widget> permissions = [//cardTitleBar(width, Colors.blue,'Groceries', Icons.add_shopping_cart),
+    List<Widget> permissions = [
+      //////Pull the true false values from database for each user.
                               cardListItems(width, 'Allow All', false),
                               cardListItems(width, 'Achievements', false),
                               cardListItems(width, 'Books', false),
@@ -49,6 +50,7 @@ class PermissionsPage extends StatelessWidget {
                               cardListItems(width, 'Homework', true),
                               cardListItems(width, 'Journal', true),
                               cardListItems(width, 'Lists', false),
+                              cardListItems(width, 'Permissions', true),
                               cardListItems(width, 'Users', false)];
                                   
     return ListView(
@@ -57,7 +59,7 @@ class PermissionsPage extends StatelessWidget {
           child: Container(
             child: Column(
               children: <Widget>[
-                UserDrawer(),
+                //UserDrawer(),
                 SizedBox(height: 10.0,), //This is acting as padding for text.
                 SizedBox(
                   height: 50.0,
@@ -119,43 +121,6 @@ Widget drawCards(double width, double height, List<Widget> widgetList) {
       ),
     );
   }
-  // Widget cardTitleBar(double cardWidth, Color accountColor, String title, IconData listIcon) {
-  //   return Container(
-  //     width: cardWidth,
-  //     height: 55.0,
-  //     decoration: BoxDecoration(
-  //       border: Border(
-  //         bottom: BorderSide(color: Colors.black),
-  //       ),
-  //     ),
-  //     child: Card(
-  //       shape: BeveledRectangleBorder(),
-  //       elevation: 5.0,
-  //       color: accountColor,
-  //       margin: EdgeInsets.all(0),
-  //       child: ListTile(
-  //         leading: Icon(
-  //           listIcon,
-  //           size: 30.0,
-  //           color: Colors.black,
-  //         ),
-  //         title: Text(
-  //           title,
-  //           textAlign: TextAlign.center,
-  //           style: TextStyle(
-  //             fontSize: 20.0,
-  //             fontWeight: FontWeight.bold,
-  //           ),
-  //         ),
-  //         trailing: Icon(
-  //           Icons.more_vert,
-  //           size: 30.0,
-  //           color: Colors.black,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget cardListItems(double cardWidth, String listItem, bool value) {
     return Card(
       elevation: 15.0,
