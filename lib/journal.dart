@@ -92,7 +92,7 @@ class _NewJournalCardState extends State<NewJournalCard> {
               child: Column(
                 //it then creates a card.
                 children: <Widget>[
-                  makeListTile(element, width, test),
+                  makeListTile(element, width - .5, test),
                 ],
               ),
             ),

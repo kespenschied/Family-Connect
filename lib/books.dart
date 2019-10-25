@@ -32,7 +32,7 @@ class _NewBookCardState extends State<NewBookCard> {
           image: AssetImage('assets/pictures/rainbowfish.jpg'),
           height: 70,
         ),
-        isThreeLine: true,
+        isThreeLine: false,
         title: Text(
           desc.substring(0, index),
           textAlign: TextAlign.center,
