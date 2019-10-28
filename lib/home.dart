@@ -31,11 +31,7 @@ const HomePage({
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
-      ],
-      child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,

@@ -1,8 +1,3 @@
-import 'dart:io';
-
-import 'package:dropdown_banner/dropdown_banner.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:family_connect/user_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -43,8 +38,12 @@ String _profileEmail = "";
                      }
   }
 
+class AccountPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _AccountState();
+}
 
-
+class _AccountState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
 
