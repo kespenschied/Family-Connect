@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
           blurRadius: 10.0,
         ),
       ],
-    );[]
+    );
   }
 
   @override
