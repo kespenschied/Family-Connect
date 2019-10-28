@@ -18,7 +18,17 @@ import './lists.dart';
 import './drawer.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
+
+import 'coreClasses/locator.dart';
+
 class HomePage extends StatelessWidget {
+const HomePage({
+    Key key,
+    @required this.user
+  }) : super(key: key);
+
+  final AuthResult user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
