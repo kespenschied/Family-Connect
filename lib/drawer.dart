@@ -110,7 +110,7 @@ String _profileID = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments )),
+                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments)),
               );
             },
           ),

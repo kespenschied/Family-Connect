@@ -6,6 +6,7 @@
 //********************************************************
 
 
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +15,7 @@ import './login.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+    final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -22,7 +24,10 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       title: 'Family Connect',
-      home: LoginPage(),
+      home: DropdownBanner(
+      child :LoginPage(),
+      navigatorKey: navigatorKey,
+      )
     );
   }
 }

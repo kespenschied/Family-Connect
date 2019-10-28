@@ -1,11 +1,18 @@
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:flutter/material.dart';
 import './home.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+
 
 //this will need to become stateful when doing functionality
 
 class LoginPage extends StatelessWidget {
   //Styling for the 'Family Connect' Strings
+  String _email, _password, input;
+  final _formKey = new GlobalKey<FormState>();
+
+
+
   TextStyle _titleTextStyling() {
     return TextStyle(
       fontFamily: 'DancingScript',
@@ -119,6 +126,41 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  //pass email and password to home, then pass email to drawer
+  Future<void> signIn() async {
+    final formState = _formKey.currentState;
+
+    if(formState.validate()){
+      formState.save();
+      try{
+       AuthResult loginUser = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)); 
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user: loginUser)));
+      }catch(e){
+
+        failedUpdate();
+        print(e.message);
+      }
+    }
+
+  }
+
+  //notification
+  void successfulupdate() {
+    DropdownBanner.showBanner(
+      text: 'Successfully Updated',
+      color: Colors.green,
+      textStyle: TextStyle(color: Colors.white),
+    );
+  }
+
+  void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Email or password is incorrect',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
     );
   }
 }
