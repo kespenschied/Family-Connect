@@ -1,3 +1,4 @@
+//UI
 //By: Kole Espenschied
 //April 8th, 2019
 
@@ -14,7 +15,10 @@
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
+import 'coreClasses/UserModel.dart';
 import './account.dart';
 import './notifications.dart';
 import './editusers.dart';
@@ -74,12 +78,11 @@ String _profileID = "";
          return UserAccountsDrawerHeader( //this widget uses the values returned from the streambuilder widget to get a user profile from firebase
             decoration: BoxDecoration(color: Colors.black87),
             accountName: Text(
-              "Connie Barber",
+              _profileEmail,
               style: TextStyle(fontSize: 20.0),
             ),
-            accountEmail: Text(
-              "cobarbe@siue.edu",
-              style: TextStyle(fontSize: 15.0),
+            accountEmail: Text( 
+              _profileName,
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
@@ -87,13 +90,19 @@ String _profileID = "";
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/pictures/connie.jpg'),
+                    image: new NetworkImage(_imageURL),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-          ),
+          );
+              }
+              else {
+                return Text("fetching data");
+              }
+            }),
+          ), //firestore ends here
           ListTile(
             title: Text(
               'Account',
@@ -110,7 +119,7 @@ String _profileID = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments )),
+                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments)),
               );
             },
           ),
@@ -134,26 +143,26 @@ String _profileID = "";
               );
             },
           ),
-          // ListTile(
-          //   title: Text(
-          //     'Edit Users',
-          //     textAlign: TextAlign.end,
-          //     style: TextStyle(
-          //       fontWeight: FontWeight.bold,
-          //       fontSize: 30.0,
-          //     ),
-          //   ),
-          //   leading: Icon(
-          //     Icons.group_add,
-          //     size: 35.0,
-          //   ),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => UserPage()),
-          //     );
-          //   },
-          // ),
+          ListTile(
+            title: Text(
+              'Edit User',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              ),
+            ),
+            leading: Icon(
+              Icons.group_add,
+              size: 35.0,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
+          ),
           ListTile(
             title: Text(
               'Permissions',
@@ -193,6 +202,60 @@ String _profileID = "";
           ),
         ],
       ),
+    );
+  }
+  //logout confirmation box
+  void _showLogOutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Log Out?",
+            style: TextStyle(
+              fontSize: 30.0,
+            ),
+          ),
+          actions: <Widget>[
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      (Route<dynamic> route) => false);
+                },
+                elevation: 5.0,
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text(
+                  'Yes',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            ButtonTheme(
+              minWidth: 100.0,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                elevation: 5.0,
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text(
+                  'No',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
