@@ -8,11 +8,11 @@ import './calendar.dart';
 import 'coreClasses/EventModel.dart';
 import 'package:intl/intl.dart';
 
-class EventData {
-  String title = '';
-  DateTime time;
-  String summary = '';
-}
+//class EventData {
+ // String title = '';
+ // DateTime time;
+ // String summary = '';
+//}
 
 class EventCreator extends StatefulWidget {
   final Event _event;
@@ -31,7 +31,7 @@ class EventCreatorState extends State<EventCreator> {
   final dateFormat = DateFormat("MMMM d, yyyy 'at' h:mma");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  EventData _eventData = new EventData();
+  Event _eventData = new Event();
 
   @override
   Widget build(BuildContext context) {
