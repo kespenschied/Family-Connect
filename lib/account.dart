@@ -1,12 +1,20 @@
+import 'dart:io';
+import 'package:dropdown_banner/dropdown_banner.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:family_connect/user_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:file_picker/file_picker.dart';
 import 'Utilities/UserCRUD.dart';
 import 'coreClasses/UserModel.dart';
-
+import 'dart:io';    
+import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore    
+import 'package:flutter/material.dart';    
+import 'package:image_picker/image_picker.dart'; // For Image Picker    
+import 'package:path/path.dart' as Path; 
 class AccountPage extends StatefulWidget {
  
   
@@ -16,18 +24,17 @@ class AccountPage extends StatefulWidget {
   @override
   _AccountPage createState() => _AccountPage();
 }
-
 class _AccountPage extends State<AccountPage>{
 String _profileName = "";
 String _imageURL = "";
 String _profileEmail = "";
-
+File _image;    
+String _uploadedFileURL; 
 @override
   void initState() {
     setUserValues(widget.userDocuments, widget.profileID);
         super.initState();
   }
-
   void setUserValues(List<User> userDocuments, String _profileID){
         for (User profile in userDocuments) {
                        if(profile.id ==  _profileID){
@@ -37,16 +44,8 @@ String _profileEmail = "";
                        }
                      }
   }
-
-class AccountPage extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() => _AccountState();
-}
-
-class _AccountState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -79,6 +78,7 @@ class _AccountState extends State<AccountPage> {
         ),
         Positioned(
           width: MediaQuery.of(context).size.width,
+          top: MediaQuery.of(context).size.height / 15,
           //top: MediaQuery.of(context).size.height / 15,
           child: Column(
             children: <Widget>[
@@ -102,14 +102,15 @@ class _AccountState extends State<AccountPage> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    
+                    _updatePhoto(context, widget.profileID);
                   },
                   child: Container(
                     width: 140.0,
                     height: 30.0,
                     alignment: Alignment.bottomCenter,
+                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
                     ////Edit function should show if user has access
-                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),), 
+                    //child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),), 
                   )
                 )
               ),
@@ -125,7 +126,7 @@ class _AccountState extends State<AccountPage> {
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {}, //Implement functionality of changing the user's name.
+                    onTap:() {_updateName(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
                       ////Edit function should show if user has access
                       child: Text('Edit name', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
@@ -165,7 +166,7 @@ class _AccountState extends State<AccountPage> {
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {}, //Implement functionality of changing the user's name.
+                    onTap:() {_updatePass(context, widget.profileID);}, //Implement functionality of changing the user's name.
                     child: Center(
                       ////Edit function should show if user has access
                       child: Text('Change password', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
@@ -180,13 +181,10 @@ class _AccountState extends State<AccountPage> {
         )
     );
   }
-
    _updateEmail(BuildContext context, String _profileID) async{
     
     TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
-
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
     String newEmail = "";
     return showDialog(
       context: context,
@@ -232,9 +230,7 @@ class _AccountState extends State<AccountPage> {
     );
   }
    _updateName(BuildContext context, String _profileID) async {
-
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
-
     String newName = "";
     return showDialog(
       context: context,
@@ -272,11 +268,8 @@ class _AccountState extends State<AccountPage> {
       );
       }
     );
-
   }
  _updatePhoto(BuildContext context, String _profileID) async{
-
-
    return showDialog(
       context: context,
       builder: (context){
@@ -344,7 +337,6 @@ class _AccountState extends State<AccountPage> {
       }
    );
   }
-
   Future chooseFile() async{    
     await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
        setState(() { 
@@ -352,7 +344,6 @@ class _AccountState extends State<AccountPage> {
         });  
    }); 
  }
-
  Future uploadFile() async {    
    StorageReference storageReference = FirebaseStorage.instance    
        .ref()    
@@ -368,7 +359,6 @@ class _AccountState extends State<AccountPage> {
    });    
  }    
    _updatePass(BuildContext context, String _profileID) async{
-
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
       
@@ -415,9 +405,7 @@ class _AccountState extends State<AccountPage> {
       );
       }
     );
-
   }
-
   //notification
   void successfulupdate() {
     DropdownBanner.showBanner(
@@ -426,7 +414,6 @@ class _AccountState extends State<AccountPage> {
       textStyle: TextStyle(color: Colors.white),
     );
   }
-
   void failedUpdate() {
     DropdownBanner.showBanner(
       text: 'Failed to update',
@@ -435,3 +422,74 @@ class _AccountState extends State<AccountPage> {
     );
   }
 }
+
+// class ProfileImage extends StatelessWidget{
+//   @override
+//   Widget build(BuildContext context){
+//     return Container(
+
+//       alignment: Alignment.bottomCenter,
+//       padding: const EdgeInsets.only(bottom: 25,),
+//       height: 150.0,
+//       width: 150.0,
+//       decoration: BoxDecoration(
+//         color: Colors.grey,
+//         image: new DecorationImage(
+//           image: AssetImage('assets/pictures/connie.jpg'),
+//           fit: BoxFit.fill,
+
+//         ),
+//         borderRadius: BorderRadius.all(Radius.circular(75.0)
+
+//         ),
+//       ),
+//       child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
+
+//     );
+//   }
+// }
+
+// class TextContainer extends StatelessWidget{ //Holds the text fields
+//   final String _name;
+//   final String _username;
+//   final String _email;
+//   final String _pw;
+//   static const double _txtPadL = 75.0;
+
+//   TextContainer(this._name, this._username, this._email, this._pw);
+
+//   @override 
+//   Widget build(BuildContext context){
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       crossAxisAlignment: CrossAxisAlignment.center,
+
+//       children: [
+//         Container( // These text styles should be one single style to reduce redundancy.
+//           alignment: AlignmentDirectional.center,
+//           //padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white54,
+//             borderRadius: BorderRadius.circular(25)
+//           ),
+//           child: Text(_name, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 20, 16.0, 16.0),
+//           child: Text("Username: " + _username, style: TextStyle(fontSize: 24),),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
+//           child: Text("Email: " + _email, style: TextStyle(fontSize: 24)),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
+//           child: Text("Password: " + _pw, style: TextStyle(fontSize: 24)),
+//         ),
+//       ],
+//     );
+//   }
+// } 
