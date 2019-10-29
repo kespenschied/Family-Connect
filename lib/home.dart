@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import './achievements.dart';
 import './books.dart';
 import './chores.dart';
-import './events.dart';
+import './calendar.dart';
 import './reports.dart';
 import './homework.dart';
 import './journal.dart';
@@ -64,7 +64,7 @@ class HomeController extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventsPage()),
+                    MaterialPageRoute(builder: (context) => EventsView(null)),
                   );
                 },
               ),
