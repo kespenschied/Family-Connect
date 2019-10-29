@@ -16,7 +16,7 @@ class Event {
   String child; 
   DocumentReference user;
 
-  Event({this.id,this.date, this.time, this.location, this.child, this.user});
+  Event(String documentID, {this.id,this.date, this.time, this.location, this.child, this.user});
 
   Event.fromMap(Map snapshot,String id) :
         id = id ?? '',

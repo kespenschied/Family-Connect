@@ -126,8 +126,7 @@ class EventsViewState extends State<EventsView> {
   }
 
   void _onCardClicked(DocumentSnapshot document) {
-    Event event = new Event(document.data['name'], document.data[''],
-        document.data['time'], document.documentID);
+    Event event = new Event(document.documentID);
     Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context)
       => new Event(event)));
   }
