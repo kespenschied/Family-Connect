@@ -65,7 +65,7 @@ class EventCreatorState extends State<EventCreator> {
       ),
       initialValue: widget._event != null ? widget._event.time : '',
       style: Theme.of(context).textTheme.headline,
-      onSaved: (String value) => this._eventData.summary = value,
+      onSaved: (String value) => this._eventData.title = value,
     );
     
     return new Scaffold(
