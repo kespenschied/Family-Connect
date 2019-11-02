@@ -5,6 +5,8 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:family_connect/coreClasses/PermissionsModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +25,20 @@ import 'Utilities/UserCRUD.dart';
 //this Home Page class creates the scaffold and the appBar for this page
 
 import 'coreClasses/locator.dart';
-
-class HomePage extends StatelessWidget {
-const HomePage({
+class HomePage extends StatefulWidget {
+ const HomePage({
     Key key,
     @required this.user
+    
   }) : super(key: key);
 
   final AuthResult user;
+  
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +53,9 @@ const HomePage({
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      drawer: MyDrawer(user: user),
+      drawer: MyDrawer(user: widget.user),
       body: Center(
-        child: HomeController(),
+        child: HomeController(user: widget.user),
       ),
     ),
     );
@@ -61,22 +69,75 @@ const HomePage({
 //sets sets a gesture listener to each Container as to go to the
 //correct page. Calls 'HomeIconInfo's constructor to build each
 //container on the screen.
-class HomeController extends StatelessWidget {
+
+class HomeController extends StatefulWidget {
+
+   const HomeController({
+    Key key,
+    @required this.user
+    
+  }) : super(key: key);
+
+  final AuthResult user;
+
+  @override
+  _HomeControllerState createState() => _HomeControllerState();
+}
+
+class _HomeControllerState extends State<HomeController> {
+
+  List<Permissions> userDocuments;
+  Permissions _permissions = new Permissions();
+
   @override
   Widget build(BuildContext context) {
+    var _profileEmail = widget.user.user.email;
+  final userProvider = Provider.of<UserCRUD>(context);
+
     return Container(
       alignment: FractionalOffset.center,
-      child: Column(
+    child: Container(
+      child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: userProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                userDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Permissions.fromMap(doc.data, doc.documentID)).toList();
+                     for (Permissions profile in userDocuments) {
+                       if(profile.email ==  _profileEmail){
+                         _permissions.achievements = profile.achievements;
+                         _permissions.books = profile.books;
+                         _permissions.calender = profile.calender;
+                         _permissions.chores = profile.chores;
+                         _permissions.email = profile.email;
+                         _permissions.homework = profile.homework;
+                         _permissions.journal = profile.journal;
+                         _permissions.lists = profile.lists;
+                         _permissions.userLevel = profile.userLevel;
+                       }
+                     }
+      return Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
+
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => EventsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    
+                  }
+                  else{
+
+                  }
+
                 },
               ),
               GestureDetector(
@@ -157,8 +218,13 @@ class HomeController extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
+      );
+ }
+              else {
+                return Text("fetching data");
+              }
+            }),
+    ));
   }
 }
 

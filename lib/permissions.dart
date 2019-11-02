@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './user_select.dart';
 
+//need to impliment bools for accessing pages
+
 class PermissionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class PermissionsPage extends StatelessWidget {
   Widget drawBody(double width, double height) {
     List<Widget> permissions = [
       //////Pull the true false values from database for each user.
-                              cardListItems(width, 'Allow All', false),
+                              //cardListItems(width, 'Allow All', false),
                               cardListItems(width, 'Achievements', false),
                               cardListItems(width, 'Books', false),
                               cardListItems(width, 'Calendar', true),
@@ -50,7 +52,7 @@ class PermissionsPage extends StatelessWidget {
                               cardListItems(width, 'Homework', true),
                               cardListItems(width, 'Journal', true),
                               cardListItems(width, 'Lists', false),
-                              cardListItems(width, 'Permissions', true),
+                              //cardListItems(width, 'Permissions', true),
                               cardListItems(width, 'Users', false)];
                                   
     return ListView(

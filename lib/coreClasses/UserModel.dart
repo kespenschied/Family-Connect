@@ -9,7 +9,7 @@
 class User {
   String id;
   String email;
-  String permissionLevel;
+  bool permissionLevel;
   String name;
   String userImageURL;
   String password;
