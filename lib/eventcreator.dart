@@ -4,15 +4,15 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import './calendar.dart';
 import 'coreClasses/EventModel.dart';
 import 'package:intl/intl.dart';
 
-//class EventData {
- // String title = '';
- // DateTime time;
- // String summary = '';
-//}
+class EventData {
+  String id;
+  String title;
+  DateTime time;
+  String notes; 
+}
 
 class EventCreator extends StatefulWidget {
   final Event _event;
@@ -31,7 +31,7 @@ class EventCreatorState extends State<EventCreator> {
   final dateFormat = DateFormat("MMMM d, yyyy 'at' h:mma");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  Event _eventData = new Event();
+  EventData _eventData = new EventData();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class EventCreatorState extends State<EventCreator> {
               borderRadius: BorderRadius.circular(8.0),
           )
       ),
-      initialValue: widget._event != null ? widget._event.date : '',
+      initialValue: widget._event != null ? widget._event.title : '',
       style: Theme.of(context).textTheme.headline,
       validator: this._validateTitle,
       onSaved: (String value) => this._eventData.title = value,
@@ -63,9 +63,9 @@ class EventCreatorState extends State<EventCreator> {
           borderRadius: BorderRadius.circular(8.0)
         )
       ),
-      initialValue: widget._event != null ? widget._event.time : '',
+      initialValue: widget._event != null ? widget._event.notes : '',
       style: Theme.of(context).textTheme.headline,
-      onSaved: (String value) => this._eventData.summary = value,
+      onSaved: (String value) => this._eventData.notes= value,
     );
     
     return new Scaffold(
@@ -151,8 +151,8 @@ class EventCreatorState extends State<EventCreator> {
     if (currentUser != null && this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // Save our form now.
 
-      Firestore.instance.collection('calendar_events').document(widget._event != null ? widget._event.id : null)
-          .setData({'name': _eventData.title, 'summary': _eventData.summary,
+      Firestore.instance.collection('calendar_events').document(widget._event != null ? widget._event.documentID : null)
+          .setData({'name': _eventData.title, 'notes': _eventData.notes,
         'time': _eventData.time, 'email': currentUser.email});
 
       Navigator.maybePop(context);

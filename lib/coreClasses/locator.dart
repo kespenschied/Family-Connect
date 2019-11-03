@@ -16,6 +16,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => Api('Users')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
   locator.registerLazySingleton(() => UserCRUD());
 
-  locator.registerLazySingleton(() => Api('Event')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
-  locator.registerLazySingleton(() => EventCRUD());
+  //locator.registerLazySingleton(() => Api('Event')); //path that leads to the collection, Users, on fireStore. will need a bunch of these for all the collections
+  //locator.registerLazySingleton(() => EventCRUD());
 }

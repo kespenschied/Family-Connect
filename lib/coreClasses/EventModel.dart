@@ -9,33 +9,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
-  String id;
   String title;
-  String date;
-  String time;
-  String location;
+  DateTime time;
+  String notes;
   String child; 
-  DocumentReference user;
+  String documentID;
 
-  Event(String documentID, {this.id, this.title, this.date, this.time, this.location, this.child, this.user});
+  Event(this.title, this.time, this.notes, this.child, [this.documentID]);
 
-  Event.fromMap(Map snapshot,String id) :
-        id = id ?? '',
-        title = snapshot['title'] ?? '',
-        date = snapshot['date'] ?? '',
-        time = snapshot['time'] ?? '',
-        location = snapshot['location'] ?? '',
-        child = snapshot['child'] ?? '',
-        user = snapshot['user'] ?? '';
+  //Event.fromMap(Map snapshot,String id) :
+  //      id = id ?? '',
+  //      title = snapshot['title'] ?? '',
+  //      date = snapshot['date'] ?? '',
+  //      time = snapshot['time'] ?? '',
+  //      location = snapshot['location'] ?? '',
+  //      child = snapshot['child'] ?? '',
+  //      user = snapshot['user'] ?? '';
 
-  toJson() {
-    return {
-      "date": date,
-      "title": title,
-      "time": time,
-      "location": location,
-      "child": child,
-      "user": user,
-    };
-  }
+  //toJson() {
+  //  return {
+  //    "date": date,
+  //    "title": title,
+  //    "time": time,
+  //    "location": location,
+  //    "child": child,
+  //    "user": user,
+  //  };
+ // }
 }
