@@ -5,6 +5,10 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_banner/dropdown_banner.dart';
+import 'package:family_connect/coreClasses/PermissionsModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import './achievements.dart';
@@ -16,31 +20,44 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
+import 'Utilities/PermissionsCRUD.dart';
+import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
 import 'coreClasses/locator.dart';
-
-class HomePage extends StatelessWidget {
-const HomePage({
+class HomePage extends StatefulWidget {
+ const HomePage({
     Key key,
     @required this.user
+    
   }) : super(key: key);
 
   final AuthResult user;
+  
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
+        ChangeNotifierProvider.value(value: permissionLocator<PermissionCRUD>()),
+      ],
+      child: Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(user: widget.user),
       body: Center(
-        child: HomeController(),
+        child: HomeController(user: widget.user),
       ),
     );
   }
@@ -50,31 +67,99 @@ const HomePage({
 //sets sets a gesture listener to each Container as to go to the
 //correct page. Calls 'HomeIconInfo's constructor to build each
 //container on the screen.
-class HomeController extends StatelessWidget {
+
+class HomeController extends StatefulWidget {
+
+   const HomeController({
+    Key key,
+    @required this.user
+    
+  }) : super(key: key);
+
+  final AuthResult user;
+
+  @override
+  _HomeControllerState createState() => _HomeControllerState();
+}
+
+class _HomeControllerState extends State<HomeController> {
+
+  List<Permissions> userDocuments;
+  Permissions _permissions = new Permissions();
+
   @override
   Widget build(BuildContext context) {
+    var _profileEmail = widget.user.user.email;
+  final permissionProvider = Provider.of<PermissionCRUD>(context);
+
     return Container(
       alignment: FractionalOffset.center,
-      child: Column(
+    child: Container(
+      child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: permissionProvider.fetchPermissionsAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                userDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Permissions.fromMap(doc.data, doc.documentID)).toList();
+                     for (Permissions profile in userDocuments) {
+                       if(profile.email ==  _profileEmail){
+                         _permissions.achievements = profile.achievements;
+                         _permissions.books = profile.books;
+                         _permissions.calender = profile.calender;
+                         _permissions.chores = profile.chores;
+                         _permissions.email = profile.email;
+                         _permissions.homework = profile.homework;
+                         _permissions.journal = profile.journal;
+                         _permissions.lists = profile.lists;
+                         _permissions.userLevel = profile.userLevel;
+                       }
+                     }
+      return Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
+
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => EventsView(null)),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/journal.jpg', 'Journal'),
                 onTap: () {
+
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => JournalPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => JournalPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
                 },
               ),
             ],
@@ -84,19 +169,46 @@ class HomeController extends StatelessWidget {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/books.jpg', 'Books'),
                 onTap: () {
+                  
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BooksPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BooksPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                 
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/chores.jpg', 'Chores'),
                 onTap: () {
+
+                  
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ChoresPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChoresPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+            
                 },
               ),
             ],
@@ -106,19 +218,46 @@ class HomeController extends StatelessWidget {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/homework.jpg', 'Homework'),
                 onTap: () {
+
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomeworkPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeworkPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                  
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/list.jpg', 'Lists'),
                 onTap: () {
+
+                  
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ListsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                  
                 },
               ),
             ],
@@ -128,25 +267,62 @@ class HomeController extends StatelessWidget {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/reports.jpg', 'Reports'),
                 onTap: () {
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ReportsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ReportsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/achievements.jpg', 'Achievements'),
                 onTap: () {
+                    if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AchievementsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AchievementsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                 
                 },
               ),
             ],
           ),
         ],
-      ),
+      );
+ }
+              else {
+                return Text("fetching data");
+              }
+            }),
+    ));
+  }
+
+   void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Email or password is incorrect',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
     );
   }
 }
@@ -211,4 +387,5 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
       ),
     );
   }
+
 }
