@@ -92,7 +92,7 @@ class _NewJournalCardState extends State<NewJournalCard> {
               child: Column(
                 //it then creates a card.
                 children: <Widget>[
-                  makeListTile(element, width, test),
+                  makeListTile(element, width - .5, test),
                 ],
               ),
             ),
@@ -134,7 +134,9 @@ class _JournalManager extends State<JournalPage> {
           var temp = await _navigateAndDisplaySelection(context);
           print(temp);
           //makeListTile(temp, MediaQuery.of(context).size.width, temp);
-          _newJournalEntry.add(temp); //add a new string to the List
+          if(temp != null){
+            _newJournalEntry.add(temp); //add a new string to the List
+          }
           /*setState(() {
             Navigator.push(
               context,
@@ -185,7 +187,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true, //Consistency of theme
         title: Text('Entry'),
+        backgroundColor: Colors.black, //Ditto ^
       ),
       body: Center(
         child: Column(

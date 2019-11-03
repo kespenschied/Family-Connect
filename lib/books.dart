@@ -32,7 +32,7 @@ class _NewBookCardState extends State<NewBookCard> {
           image: AssetImage('assets/pictures/rainbowfish.jpg'),
           height: 70,
         ),
-        isThreeLine: true,
+        isThreeLine: false,
         title: Text(
           desc.substring(0, index),
           textAlign: TextAlign.center,
@@ -91,7 +91,7 @@ class _BookManager extends State<BooksPage> {
       ),
       body: ListView(
         children: <Widget>[
-          UserDrawer(),
+          //UserDrawer(),
           NewBookCard(_newBookEntry),
         ],
       ),
@@ -99,7 +99,9 @@ class _BookManager extends State<BooksPage> {
         onPressed: () async {
           var temp = await _navigateAndDisplaySelection(context);
           print(temp);
-          _newBookEntry.add(temp);
+          if(temp != null){ //This checks for null data, if user clicked back button, dont add anything.
+            _newBookEntry.add(temp);
+          }
         },
         backgroundColor: Colors.black87,
         child: Icon(
@@ -123,7 +125,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   void _toggleFavorite() {
     setState(() {
       if (_isFavorited) {
-        _isFavorited = false;
+        _isFavorited = false; //Can pull this true false from database if there are existing books.
       } else {
         _isFavorited = true;
       }
@@ -139,7 +141,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
         Container(
           padding: EdgeInsets.all(0),
           child: IconButton(
-            icon: (_isFavorited
+            icon: (_isFavorited 
                 ? Icon(Icons.favorite)
                 : Icon(Icons.favorite_border)),
             color: Colors.red,
@@ -183,7 +185,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Entry'),
+        centerTitle: true, //Changed to keep consistent theme
+        title: Text('Entry'), 
+        backgroundColor: Colors.black, //ditto ^
       ),
       body: Center(
         child: Column(

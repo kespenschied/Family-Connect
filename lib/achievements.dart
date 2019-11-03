@@ -22,7 +22,7 @@ class AchievementsPage extends StatelessWidget {
       ),
       body: ListView( //ListView here lets the page scroll as more items are added.
         children: <Widget>[
-          UserDrawer(),
+          //UserDrawer(),
           AchievementContainerTitle(Colors.green, 'Completed Achievements:'),
           RecentAchievements(),
           AchievementContainerTitle(Colors.orange, 'Achievements In Progress:'),
