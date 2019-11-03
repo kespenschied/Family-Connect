@@ -23,13 +23,13 @@ class Permissions {
 
   Permissions.fromMap(Map snapshot,String id) :
         id = id ?? '',
-        achievements = snapshot['achievements'] ?? '',
-        books = snapshot['books'] ?? '',
-        calender = snapshot['calender'] ?? '',
-        chores = snapshot['chores'] ?? '',
-        homework = snapshot['homework'] ?? '',
-        journal = snapshot['journal'] ?? '',
-        lists = snapshot['lists'] ?? '',
+        achievements = snapshot['achievements'] ?? true,
+        books = snapshot['books'] ?? true,
+        calender = snapshot['calender'] ?? true,
+        chores = snapshot['chores'] ?? true,
+        homework = snapshot['homework'] ?? true,
+        journal = snapshot['journal'] ?? true,
+        lists = snapshot['lists'] ?? true,
         email = snapshot['email'] ?? '',
         userLevel = snapshot['userLevel'] ?? '';
 

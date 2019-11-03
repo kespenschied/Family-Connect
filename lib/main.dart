@@ -18,6 +18,7 @@ import 'coreClasses/locator.dart';
 
 void main() {
   setupLocator();
+  setupPermissionLocator();
  runApp(MyApp());
 }
 

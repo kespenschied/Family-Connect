@@ -6,6 +6,7 @@
 //**********************************************
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:family_connect/coreClasses/PermissionsModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
+import 'Utilities/PermissionsCRUD.dart';
 import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
@@ -45,6 +47,7 @@ class _HomePageState extends State<HomePage>{
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: locator<UserCRUD>()),
+        ChangeNotifierProvider.value(value: permissionLocator<PermissionCRUD>()),
       ],
       child: Scaffold(
       backgroundColor: Colors.black,
@@ -92,13 +95,13 @@ class _HomeControllerState extends State<HomeController> {
   @override
   Widget build(BuildContext context) {
     var _profileEmail = widget.user.user.email;
-  final userProvider = Provider.of<UserCRUD>(context);
+  final permissionProvider = Provider.of<PermissionCRUD>(context);
 
     return Container(
       alignment: FractionalOffset.center,
     child: Container(
       child: StreamBuilder( //a widget that fetches the database data from firestore
-              stream: userProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+              stream: permissionProvider.fetchPermissionsAsStream(), //helper function that gets all the users from the "Users" collection in firestore
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
               if (snapshot.hasData) {
@@ -132,10 +135,13 @@ class _HomeControllerState extends State<HomeController> {
                   );
                   }
                   else if(_permissions.calender == true){
-                    
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventsPage()),
+                  );
                   }
                   else{
-
+                     failedUpdate();
                   }
 
                 },
@@ -143,10 +149,22 @@ class _HomeControllerState extends State<HomeController> {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/journal.jpg', 'Journal'),
                 onTap: () {
+
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => JournalPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => JournalPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
                 },
               ),
             ],
@@ -156,19 +174,46 @@ class _HomeControllerState extends State<HomeController> {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/books.jpg', 'Books'),
                 onTap: () {
+                  
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BooksPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BooksPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                 
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/chores.jpg', 'Chores'),
                 onTap: () {
+
+                  
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ChoresPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChoresPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+            
                 },
               ),
             ],
@@ -178,19 +223,46 @@ class _HomeControllerState extends State<HomeController> {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/homework.jpg', 'Homework'),
                 onTap: () {
+
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomeworkPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeworkPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                  
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/list.jpg', 'Lists'),
                 onTap: () {
+
+                  
+                  if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ListsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                  
                 },
               ),
             ],
@@ -200,19 +272,43 @@ class _HomeControllerState extends State<HomeController> {
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/reports.jpg', 'Reports'),
                 onTap: () {
+                   if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ReportsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ReportsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                
                 },
               ),
               GestureDetector(
                 child: HomeIconsInfo('assets/pictures/achievements.jpg', 'Achievements'),
                 onTap: () {
+                    if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AchievementsPage()),
                   );
+                  }
+                  else if(_permissions.calender == true){
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AchievementsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+                 
                 },
               ),
             ],
@@ -225,6 +321,14 @@ class _HomeControllerState extends State<HomeController> {
               }
             }),
     ));
+  }
+
+   void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Email or password is incorrect',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
+    );
   }
 }
 
@@ -288,4 +392,5 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
       ),
     );
   }
+
 }

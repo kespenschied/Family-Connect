@@ -15,7 +15,7 @@ import 'package:family_connect/coreClasses/locator.dart';
 import 'package:flutter/material.dart';
 
 class PermissionCRUD extends ChangeNotifier{
-Api _api = locator<Api>();
+Api _api = permissionLocator<Api>();
 
 List<Permissions> permissionsDocuments;
 
