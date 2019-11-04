@@ -3,8 +3,18 @@
 
 import 'package:flutter/material.dart';
 
+import 'coreClasses/UserModel.dart';
+import 'dart:math';
+
 class UserDrawer extends StatefulWidget {
-  UserDrawer({Key key}):super(key: key);
+  UserDrawer({
+    Key key,
+    @required this.userIDLoggedIn,
+    @required this.userDocuments
+  }):super(key: key);
+  final String userIDLoggedIn;
+  final List<User> userDocuments;
+
   @override
   State<StatefulWidget> createState() => _UserDrawerState();
 }
@@ -22,13 +32,14 @@ class _UserDrawerState extends State<UserDrawer> {
     super.initState();
   }
 
+
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = List();
-    for (String user in _users) {
+    for (User profile in widget.userDocuments) {
       items.add(DropdownMenuItem(
-        value: user,
+        value: profile.name,
         child: Container(
-          color: _userColor(user),
+          color: _userColor(),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.white,
@@ -36,14 +47,14 @@ class _UserDrawerState extends State<UserDrawer> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: _userPicture(user),
+                    image: (new NetworkImage(Uri.decodeFull(profile.userImageURL.toString()))),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             title: Text(
-              user,
+              profile.name,
               textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 25.0),
             ),
@@ -58,7 +69,7 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _userColor(_currentUser),
+      color: _userColor(),
       elevation: 5.0,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
@@ -81,27 +92,30 @@ class _UserDrawerState extends State<UserDrawer> {
   void changedDropDownItem(String selectedUser) {
     setState(() {
       _currentUser = selectedUser;
+
     });
   }
 
-  Color _userColor(String username) {
-    switch (username) {
-      case "Connie":
+  Color _userColor() {
+      var rng = new Random();
+     int num = rng.nextInt(4);
+    switch (num) {
+      case 1:
         {
           return Colors.blue;
         }
         break;
-      case "David":
+      case 2:
         {
           return Colors.green;
         }
         break;
-      case "Josh":
+      case 3:
         {
           return Colors.orange;
         }
         break;
-      case "Katie":
+      case 4:
         {
           return Colors.pink[200];
         }

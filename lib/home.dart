@@ -89,9 +89,8 @@ class HomeController extends StatefulWidget {
 
 class _HomeControllerState extends State<HomeController> {
 
-  List<Permissions> userDocuments;
   Permissions _permissions = new Permissions();
-
+  List<Permissions> userDocuments;
   @override
   Widget build(BuildContext context) {
     var _profileEmail = widget.user.user.email;
@@ -156,7 +155,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => JournalPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.journal == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => JournalPage()),
@@ -181,7 +180,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => BooksPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.books == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BooksPage()),
@@ -204,7 +203,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => ChoresPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.chores == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ChoresPage()),
@@ -230,7 +229,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => HomeworkPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.homework == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomeworkPage()),
@@ -253,7 +252,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => ListsPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.lists == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ListsPage()),
@@ -278,12 +277,6 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => ReportsPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReportsPage()),
-                  );
-                  }
                   else{
                      failedUpdate();
                   }
@@ -299,7 +292,7 @@ class _HomeControllerState extends State<HomeController> {
                     MaterialPageRoute(builder: (context) => AchievementsPage()),
                   );
                   }
-                  else if(_permissions.calender == true){
+                  else if(_permissions.achievements == true){
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AchievementsPage()),

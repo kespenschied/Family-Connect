@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './user_select.dart';
 
 //need to impliment bools for accessing pages
 
-class PermissionsPage extends StatelessWidget {
+class PermissionsPage extends StatefulWidget {
+
+  @override
+  _PermissionsPageState createState() => _PermissionsPageState();
+}
+
+class _PermissionsPageState extends State<PermissionsPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

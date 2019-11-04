@@ -15,6 +15,7 @@
 
 import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:family_connect/Utilities/UserCRUD.dart';
+import 'package:family_connect/coreClasses/PermissionsModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,9 +33,8 @@ class MyDrawer extends StatefulWidget {
  const MyDrawer({
     Key key,
     @required this.user
-    
-  }) : super(key: key);
 
+  }) : super(key: key);
   final AuthResult user;
   
   @override
@@ -182,7 +182,7 @@ String _permissionLevel = "";
             ),
             onTap: () {
 
-              if(_permissionLevel == "Admin"){
+              if(_permissionLevel == "admin"){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PermissionsPage()),
@@ -272,7 +272,7 @@ String _permissionLevel = "";
 
   void failedUpdate() {
     DropdownBanner.showBanner(
-      text: 'Email or password is incorrect',
+      text: 'Not authorized to perform action',
       color: Colors.red,
       textStyle: TextStyle(color: Colors.white),
     );
