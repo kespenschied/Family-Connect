@@ -1,10 +1,10 @@
 //This page/widget is the user select we currently have at the top of a few pages.
 //This will be used throughout the app for user selection.
 
+import 'package:family_connect/permissions.dart';
 import 'package:flutter/material.dart';
 
 import 'coreClasses/UserModel.dart';
-import 'dart:math';
 
 class UserDrawer extends StatefulWidget {
   UserDrawer({
@@ -20,26 +20,54 @@ class UserDrawer extends StatefulWidget {
 }
 
 class _UserDrawerState extends State<UserDrawer> {
-  List _users = ["Connie", "David", "Josh", "Katie"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _currentUser;
+  String _currentUser = "";
+  String currSelectedUserID = "";
+  int num = 1; //color counter
 
+  //String _currImageURL = "";
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentUser = _dropDownMenuItems[0].value;
+    _currentUser = getCurrUser(widget.userDocuments, widget.userIDLoggedIn);
     super.initState();
   }
+void changedDropDownItem(String selectedUser) {
+    setState(() {
+      _currentUser = selectedUser;
+      currSelectedUserID = getCurrUserID(widget.userDocuments, _currentUser);
+      PermissionsPage(currAccountIDSelected: currSelectedUserID);
+    });
+  }
+  String getCurrUser(List<User> userDocuments, String _profileID){
+      String tempCurrUser = "";
+        for (User profile in userDocuments) {
+                       if(profile.id ==  _profileID){
+                         tempCurrUser = profile.name; 
+                         //_currImageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+                     return tempCurrUser;
+}
 
-
+String getCurrUserID(List<User> userDocuments, String _currentUserName){
+      String tempCurrUserID = "";
+        for (User profile in userDocuments) {
+                       if(profile.name ==  _currentUserName){
+                         tempCurrUserID = profile.id; 
+                         //_currImageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+                     return tempCurrUserID;
+}
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = List();
     for (User profile in widget.userDocuments) {
       items.add(DropdownMenuItem(
         value: profile.name,
         child: Container(
-          color: _userColor(),
+          color: _userColor(num),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.white,
@@ -62,6 +90,7 @@ class _UserDrawerState extends State<UserDrawer> {
           ),
         ),
       ));
+      num = num + 1;
     }
     return items;
   }
@@ -69,7 +98,7 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _userColor(),
+      color: _userColor(num),
       elevation: 5.0,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
@@ -89,19 +118,14 @@ class _UserDrawerState extends State<UserDrawer> {
     );
   }
 
-  void changedDropDownItem(String selectedUser) {
-    setState(() {
-      _currentUser = selectedUser;
+  
 
-    });
-  }
-
-  Color _userColor() {
-      var rng = new Random();
-     int num = rng.nextInt(4);
+  Color _userColor(int num) {
+     
     switch (num) {
       case 1:
         {
+
           return Colors.blue;
         }
         break;
@@ -120,6 +144,31 @@ class _UserDrawerState extends State<UserDrawer> {
           return Colors.pink[200];
         }
         break;
+        case 5:
+        {
+          return Colors.blue;
+        }
+        case 6:
+        {
+         return Colors.green;
+        }
+        case 7:
+        {
+          return Colors.orange;
+        }
+        case 8:
+        {
+          return Colors.pink[200];
+        }
+        case 9:
+        {
+          return Colors.blue;
+        }
+        case 10:
+        {
+           return Colors.green;
+        }
+        
       default:
         {
           return Colors.white;

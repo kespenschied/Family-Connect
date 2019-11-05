@@ -185,7 +185,7 @@ String _permissionLevel = "";
               if(_permissionLevel == "admin"){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PermissionsPage()),
+                    MaterialPageRoute(builder: (context) => PermissionsPage(currAccountIDSelected: _profileID)),
                   );
                   }
                   else{
