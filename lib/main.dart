@@ -11,7 +11,12 @@ import 'package:flutter/services.dart';
 
 import './login.dart';
 
-void main() => runApp(MyApp());
+
+void main() {
+  setupLocator();
+  setupPermissionLocator();
+ runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

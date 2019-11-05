@@ -8,7 +8,7 @@
 //Note: There should be a class like this one for anything else besides users
 //****************************************************************************************
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_connect/coreClasses/EventModel.dart';
 import 'package:family_connect/coreClasses/api.dart';
 import 'package:family_connect/coreClasses/locator.dart';
@@ -48,4 +48,4 @@ Future removeEvent(String id) async{
     var result  = await _eventApi.addDocument(data.toJson()) ;
     return ;
   }
-}
+} */

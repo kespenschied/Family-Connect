@@ -13,6 +13,7 @@
 //By: Sean Mathews
 //October 12th, 2019
 
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:family_connect/Utilities/UserCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ List<User> userDocuments;
 String _profileName = "";
 String _imageURL = "";
 String _profileID = "";
+String _permissionLevel = "";
 
 @override
   void initState() {
@@ -71,6 +73,7 @@ String _profileID = "";
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
+                         _permissionLevel = profile.permissionLevel;
                          _profileID = profile.id;
                          _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
@@ -178,10 +181,17 @@ String _profileID = "";
               size: 35.0,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PermissionsPage()),
-              );
+
+              if(_permissionLevel == "Admin"){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PermissionsPage()),
+                  );
+                  }
+                  else{
+                     failedUpdate();
+                  }
+             
             },
           ),
           ListTile(
@@ -257,6 +267,14 @@ String _profileID = "";
           ],
         );
       },
+    );
+  }
+
+  void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Email or password is incorrect',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
     );
   }
 }
