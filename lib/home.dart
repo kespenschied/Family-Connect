@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import './achievements.dart';
 import './books.dart';
 import './chores.dart';
-import './calendar.dart';
+import './events.dart';
 import './reports.dart';
 import './homework.dart';
 import './journal.dart';
@@ -18,6 +18,7 @@ import './drawer.dart';
 import 'Utilities/UserCRUD.dart';
 //this Home Page class creates the scaffold and the appBar for this page
 import 'coreClasses/locator.dart';
+import 'event.dart';
 class HomePage extends StatelessWidget {
 const HomePage({
     Key key,
@@ -45,6 +46,9 @@ const HomePage({
     ),
     );
   }
+
+
+
 }
 //This class defines the layout for the Home Page widgets. It also
 //sets sets a gesture listener to each Container as to go to the
@@ -64,7 +68,7 @@ class HomeController extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventsView()),
+                    MaterialPageRoute(builder: (context) => CalendarState()),
                   );
                 },
               ),
