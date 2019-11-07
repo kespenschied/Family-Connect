@@ -1,11 +1,13 @@
 //By: Kole Espenschied
-//April 8th, 2019
+//Nov 7th, 2019
 
 //**********************************************
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './achievements.dart';
 import './books.dart';
@@ -16,12 +18,11 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
+import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
-import 'coreClasses/locator.dart';
-
-class HomePage extends StatelessWidget {
+import 'coreClasses/locator.dart';class HomePage extends StatelessWidget {
 const HomePage({
     Key key,
     @required this.user
@@ -31,19 +32,27 @@ const HomePage({
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
+      ],
+      child: Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home"),
         backgroundColor: Colors.black,
       ),
-      drawer: MyDrawer(),
-      body: Center(
+      drawer: MyDrawer(user: user),
+      body: SingleChildScrollView(
         child: HomeController(),
       ),
+    ),
     );
   }
+
+
+
 }
 
 //This class defines the layout for the Home Page widgets. It also
