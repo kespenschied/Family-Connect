@@ -17,42 +17,29 @@ class NewBookCard extends StatefulWidget {
   _NewBookCardState createState() => _NewBookCardState();
 }
 
-class _NewBookCardState extends State<NewBookCard> {
-  void _showSnackBar(BuildContext context, String text) {
+void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
+class _NewBookCardState extends State<NewBookCard> {
   Slidable makeListTile(String desc) {
-    //slideToDismissDelegate:
-    new SlideToDismissDrawerDelegate(
-      onWillDismiss: (actionType) {
-        return showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return new AlertDialog(
-              title: new Text('Delete'),
-              content: new Text('Item will be deleted'),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text('Cancel'),
-                  onPressed: () => Navigator.of(context).pop(false),
-                ),
-                new FlatButton(
-                  child: new Text('Ok'),
-                  onPressed: () => Navigator.of(context).pop(true),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-
     int index = desc.lastIndexOf('~~~~~');
-    //Need to add author and pages to this in future for dynamic updates on book
-    return Slidable(
+    return Slidable.builder(
       delegate: new SlidableDrawerDelegate(),
-    
+      slideToDismissDelegate: new SlideToDismissDrawerDelegate(
+        onDismissed: (actionType) {
+          //desc = 'deadSlide';
+          
+          _showSnackBar(context, desc.substring(0, index) + ' deleted ' + widget.bookEntries.toString());
+          //setState(() {
+            widget.bookEntries.removeWhere((item) => desc.substring(0, index) == item.toString().substring(0, index) 
+              && desc.substring(index + 5) == item.toString().substring(index + 5) );
+          //});
+          
+        },
+      ),
+
+      key: Key(UniqueKey().toString()), 
       actionExtentRatio: 0.25,
       child: new Container(
         color: Colors.white,
@@ -66,14 +53,47 @@ class _NewBookCardState extends State<NewBookCard> {
           subtitle: new Text(desc.substring(index + 5)),
         ),
       ),
-      actions: <Widget>[
-        new IconSlideAction(
-          caption: 'Delete',
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () => _showSnackBar(context, desc.substring(0, index) + ' Deleted'),
-        )
-      ],
+      actionDelegate: SlideActionBuilderDelegate(
+          actionCount: 1,
+          builder: (context, index, animation, renderingMode) {
+            if (index == 0) {
+              return IconSlideAction(
+                caption: 'Delete',
+                color: renderingMode == SlidableRenderingMode.slide
+                    ? Colors.red.withOpacity(animation.value)
+                    : (renderingMode == SlidableRenderingMode.dismiss
+                        ? Colors.red
+                        : Colors.green),
+                icon: Icons.archive,
+                onTap: () async {
+                  var state = Slidable.of(context);
+                  var dismiss = await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Delete'),
+                        content: Text('Item will be deleted'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Cancel'),
+                            onPressed: () => Navigator.of(context).pop(false),
+                          ),
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pop(true),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (dismiss) {
+                    state.dismiss();
+                  }
+                },
+              );
+            } 
+          }),
     );
   }
 
@@ -117,8 +137,25 @@ class _BookManager extends State<BooksPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var temp = await _navigateAndDisplaySelection(context);
-          print(temp);
-          _newBookEntry.add(temp);
+          if (temp.toString().contains("tempTitle") || temp.toString().contains("tempDesc")) {
+              showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text('You must enter a title and a description'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Ok"),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]);
+              }); 
+          }
+          else {
+            print(temp);
+            _newBookEntry.add(temp);
+          }
         },
         backgroundColor: Colors.black87,
         child: Icon(
@@ -147,7 +184,7 @@ class SelectionScreen extends StatefulWidget {
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-  String title = "tempTitle", description = "tempdesc";
+  String title = "tempTitle", description = "tempDesc";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
