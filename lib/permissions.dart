@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_connect/coreClasses/PermissionsModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 //need to impliment bools for accessing pages
@@ -26,6 +27,7 @@ List<Permissions> permissionsDocuments;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     Permissions userPermissions = new Permissions();
+    String permissionsProfileID = "";
       
     return Container( //firebase starts here
             child: StreamBuilder( //a widget that fetches the database data from firestore
@@ -37,6 +39,7 @@ List<Permissions> permissionsDocuments;
                     .map((doc) => Permissions.fromMap(doc.data, doc.documentID)).toList();
                      for (Permissions profile in permissionsDocuments) {
                        if( ((widget.currAccountIDSelected + "_Permission")) ==  profile.id){
+                         permissionsProfileID = widget.currAccountIDSelected + "_Permission";
                          userPermissions.achievements = profile.achievements;
                          userPermissions.books = profile.books;
                          userPermissions.calender = profile.calender;
@@ -73,7 +76,7 @@ List<Permissions> permissionsDocuments;
             ],
           ),
         ),
-        child: drawBody(width, height,permissionsDocuments, userPermissions),
+        child: drawBody(width, height,permissionsDocuments, userPermissions, permissionsProfileID, context),
       ),
     );
      }
@@ -83,7 +86,7 @@ List<Permissions> permissionsDocuments;
             }),
           );
   }
-  Widget drawBody(double width, double height, List<Permissions> permissionsDocuments, Permissions userPermissions) {
+  Widget drawBody(double width, double height, List<Permissions> permissionsDocuments, Permissions userPermissions, String permissionsProfileID, BuildContext context) {
     // List<Widget> permissions = [
     //   //////Pull the true false values from database for each user.
     //                           //cardListItems(width, 'Allow All', false),
@@ -119,7 +122,7 @@ List<Permissions> permissionsDocuments;
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // drawLeftCards(width, Colors.blue,'assets/pictures/connie.jpg', 'Connie', 'April 10th'),
-                   drawCards(width, height, userPermissions),
+                   drawCards(width, height, userPermissions, permissionsProfileID, context),
                   ],
                 ),
               ],
@@ -131,19 +134,19 @@ List<Permissions> permissionsDocuments;
              
   
 
-Widget drawCards(double width, double height, Permissions userPermissions) {
+Widget drawCards(double width, double height, Permissions userPermissions, String permissionsProfileID, BuildContext context) {
     double cardWidth = width / 1.05; // 1.125 // 1.05 //This controls width of cards and container.
     double cardHeight = height;
      List<Widget> permissionsList = [
     //   //////Pull the true false values from database for each user.
                               //cardListItems(width, 'Allow All', false),
-                              cardListItems(width, 'Achievements', userPermissions.achievements),
-                              cardListItems(width, 'Books', userPermissions.books),
-                              cardListItems(width, 'Calendar', userPermissions.calender),
-                              cardListItems(width, 'Chores', userPermissions.chores),
-                              cardListItems(width, 'Homework', userPermissions.homework),
-                              cardListItems(width, 'Journal', userPermissions.journal),
-                              cardListItems(width, 'Lists', userPermissions.lists),
+                              cardListItems(width, 'achievements', userPermissions.achievements, permissionsProfileID, context),
+                              cardListItems(width, 'books', userPermissions.books, permissionsProfileID, context),
+                              cardListItems(width, 'calendar', userPermissions.calender, permissionsProfileID, context),
+                              cardListItems(width, 'chores', userPermissions.chores, permissionsProfileID, context),
+                              cardListItems(width, 'homework', userPermissions.homework, permissionsProfileID, context),
+                              cardListItems(width, 'journal', userPermissions.journal, permissionsProfileID, context),
+                              cardListItems(width, 'lists', userPermissions.lists, permissionsProfileID, context),
                               //cardListItems(width, 'Permissions', true),
                               //cardListItems(width, 'Users', false)
                               ];
@@ -180,7 +183,8 @@ Widget drawCards(double width, double height, Permissions userPermissions) {
       ),
     );
   }
-  Widget cardListItems(double cardWidth, String listItem, bool value) {
+  Widget cardListItems(double cardWidth, String listItem, bool value, String permissionsProfileID, BuildContext context) {
+
     return Card(
       elevation: 15.0,
       margin: EdgeInsets.all(5),
@@ -194,10 +198,18 @@ Widget drawCards(double width, double height, Permissions userPermissions) {
           ),
         ),
         value: value,
-        onChanged: (bool val) {},
+        onChanged: (bool val) {
+          //update the boolvalue on firebase
+          _updatePerm(context, permissionsProfileID, listItem, val);
+        }, //this is what i play with
       ),
     );
   }
 
-  
+  _updatePerm(BuildContext context, String permissionsProfileID, String listItem, bool val) async{
+
+    Firestore.instance.collection('User_Permissions').document(permissionsProfileID).updateData({
+          listItem : val
+        });
+  }
 }
