@@ -27,10 +27,10 @@ class Permissions {
         books = snapshot['books'] ?? true,
         calender = snapshot['calender'] ?? true,
         chores = snapshot['chores'] ?? true,
+         email = snapshot['email'] ?? '',
         homework = snapshot['homework'] ?? true,
         journal = snapshot['journal'] ?? true,
         lists = snapshot['lists'] ?? true,
-        email = snapshot['email'] ?? '',
         userLevel = snapshot['userLevel'] ?? '';
 
   toJson() {

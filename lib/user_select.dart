@@ -1,7 +1,6 @@
 //This page/widget is the user select we currently have at the top of a few pages.
 //This will be used throughout the app for user selection.
 
-import 'package:family_connect/permissions.dart';
 import 'package:flutter/material.dart';
 
 import 'coreClasses/UserModel.dart';
@@ -9,11 +8,20 @@ import 'coreClasses/UserModel.dart';
 class UserDrawer extends StatefulWidget {
   UserDrawer({
     Key key,
-    @required this.userIDLoggedIn,
-    @required this.userDocuments
+    this.parentAction2,
+    @required this.userIDSelected,
+    @required this.userDocuments,
+    @required this.permissionProvider,
+    @required this.profileIDLoggedIn
+
   }):super(key: key);
-  final String userIDLoggedIn;
+
+  final ValueChanged<String> parentAction2; //development
+  final  String userIDSelected;
+
   final List<User> userDocuments;
+  final permissionProvider;
+  final String profileIDLoggedIn;
 
   @override
   State<StatefulWidget> createState() => _UserDrawerState();
@@ -30,14 +38,14 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentUser = getCurrUser(widget.userDocuments, widget.userIDLoggedIn);
+    _currentUser = getCurrUser(widget.userDocuments, widget.profileIDLoggedIn);
     super.initState();
   }
 void changedDropDownItem(String selectedUser) {
     setState(() {
       _currentUser = selectedUser;
       currSelectedUserID = getCurrUserID(widget.userDocuments, _currentUser);
-      PermissionsPage(currAccountIDSelected: currSelectedUserID);
+      widget.parentAction2(currSelectedUserID);
     });
   }
   String getCurrUser(List<User> userDocuments, String _profileID){

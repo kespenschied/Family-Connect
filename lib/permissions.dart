@@ -1,22 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_connect/coreClasses/PermissionsModel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import './user_select.dart';
-import 'Utilities/PermissionsCRUD.dart';
-import 'Utilities/UserCRUD.dart';
-import 'coreClasses/locator.dart';
 
 //need to impliment bools for accessing pages
 
 class PermissionsPage extends StatefulWidget {
    const PermissionsPage({
     Key key,
-    @required this.currAccountIDSelected
+    @required this.currAccountIDSelected,
+    @required this.permissionProvider
 
   }) : super(key: key);
   final String currAccountIDSelected;
+  final permissionProvider;
 
   @override
   _PermissionsPageState createState() => _PermissionsPageState();
@@ -29,14 +25,29 @@ List<Permissions> permissionsDocuments;
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-   
-    
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
-        ChangeNotifierProvider.value(value: permissionLocator<PermissionCRUD>()),
-      ],
-      child:Scaffold(
+    Permissions userPermissions = new Permissions();
+      
+    return Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: widget.permissionProvider.fetchPermissionsAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                permissionsDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Permissions.fromMap(doc.data, doc.documentID)).toList();
+                     for (Permissions profile in permissionsDocuments) {
+                       if( ((widget.currAccountIDSelected + "_Permission")) ==  profile.id){
+                         userPermissions.achievements = profile.achievements;
+                         userPermissions.books = profile.books;
+                         userPermissions.calender = profile.calender;
+                         userPermissions.chores = profile.chores;
+                         userPermissions.homework = profile.homework;
+                         userPermissions.journal = profile.journal;
+                         userPermissions.lists = profile.lists;
+                         userPermissions.email = profile.email;
+                         userPermissions.userLevel = profile.userLevel;
+                       }
+                     } return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
@@ -62,13 +73,17 @@ List<Permissions> permissionsDocuments;
             ],
           ),
         ),
-        child: drawBody(width, height,permissionsDocuments, context),
+        child: drawBody(width, height,permissionsDocuments, userPermissions),
       ),
-
-    )
     );
+     }
+              else {
+                return Text("fetching data");
+              }
+            }),
+          );
   }
-  Widget drawBody(double width, double height, List<Permissions> permissionsDocuments, BuildContext context) {
+  Widget drawBody(double width, double height, List<Permissions> permissionsDocuments, Permissions userPermissions) {
     // List<Widget> permissions = [
     //   //////Pull the true false values from database for each user.
     //                           //cardListItems(width, 'Allow All', false),
@@ -82,29 +97,8 @@ List<Permissions> permissionsDocuments;
     //                           //cardListItems(width, 'Permissions', true),
     //                           cardListItems(width, 'Users', false)];
 
-    Permissions userPermissions = new Permissions();
-      final permissionProvider = Provider.of<PermissionCRUD>(context);                              
-    return Container( //firebase starts here
-            child: StreamBuilder( //a widget that fetches the database data from firestore
-              stream: permissionProvider.fetchPermissionsAsStream(), //helper function that gets all the users from the "Users" collection in firestore
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
-              if (snapshot.hasData) {
-                permissionsDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
-                    .map((doc) => Permissions.fromMap(doc.data, doc.documentID)).toList();
-                     for (Permissions profile in permissionsDocuments) {
-                       if(widget.currAccountIDSelected ==  profile.id){
-                         userPermissions.achievements = profile.achievements;
-                         userPermissions.books = profile.books;
-                         userPermissions.calender = profile.calender;
-                         userPermissions.chores = profile.chores;
-                         userPermissions.homework = profile.homework;
-                         userPermissions.journal = profile.journal;
-                         userPermissions.lists = profile.lists;
-                         userPermissions.email = profile.email;
-                         userPermissions.userLevel = profile.userLevel;
-                       }
-                     }return ListView(
+                                 
+   return ListView(
       children: <Widget>[
         Center(
           child: Container(
@@ -134,17 +128,9 @@ List<Permissions> permissionsDocuments;
         ),
       ],
     );}
-              else {
-                return Text("fetching data");
-              }
-            }),
-          );
-  }
+             
+  
 
-  List<Widget> makePermWidgetList(Permissions userPermissions){
- 
-
-  }
 Widget drawCards(double width, double height, Permissions userPermissions) {
     double cardWidth = width / 1.05; // 1.125 // 1.05 //This controls width of cards and container.
     double cardHeight = height;
