@@ -19,7 +19,7 @@ class NewBookCard extends StatefulWidget {
 
 void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
+}
 
 class _NewBookCardState extends State<NewBookCard> {
   Slidable makeListTile(String desc) {
@@ -28,14 +28,9 @@ class _NewBookCardState extends State<NewBookCard> {
       delegate: new SlidableDrawerDelegate(),
       slideToDismissDelegate: new SlideToDismissDrawerDelegate(
         onDismissed: (actionType) {
-          //desc = 'deadSlide';
-          
-          _showSnackBar(context, desc.substring(0, index) + ' deleted ' + widget.bookEntries.toString());
-          //setState(() {
+            _showSnackBar(context, desc.substring(0, index) + " has been deleted");
             widget.bookEntries.removeWhere((item) => desc.substring(0, index) == item.toString().substring(0, index) 
-              && desc.substring(index + 5) == item.toString().substring(index + 5) );
-          //});
-          
+                                              && desc.substring(index + 5) == item.toString().substring(index + 5) );
         },
       ),
 
@@ -71,8 +66,8 @@ class _NewBookCardState extends State<NewBookCard> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text('Delete'),
-                        content: Text('Item will be deleted'),
+                        title: Text('Delete Book?'),
+                        content: Text('Book will be deleted from the list.'),
                         actions: <Widget>[
                           FlatButton(
                             child: Text('Cancel'),
