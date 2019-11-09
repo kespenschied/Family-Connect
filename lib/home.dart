@@ -22,10 +22,11 @@ import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
-import 'coreClasses/locator.dart';
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key key, @required this.user}) : super(key: key);
+import 'coreClasses/locator.dart';class HomePage extends StatelessWidget {
+const HomePage({
+    Key key,
+    @required this.user
+  }) : super(key: key);
 
   final AuthResult user;
 
@@ -36,19 +37,22 @@ class HomePage extends StatelessWidget {
         ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
       ],
       child: Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Home"),
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Home"),
-          backgroundColor: Colors.black,
-        ),
-        drawer: MyDrawer(user: user),
-        body: SingleChildScrollView(
-          child: HomeController(),
-        ),
       ),
+      drawer: MyDrawer(user: user),
+      body: Center(
+        child: HomeController(),
+      ),
+    ),
     );
   }
+
+
+
 }
 
 //This class defines the layout for the Home Page widgets. It also
@@ -65,8 +69,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child: HomeIconsInfo(
-                    'assets/pictures/calendar.jpg', 'Calendar/Events'),
+                child: HomeIconsInfo('assets/pictures/calendar.jpg', 'Calendar/Events'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -110,8 +113,7 @@ class HomeController extends StatelessWidget {
           Row(
             children: <Widget>[
               GestureDetector(
-                child:
-                    HomeIconsInfo('assets/pictures/homework.jpg', 'Homework'),
+                child: HomeIconsInfo('assets/pictures/homework.jpg', 'Homework'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -142,8 +144,7 @@ class HomeController extends StatelessWidget {
                 },
               ),
               GestureDetector(
-                child: HomeIconsInfo(
-                    'assets/pictures/achievements.jpg', 'Achievements'),
+                child: HomeIconsInfo('assets/pictures/achievements.jpg', 'Achievements'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -169,7 +170,8 @@ class HomeIconsInfo extends StatefulWidget {
   HomeIconsInfo(this.imagePath, this.title);
 
   @override
-  _HomeIconsInfoState createState() => _HomeIconsInfoState();
+  _HomeIconsInfoState createState() =>
+      _HomeIconsInfoState();
 }
 
 class _HomeIconsInfoState extends State<HomeIconsInfo> {
@@ -212,7 +214,7 @@ class _HomeIconsInfoState extends State<HomeIconsInfo> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15.0,
-            color: Colors.white70,
+            color: Colors.white70,            
           ),
         ),
       ),

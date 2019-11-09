@@ -5,6 +5,8 @@
 //This class holds all the Events/Calendar Page widgets
 //******************************************************
 
+
+//for help refer to https://pub.dev/packages/flutter_calendar_carousel
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
@@ -169,6 +171,11 @@ class _CalendarState extends State<EventsPage> {
     }
   }
 
+  //******************************************************************************************** */
+  // Nothing needs to change but this functions 'onPressed' command. It needs to be changed to allow
+  //the user to type in a new event and add a timestamp/alert for it. As of now it just adds one event
+  //to the calendar and creates a single card at the bottom of the calendar describing the event
+  //******************************************************************************************** */
   FloatingActionButton addEvent() {
     return FloatingActionButton(
       backgroundColor: Colors.black87,

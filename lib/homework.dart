@@ -18,9 +18,9 @@ class HomeworkPage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomeworkState();
 }
 
-class _HomeworkState extends State<HomeworkPage> {
-  var isItChecked = List<bool>.generate(9, (i) => false);
-
+class _HomeworkState extends State<HomeworkPage> {      
+   var isItChecked = List<bool>.generate(9, (i) => false);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,45 +30,46 @@ class _HomeworkState extends State<HomeworkPage> {
         backgroundColor: Colors.black,
       ),
       body: ListView(
-        children: <Widget>[
-          //UserDrawer(key: userKey),
-          UserDrawer(),
-          Center(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: Colors.black,
-                        ),
+      children: <Widget>[
+        //UserDrawer(key: userKey),
+        //UserDrawer(),
+        Center(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Colors.black,
                       ),
                     ),
-                  ),
-                  //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
-                  titleBar(Colors.green, 'NAME', Icons.create),
-                  listItems('Math', 'Problems 1-10\nDue: 04/19', 0),
-                  listItems('History', 'Read Chapter 3\nDue: 04/20', 1),
-                  listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 2),
-                  listItems('English', 'Do Grammar Assignment\nDue: 04/23', 3),
-                  listItems('Art', 'Finish Poster\nDue: 04/23', 4),
-                  listItems('History', 'Read Chapter 3\nDue: 04/20', 5),
-                  listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 6),
-                  listItems('English', 'Do Grammar Assignment\nDue: 04/23', 7),
-                  listItems('Art', 'Finish Poster\nDue: 04/23', 8),
-                ],
-              ),
+                  ),                  
+                ),
+                //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
+                titleBar(Colors.green, 'NAME', Icons.create),
+                listItems('Math', 'Problems 1-10\nDue: 04/19', 0),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 1),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 2),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 3),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 4),
+                listItems('History', 'Read Chapter 3\nDue: 04/20', 5),
+                listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 6),
+                listItems('English', 'Do Grammar Assignment\nDue: 04/23', 7),
+                listItems('Art', 'Finish Poster\nDue: 04/23', 8),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    ),
       backgroundColor: Colors.grey,
     );
   }
 
   /* Widget userChanged() {
     
+
     return ValueListenableBuilder(valueListenable: data, builder: (BuildContext context, String value, Widget child) {
       return titleBar(Colors.red, value, Icons.create);
     });
@@ -78,7 +79,8 @@ class _HomeworkState extends State<HomeworkPage> {
     return titleBar(Colors.green, (userKey.currentState != null) ? "WORKED" : "FAILED", Icons.create);
   } */
 
-  Widget titleBar(Color accountColor, String title, IconData listIcon) {
+  Widget titleBar(
+      Color accountColor, String title, IconData listIcon) {
     return Container(
       height: 55.0,
       decoration: BoxDecoration(
