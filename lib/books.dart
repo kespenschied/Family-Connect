@@ -18,7 +18,7 @@ class NewBookCard extends StatefulWidget {
 }
 
 void _showSnackBar(BuildContext context, String text) {
-  Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
 }
 
 class _NewBookCardState extends State<NewBookCard> {
@@ -28,15 +28,13 @@ class _NewBookCardState extends State<NewBookCard> {
       delegate: new SlidableDrawerDelegate(),
       slideToDismissDelegate: new SlideToDismissDrawerDelegate(
         onDismissed: (actionType) {
-          _showSnackBar(
-              context, desc.substring(0, index) + " has been deleted");
-          widget.bookEntries.removeWhere((item) =>
-              desc.substring(0, index) == item.toString().substring(0, index) &&
-              desc.substring(index + 5) ==
-                  item.toString().substring(index + 5));
+            _showSnackBar(context, desc.substring(0, index) + " has been deleted");
+            widget.bookEntries.removeWhere((item) => desc.substring(0, index) == item.toString().substring(0, index) 
+                                              && desc.substring(index + 5) == item.toString().substring(index + 5) );
         },
       ),
-      key: Key(UniqueKey().toString()),
+
+      key: Key(UniqueKey().toString()), 
       actionExtentRatio: 0.25,
       child: new Container(
         color: Colors.white,
@@ -64,8 +62,7 @@ class _NewBookCardState extends State<NewBookCard> {
                 icon: Icons.archive,
                 onTap: () async {
                   var state = Slidable.of(context);
-                  var dismiss = false;
-                  dismiss = await showDialog<bool>(
+                  var dismiss = await showDialog<bool>(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
@@ -90,7 +87,7 @@ class _NewBookCardState extends State<NewBookCard> {
                   }
                 },
               );
-            }
+            } 
           }),
     );
   }
@@ -135,24 +132,22 @@ class _BookManager extends State<BooksPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var temp = await _navigateAndDisplaySelection(context);
-          if (temp.toString().contains("tempTitle") ||
-              temp.toString().contains("tempDesc")) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title:
-                          new Text('You must enter a title and a description'),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("Ok"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]);
-                });
-          } else {
+          if (temp.toString().contains("tempTitle") || temp.toString().contains("tempDesc")) {
+              showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text('You must enter a title and a description'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Ok"),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]);
+              }); 
+          }
+          else {
             print(temp);
             _newBookEntry.add(temp);
           }

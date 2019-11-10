@@ -9,8 +9,17 @@
 //*********************************************
 
 
+import 'package:family_connect/Utilities/ChoreCRUD.dart';
+import 'package:family_connect/coreClasses/ChoreModel.dart';
 import 'package:flutter/material.dart';
 import './user_select.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'coreClasses/api.dart';
+import 'coreClasses/locator.dart';
+
 
 class ChoresPage extends StatefulWidget {
   @override
@@ -22,7 +31,6 @@ class _ChoresState extends State<ChoresPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
