@@ -14,7 +14,7 @@ import 'package:family_connect/coreClasses/UserModel.dart';
 import 'package:flutter/material.dart';
 
 class ListsCRUD extends ChangeNotifier{
-Api _api = locator<Api>();
+Api _api = listsLocatorHome<Api>();
 
 List<Lists> userLists;
 
