@@ -23,6 +23,7 @@ import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
 import 'Utilities/ChoreCRUD.dart';
+import 'Utilities/ListsCRUD.dart';
 import 'Utilities/PermissionsCRUD.dart';
 import 'Utilities/UserCRUD.dart';
 
