@@ -11,17 +11,13 @@ class Lists {
   String listName;
   List<String> listItems;
   String email;
-  // String permissionLevel;
-  // String name;
-  // String userImageURL;
-  // String password;
 
   Lists({this.id,this.listName, this.listItems, this.email});
 
   Lists.fromMap(Map snapshot,String id) :
         id = id ?? '',
         listName = snapshot['listName'] ?? '',
-        listItems = snapshot['listItems'] ?? '',
+        listItems = List.from(snapshot['listItems']),
         email = snapshot['email'] ?? '';
         // permissionLevel = snapshot['permissionLevel'] ?? '',
         // name = snapshot['name'] ?? '',

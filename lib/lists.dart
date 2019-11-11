@@ -33,28 +33,45 @@ class ListsPage extends StatefulWidget {
 
 class _ListsState extends State<ListsPage> {
   // String _profileName = "";
+  String _profileID = "";
+  String _profileName = "";
+  String _imageURL = "";
+  List<Lists> listDocuments;
   List<String> _listItemsDB;
   var isItChecked = List<bool>.generate(16, (i) => false);
   @override
-  void initState() {
+  void initState() { 
     setUserValues(widget.userDocuments, widget.profileEmail);
         super.initState();
   }
-  void setUserValues(List<Lists> listDocuments, String _profileID){
-        for (Lists profile in listDocuments) {
-                       if(profile.id ==  _profileID){
-                         _profileEmail = profile.email;
-                         _listName = profile.listName;
-                         _listItemsDB = profile.listItems;
-                        //  _profileName = profile.name; 
-                        //  _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+  void setUserValues(List<User> userDocuments, String profileEmail){
+        for (User profile in userDocuments) {
+                       if(profile.email ==  profileEmail){
+                         _profileID = profile.id;
+                         _profileName = profile.name;
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
                      }
   }
   @override
   Widget build(BuildContext context) {
+    Lists userList = new Lists();
     double width = MediaQuery.of(context).size.width;
-
+    return  Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: (widget.listProvider).fetchListsAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                listDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Lists.fromMap(doc.data, doc.documentID)).toList();
+                     for (Lists profile in listDocuments) {
+                       if(profile.email ==  widget.profileEmail){
+                         userList.email = profile.email;
+                         userList.listItems = profile.listItems;
+                         userList.listName = profile.listName;
+                       }
+                     }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -79,15 +96,15 @@ class _ListsState extends State<ListsPage> {
                     ),                  
                   ),
                   //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
-                  titleBar(Colors.blue, _listName, Icons.add_shopping_cart),
-                  listItems('\nMilk','', 0), ///Added newline characters to put the title in middle of card
-                  listItems('\nBread', '',1),
-                  listItems('\nTilapia','', 2),
-                  listItems('\nCoca Cola', '',3),
-                  listItems('\nLunch Meat', '',4),
-                  listItems('\nLettuce', '',5),
-                  listItems('\nTomato', '',6),
-                  listItems('\nEggs', '',7),
+                  titleBar(Colors.blue, userList.listName, Icons.add_shopping_cart),
+                  listItems('\n' + userList.listItems[0],'', 0), ///Added newline characters to put the title in middle of card
+                  listItems('\n' + userList.listItems[1], '',1),
+                  listItems('\n' + userList.listItems[2],'', 2),
+                  listItems('\n' + userList.listItems[3], '',3),
+                  listItems('\n' + userList.listItems[4], '',4),
+                  listItems('\n' + userList.listItems[5], '',5),
+                  listItems('\n' + userList.listItems[6], '',6),
+                  listItems('\n' + userList.listItems[7], '',7),
 
                   titleBar(Colors.grey, 'School Supplies', Icons.attach_file),
                   listItems('\nPencils', '',8),
@@ -105,6 +122,12 @@ class _ListsState extends State<ListsPage> {
         ],
       ),
       backgroundColor: Colors.grey,
+    );
+  }
+  else {
+    return Text("Fetching data");
+  }
+            }),
     );
   }
   Widget titleBar(

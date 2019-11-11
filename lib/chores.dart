@@ -17,20 +17,72 @@ import './user_select.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'coreClasses/UserModel.dart';
 import 'coreClasses/api.dart';
 import 'coreClasses/locator.dart';
 
 
 class ChoresPage extends StatefulWidget {
+
+  ChoresPage({Key key, 
+
+  @required this.userDocuments,  
+  @required this.choreProvider, 
+  @required this.profileEmail, 
+
+  }) : super(key: key); //how to pass values to other widgets
+
+  final List<User> userDocuments;
+   final choreProvider;
+   String profileEmail;
   @override
   State<StatefulWidget> createState() => _ChoresState();
 }
 
 class _ChoresState extends State<ChoresPage> {
+  List<Chore> choreDocuments;
   var isItChecked = List<bool>.generate(9, (i) => false);
+
+  String _profileName = "";
+String _imageURL = "";
+String _profileID = "";
+
+  @override
+  void initState() {
+    setUserValues(widget.userDocuments, widget.profileEmail);
+        super.initState();
+  }
+
+  void setUserValues(List<User> userDocuments, String profileEmail){
+        for (User profile in userDocuments) {
+                       if(profile.email ==  profileEmail){
+                         _profileID = profile.id;
+                         _profileName = profile.name; 
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+  }
   @override
   Widget build(BuildContext context) {
+    Chore userChore = new Chore();
+
     double width = MediaQuery.of(context).size.width;
+     return  Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: (widget.choreProvider).fetchChoresAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                choreDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => Chore.fromMap(doc.data, doc.documentID)).toList();
+                     for (Chore profile in choreDocuments) {
+                       if(profile.email ==  widget.profileEmail){
+                         userChore.email = profile.email;
+                         userChore.listItems = profile.listItems;
+                         userChore.time = profile.time;
+                         userChore.titleName = profile.titleName;
+                       }
+                     }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -55,16 +107,14 @@ class _ChoresState extends State<ChoresPage> {
                     ),                  
                   ),
                   //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
-                  titleBar(Colors.orange, 'NAME', Icons.create),
-                  listItems('Make Bed', 'Daily', 0), ////Under the daily and weekly for timelines, we can also add points for achievements and leveling up etc
-                  listItems('Clean Bedroom', 'Weekly', 1),
-                  listItems('Do Laundry', 'Weekly', 2),
-                  listItems('Wash Dishes', 'By Wednesday', 3),
-                  listItems('Clean Bathroom', 'Weekly', 4),
-                  listItems('Clean Bedroom','Weekly', 5),
-                  listItems('Make Bed', 'Daily', 6),
-                  listItems('Walk Dog', 'Daily', 7),
-                  listItems('Water Plants', 'Weekly', 8),
+                  titleBar(Colors.orange, userChore.titleName, Icons.create),
+                  listItems(userChore.listItems[0], userChore.time[0], 0), ////Under the daily and weekly for timelines, we can also add points for achievements and leveling up etc
+                  listItems(userChore.listItems[1], userChore.time[1], 1),
+                  listItems(userChore.listItems[2], userChore.time[2], 2),
+                  listItems(userChore.listItems[3], userChore.time[3], 3),
+                  listItems(userChore.listItems[4], userChore.time[4], 4),
+                  listItems(userChore.listItems[5], userChore.time[5], 5),
+                  listItems(userChore.listItems[6], userChore.time[6], 6),
                 ],
               ),
             ),
@@ -73,10 +123,16 @@ class _ChoresState extends State<ChoresPage> {
       ),
       backgroundColor: Colors.grey,
     );
+    }
+    else {
+                return Text("fetching data");
+              }
+            }),
+          );
   }
 
   Widget titleBar(
-      Color accountColor, String title, IconData listIcon) {
+      Color accountColor, String titleName, IconData listIcon) {
     return Container(
       height: 55.0,
       decoration: BoxDecoration(
@@ -96,7 +152,7 @@ class _ChoresState extends State<ChoresPage> {
             color: Colors.black,
           ),
           title: Text(
-            title,
+            titleName,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.0,
@@ -112,7 +168,7 @@ class _ChoresState extends State<ChoresPage> {
       ),
     );
   }
-  Widget listItems(String listItem, String info, int index) {
+  Widget listItems(String listItem, String time, int index) {
     return Card(
       elevation: 15.0,
       margin: EdgeInsets.all(1),
@@ -128,7 +184,7 @@ class _ChoresState extends State<ChoresPage> {
           ),
         ),
         subtitle: Text(
-          info,
+          time,
           style: TextStyle(
             fontSize: 20.0,
           ),

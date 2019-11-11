@@ -10,32 +10,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chore {
   String id;
-  String date;
-  String description;
-  String name;
-  String reward;
-  String time;
-  DocumentReference user;
+  String titleName;
+  List<String> listItems = new List<String>();
+  List<String> time = new List<String>();
+  String email;
 
-  Chore({this.id,this.date, this.description, this.name, this.reward,this.time, this.user});
+  Chore({this.id,this.titleName, this.listItems, this.time, this.email});
 
   Chore.fromMap(Map snapshot,String id) :
         id = id ?? '',
-        date = snapshot['date'] ?? '',
-        description = snapshot['time'] ?? '',
-        name = snapshot['name'] ?? '',
-        reward = snapshot['reward'] ?? '',
-        time = snapshot['time'] ?? '',
-        user = snapshot['user'] ?? '';
+        titleName = snapshot['titleName'] ?? '',
+        listItems = List.from(snapshot['listItems']),
+        time = List.from(snapshot['time']),
+        email = snapshot['email'] ?? '';
 
   toJson() {
     return {
-      "date": date,
-      "description": description,
-      "name": name,
-      "user": user,
-      "reward": reward,
+      "titleName": titleName,
+      "listItems": listItems,
       "time": time,
+      "email": email
     };
   }
 }
