@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import './user_select.dart';
 
 class AchievementsPage extends StatelessWidget {
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +121,7 @@ class AchievementCard extends StatelessWidget {
     );
   }
 }
-
+//what im thinking right now is that im only going to store the descriptions
 
 //*******************************************************************************
 //The following three classes just build the cards onto the screen, it's not the

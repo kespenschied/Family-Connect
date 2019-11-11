@@ -3,32 +3,79 @@
 
 import 'package:flutter/material.dart';
 
+import 'coreClasses/UserModel.dart';
+
 class UserDrawer extends StatefulWidget {
-  UserDrawer({Key key}):super(key: key);
+  UserDrawer({
+    Key key,
+    this.parentAction2,
+    @required this.userIDSelected,
+    @required this.userDocuments,
+    @required this.permissionProvider,
+    @required this.profileIDLoggedIn
+
+  }):super(key: key);
+
+  final ValueChanged<String> parentAction2; //development
+  final  String userIDSelected;
+
+  final List<User> userDocuments;
+  final permissionProvider;
+  final String profileIDLoggedIn;
+
   @override
   State<StatefulWidget> createState() => _UserDrawerState();
 }
 
 class _UserDrawerState extends State<UserDrawer> {
-  List _users = ["Connie", "David", "Josh", "Katie"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _currentUser;
+  String _currentUser = "";
+  String currSelectedUserID = "";
+  int num = 1; //color counter
 
+  //String _currImageURL = "";
   @override
   void initState() {
     _dropDownMenuItems = getDropDownMenuItems();
-    _currentUser = _dropDownMenuItems[0].value;
+    _currentUser = getCurrUser(widget.userDocuments, widget.profileIDLoggedIn);
     super.initState();
   }
+void changedDropDownItem(String selectedUser) {
+    setState(() {
+      _currentUser = selectedUser;
+      currSelectedUserID = getCurrUserID(widget.userDocuments, _currentUser);
+      widget.parentAction2(currSelectedUserID);
+    });
+  }
+  String getCurrUser(List<User> userDocuments, String _profileID){
+      String tempCurrUser = "";
+        for (User profile in userDocuments) {
+                       if(profile.id ==  _profileID){
+                         tempCurrUser = profile.name; 
+                         //_currImageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+                     return tempCurrUser;
+}
 
+String getCurrUserID(List<User> userDocuments, String _currentUserName){
+      String tempCurrUserID = "";
+        for (User profile in userDocuments) {
+                       if(profile.name ==  _currentUserName){
+                         tempCurrUserID = profile.id; 
+                         //_currImageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+                     return tempCurrUserID;
+}
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = List();
-    for (String user in _users) {
+    for (User profile in widget.userDocuments) {
       items.add(DropdownMenuItem(
-        value: user,
+        value: profile.name,
         child: Container(
-          color: _userColor(user),
+          color: _userColor(num),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.white,
@@ -36,14 +83,14 @@ class _UserDrawerState extends State<UserDrawer> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: _userPicture(user),
+                    image: (new NetworkImage(Uri.decodeFull(profile.userImageURL.toString()))),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             title: Text(
-              user,
+              profile.name,
               textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 25.0),
             ),
@@ -51,6 +98,7 @@ class _UserDrawerState extends State<UserDrawer> {
           ),
         ),
       ));
+      num = num + 1;
     }
     return items;
   }
@@ -58,7 +106,7 @@ class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _userColor(_currentUser),
+      color: _userColor(num),
       elevation: 5.0,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
@@ -78,34 +126,57 @@ class _UserDrawerState extends State<UserDrawer> {
     );
   }
 
-  void changedDropDownItem(String selectedUser) {
-    setState(() {
-      _currentUser = selectedUser;
-    });
-  }
+  
 
-  Color _userColor(String username) {
-    switch (username) {
-      case "Connie":
+  Color _userColor(int num) {
+     
+    switch (num) {
+      case 1:
         {
+
           return Colors.blue;
         }
         break;
-      case "David":
+      case 2:
         {
           return Colors.green;
         }
         break;
-      case "Josh":
+      case 3:
         {
           return Colors.orange;
         }
         break;
-      case "Katie":
+      case 4:
         {
           return Colors.pink[200];
         }
         break;
+        case 5:
+        {
+          return Colors.blue;
+        }
+        case 6:
+        {
+         return Colors.green;
+        }
+        case 7:
+        {
+          return Colors.orange;
+        }
+        case 8:
+        {
+          return Colors.pink[200];
+        }
+        case 9:
+        {
+          return Colors.blue;
+        }
+        case 10:
+        {
+           return Colors.green;
+        }
+        
       default:
         {
           return Colors.white;

@@ -9,42 +9,42 @@
 //****************************************************************************************
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:family_connect/coreClasses/PermissionsModel.dart';
 import 'package:family_connect/coreClasses/api.dart';
 import 'package:family_connect/coreClasses/locator.dart';
-import 'package:family_connect/coreClasses/UserModel.dart';
 import 'package:flutter/material.dart';
 
-class UserCRUD extends ChangeNotifier{
-Api _api = locatorDrawer<Api>();
+class PermissionCRUD extends ChangeNotifier{ //change notifier adds listening capability to our class 
+Api _api = permissionLocatorDrawer<Api>();
 
-List<User> userDocuments;
+List<Permissions> permissionsDocuments;
 
-Future<List<User>> fetchUsers() async {
+Future<List<Permissions>> fetchPermissions() async {
     var result = await _api.getDataCollection();
-    userDocuments = result.documents
-        .map((doc) => User.fromMap(doc.data, doc.documentID))
+    permissionsDocuments = result.documents
+        .map((doc) => Permissions.fromMap(doc.data, doc.documentID))
         .toList();
-    return userDocuments;
+    return permissionsDocuments;
   }
-Stream<QuerySnapshot> fetchUsersAsStream() {
+Stream<QuerySnapshot> fetchPermissionsAsStream() {
     return _api.streamDataCollection();
   }
 
-Future<User> getUserById(String id) async {
+Future<Permissions> getPermissionsById(String id) async {
     var doc = await _api.getDocumentById(id);
-    return  User.fromMap(doc.data, doc.documentID) ;
+    return  Permissions.fromMap(doc.data, doc.documentID) ;
   }
 
-Future removeUser(String id) async{
+Future removePermissions(String id) async{
      await _api.removeDocument(id) ;
      return ;
   }
-  Future updateUser(User data,String id) async{
+  Future updatePermissions(Permissions data,String id) async{
     await _api.updateDocument(data.toJson(), id) ;
     return ;
   }
 
-  Future addUser(User data) async{
+  Future addPermissions(Permissions data) async{
     var result  = await _api.addDocument(data.toJson()) ;
     return ;
   }

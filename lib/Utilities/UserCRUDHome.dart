@@ -6,6 +6,7 @@
 //This class holds functions for getting user data, from the api.dart class
 //
 //Note: There should be a class like this one for anything else besides users
+//ONLY SHOULD BE REFERENCED FOR GETTING USERS UNDER HOME, NOT DRAWER
 //****************************************************************************************
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +15,7 @@ import 'package:family_connect/coreClasses/locator.dart';
 import 'package:family_connect/coreClasses/UserModel.dart';
 import 'package:flutter/material.dart';
 
-class UserCRUD extends ChangeNotifier{
+class UserCRUDHome extends ChangeNotifier{
 Api _api = locatorDrawer<Api>();
 
 List<User> userDocuments;

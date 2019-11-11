@@ -15,16 +15,32 @@ import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To F
 import 'package:flutter/material.dart';    
 import 'package:image_picker/image_picker.dart'; // For Image Picker    
 import 'package:path/path.dart' as Path; 
+
+
 class AccountPage extends StatefulWidget {
  
-  
-  AccountPage({Key key, @required this.profileID, @required this.userDocuments}) : super(key: key); //how to pass values to other widgets
-  final String profileID;
+ 
+  AccountPage({Key key, 
+
+  this.parentAction1,
+  @required this.userIDSelected, 
+  @required this.userDocuments,  
+  @required this.permissionProvider, 
+  @required this.profileIDLoggedIn,
+
+  }) : super(key: key); //how to pass values to other widgets
+
+  final ValueChanged<String> parentAction1; //development
+  final String profileIDLoggedIn;
+  String userIDSelected;
   final List<User> userDocuments;
+   final permissionProvider;
   @override
   _AccountPage createState() => _AccountPage();
 }
 class _AccountPage extends State<AccountPage>{
+
+
 String _profileName = "";
 String _imageURL = "";
 String _profileEmail = "";
@@ -32,18 +48,27 @@ File _image;
 String _uploadedFileURL; 
 @override
   void initState() {
-    setUserValues(widget.userDocuments, widget.profileID);
+    setUserValues(widget.userDocuments, widget.profileIDLoggedIn);
         super.initState();
   }
-  void setUserValues(List<User> userDocuments, String _profileID){
+
+  void setUserValues(List<User> userDocuments, String profileIDLoggedIn){
         for (User profile in userDocuments) {
-                       if(profile.id ==  _profileID){
+                       if(profile.id ==  profileIDLoggedIn){
                          _profileEmail = profile.email;
                          _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
                      }
   }
+  _updateSelectedUse2(String selectedUser) {
+    setState(() {
+      widget.userIDSelected = selectedUser;
+    });
+    widget.parentAction1(selectedUser);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +107,12 @@ String _uploadedFileURL;
           //top: MediaQuery.of(context).size.height / 15,
           child: Column(
             children: <Widget>[
-              UserDrawer(), //Need to pull the selected user which should be the value: of UserDrawer.
+              UserDrawer(
+                parentAction2: _updateSelectedUse2,
+                profileIDLoggedIn: widget.profileIDLoggedIn,
+                userIDSelected: widget.userIDSelected, //pass value from user_select class to account, then account to drawer
+                userDocuments: widget.userDocuments,
+                permissionProvider: widget.permissionProvider), //Need to pull the selected user which should be the value: of UserDrawer.
               SizedBox(height: 20.0,), //Spacing
               Container(
                 alignment: Alignment.bottomCenter, //Aligns the text on top of photo.
@@ -102,7 +132,7 @@ String _uploadedFileURL;
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    _updatePhoto(context, widget.profileID);
+                    _updatePhoto(context, widget.profileIDLoggedIn);
                   },
                   child: Container(
                     width: 140.0,
@@ -126,7 +156,7 @@ String _uploadedFileURL;
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {_updateName(context, widget.profileID);}, //Implement functionality of changing the user's name.
+                    onTap:() {_updateName(context, widget.userIDSelected);}, //Implement functionality of changing the user's name.
                     child: Center(
                       ////Edit function should show if user has access
                       child: Text('Edit name', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
@@ -147,7 +177,7 @@ String _uploadedFileURL;
                   elevation: 7.0,
                   child: GestureDetector(
                     onTap:() {
-                      _updateEmail(context, widget.profileID);
+                      _updateEmail(context, widget.userIDSelected);
                     }, //Implement functionality of changing the user's name.
                     child: Center(
                       ////Edit function should show if user has access
@@ -166,7 +196,7 @@ String _uploadedFileURL;
                   color: Colors.white60,
                   elevation: 7.0,
                   child: GestureDetector(
-                    onTap:() {_updatePass(context, widget.profileID);}, //Implement functionality of changing the user's name.
+                    onTap:() {_updatePass(context, widget.userIDSelected);}, //Implement functionality of changing the user's name.
                     child: Center(
                       ////Edit function should show if user has access
                       child: Text('Change password', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18))
@@ -354,7 +384,7 @@ String _uploadedFileURL;
    storageReference.getDownloadURL().then((fileURL) {    
      setState(() {    
        _uploadedFileURL = fileURL;                      //widget.profileID gets the profileID passed from another class at the top of this page
-        Firestore.instance.collection("Users").document(widget.profileID).updateData({'userImageURL' : _uploadedFileURL}); 
+        Firestore.instance.collection("Users").document(widget.profileIDLoggedIn).updateData({'userImageURL' : _uploadedFileURL}); 
      });    
    });    
  }    

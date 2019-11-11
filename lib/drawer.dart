@@ -12,12 +12,15 @@
 //By: Sean Mathews
 //October 12th, 2019
 
+import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:family_connect/Utilities/UserCRUD.dart';
+import 'package:family_connect/coreClasses/PermissionsModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
+import 'Utilities/PermissionsCRUD.dart';
 import 'coreClasses/UserModel.dart';
 import './account.dart';
 import './notifications.dart';
@@ -25,18 +28,21 @@ import './editusers.dart';
 import './permissions.dart';
 import './login.dart';
 import 'coreClasses/locator.dart';
+import 'package:flutter/scheduler.dart';
+
+_MyDrawerState _globalStateDrawer = new _MyDrawerState();
 
 class MyDrawer extends StatefulWidget {
- const MyDrawer({
+  MyDrawer({
     Key key,
-    @required this.user
-    
-  }) : super(key: key);
+    @required this.user,
+    @required this.userIDSelected
 
+  }) : super(key: key);
   final AuthResult user;
-  
+   String userIDSelected;
   @override
-  _MyDrawerState createState() => _MyDrawerState();
+  _MyDrawerState createState() => _globalStateDrawer;
 }
 
 class _MyDrawerState extends State<MyDrawer>{
@@ -45,17 +51,35 @@ List<User> userDocuments;
 
 String _profileName = "";
 String _imageURL = "";
-String _profileID = "";
+String _loggedInProfileID = "";
+String _permissionLevel = "";
+String _userIDSelectedTest = "";
+bool _isLoggedInUserSelected = true;
 
 @override
   void initState() {
     super.initState();
   }
 
+  _updateSelectedUser1(String selectedUser) {
+    setState(() {
+      widget.userIDSelected = selectedUser;
+      _userIDSelectedTest = selectedUser;
+      if(_loggedInProfileID == _userIDSelectedTest){
+        _isLoggedInUserSelected = true;
+      }
+      else{
+        _isLoggedInUserSelected = false;
+      }
+    });
+    
+  }
+
   @override
   Widget build(BuildContext context){
      var _profileEmail = widget.user.user.email;
      final userProvider = Provider.of<UserCRUD>(context);
+     final  permissionProvider = Provider.of<PermissionCRUD>(context);//pathway to firestore/firebase
         return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(0.0),
@@ -70,7 +94,8 @@ String _profileID = "";
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
-                         _profileID = profile.id;
+                         _permissionLevel = profile.permissionLevel;
+                         _loggedInProfileID = profile.id;
                          _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
@@ -119,7 +144,12 @@ String _profileID = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments)),
+                MaterialPageRoute(builder: (context) => AccountPage(
+                  parentAction1: _updateSelectedUser1,
+                  userIDSelected: widget.userIDSelected,
+                   profileIDLoggedIn:_loggedInProfileID, 
+                   userDocuments: userDocuments,
+                    permissionProvider: permissionProvider )),
               );
             },
           ),
@@ -177,10 +207,27 @@ String _profileID = "";
               size: 35.0,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PermissionsPage()),
-              );
+                         
+
+            widget.userIDSelected = _userIDSelectedTest; //hack to save currUser
+              if(_permissionLevel == "admin"){
+                if (_isLoggedInUserSelected == true) {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PermissionsPage(currAccountIDSelected: _loggedInProfileID, permissionProvider: permissionProvider)),
+                  );
+                } else {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PermissionsPage(currAccountIDSelected: widget.userIDSelected, permissionProvider: permissionProvider)),
+                  );
+                }
+
+                  }
+                  else{
+                     failedUpdate();
+                  }
+             
             },
           ),
           ListTile(
@@ -256,6 +303,14 @@ String _profileID = "";
           ],
         );
       },
+    );
+  }
+
+  void failedUpdate() {
+    DropdownBanner.showBanner(
+      text: 'Not authorized to perform action',
+      color: Colors.red,
+      textStyle: TextStyle(color: Colors.white),
     );
   }
 }

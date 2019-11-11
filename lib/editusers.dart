@@ -34,7 +34,7 @@ class UserPage extends StatelessWidget {
           ),
         ),
         child: ListView(
-          children: <Widget>[UserDrawer()],
+          children: <Widget>[],
         ),
       ),
     );
