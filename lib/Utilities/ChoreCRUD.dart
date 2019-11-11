@@ -14,8 +14,8 @@ import 'package:family_connect/coreClasses/api.dart';
 import 'package:family_connect/coreClasses/locator.dart';
 import 'package:flutter/material.dart';
 
-class ChoreCRUD extends ChangeNotifier{
-Api _choreApi = locator<Api>();
+class ChoresCRUD extends ChangeNotifier{
+Api _choreApi = choresLocatorHome<Api>();
 
 List<Chore> choreDocuments;
 

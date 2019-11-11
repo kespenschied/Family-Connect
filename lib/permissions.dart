@@ -22,6 +22,7 @@ class PermissionsPage extends StatefulWidget {
 class _PermissionsPageState extends State<PermissionsPage> {
 List<Permissions> permissionsDocuments;
 
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

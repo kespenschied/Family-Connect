@@ -21,11 +21,14 @@ import './homework.dart';
 import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
+import 'Utilities/ChoreCRUD.dart';
 import 'Utilities/PermissionsCRUD.dart';
 import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
+import 'Utilities/UserCRUDHome.dart';
+import 'coreClasses/UserModel.dart';
 import 'coreClasses/locator.dart';
 class HomePage extends StatefulWidget {
  const HomePage({
@@ -41,14 +44,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>{
-
 String userIDSelected = "";
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
-        ChangeNotifierProvider.value(value: permissionLocator<PermissionCRUD>()),
+        ChangeNotifierProvider.value(value: locatorDrawer<UserCRUD>()),
+        ChangeNotifierProvider.value(value: permissionLocatorDrawer<PermissionCRUD>()),
+        //--------------------------------------------------------------//
+        ChangeNotifierProvider.value(value: locatorHome<UserCRUDHome>()), 
+        ChangeNotifierProvider.value(value: choresLocatorHome<ChoresCRUD>()), 
       ],
       child: Scaffold(
       backgroundColor: Colors.black,
@@ -68,6 +73,7 @@ String userIDSelected = "";
 //make a function that gets permissions and returns it
 
 }
+
 
 
 
@@ -92,12 +98,34 @@ class HomeController extends StatefulWidget {
 
 class _HomeControllerState extends State<HomeController> {
 
+String _profileName = "";
+String _imageURL = "";
+String _loggedInProfileID = "";
+String _permissionLevel = "";
+String _userIDSelectedTest = "";
   Permissions _permissions = new Permissions();
-  List<Permissions> userDocuments;
+  List<User> userDocuments;
   @override
   Widget build(BuildContext context) {
     var _profileEmail = widget.user.user.email;
-
+    final userHomeProvider = Provider.of<UserCRUDHome>(context);
+    final choreProvider = Provider.of<ChoresCRUD>(context);
+    return  Container( //firebase starts here
+            child: StreamBuilder( //a widget that fetches the database data from firestore
+              stream: userHomeProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if(snapshot.data == null) return CircularProgressIndicator(); //shows a rotating circle while data is getting fetched
+              if (snapshot.hasData) {
+                userDocuments = snapshot.data.documents //gets all Users docs from firebase and is stored into a list
+                    .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
+                     for (User profile in userDocuments) {
+                       if(profile.email ==  _profileEmail){
+                         _permissionLevel = profile.permissionLevel;
+                         _loggedInProfileID = profile.id;
+                         _profileName = profile.name; 
+                         _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
     return Container(
       alignment: FractionalOffset.center,
       child: Column(
@@ -181,7 +209,7 @@ class _HomeControllerState extends State<HomeController> {
                   // if(_permissions.userLevel == "Admin"){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ChoresPage()),
+                    MaterialPageRoute(builder: (context) => ChoresPage(choreProvider: choreProvider, userDocuments: userDocuments, profileEmail: _profileEmail)),
                   );
                   // }
                   // else if(_permissions.chores == true){
@@ -289,6 +317,12 @@ class _HomeControllerState extends State<HomeController> {
           ),
         ],
       ));
+      }
+              else {
+                return Text("fetching data");
+              }
+            }),
+          );
  }
   //             else {
   //               return Text("fetching data");
