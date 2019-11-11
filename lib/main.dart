@@ -8,17 +8,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 
 import './login.dart';
-import 'coreClasses/api.dart';
-import 'coreClasses/locator.dart';
 
-
-void main() {
-  setupLocator();
- runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override

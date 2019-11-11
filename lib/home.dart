@@ -1,5 +1,5 @@
 //By: Kole Espenschied
-//April 8th, 2019
+//Nov 7th, 2019
 
 //**********************************************
 //This class holds all the Home/Landing widgets
@@ -44,7 +44,7 @@ const HomePage({
         backgroundColor: Colors.black,
       ),
       drawer: MyDrawer(user: user),
-      body: Center(
+      body: SingleChildScrollView(
         child: HomeController(),
       ),
     ),

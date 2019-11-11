@@ -1,4 +1,3 @@
-
 //UI
 //By: Kole Espenschied
 //April 8th, 2019
@@ -9,7 +8,7 @@
 //eliminate the need for an editUsers page. Also on the logOut
 //********************************************************************
 
-//Firebase
+//DB
 //By: Sean Mathews
 //October 12th, 2019
 
@@ -25,6 +24,7 @@ import './notifications.dart';
 import './editusers.dart';
 import './permissions.dart';
 import './login.dart';
+import 'coreClasses/locator.dart';
 
 class MyDrawer extends StatefulWidget {
  const MyDrawer({
@@ -44,13 +44,17 @@ class _MyDrawerState extends State<MyDrawer>{
 List<User> userDocuments;
 
 String _profileName = "";
-var _profileEmail = "";
 String _imageURL = "";
+String _profileID = "";
+
+@override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context){
-
-    var _profileEmail = widget.user.user.email;
+     var _profileEmail = widget.user.user.email;
      final userProvider = Provider.of<UserCRUD>(context);
         return Drawer(
       child: ListView(
@@ -66,6 +70,7 @@ String _imageURL = "";
                     .map((doc) => User.fromMap(doc.data, doc.documentID)).toList();
                      for (User profile in userDocuments) {
                        if(profile.email ==  _profileEmail){
+                         _profileID = profile.id;
                          _profileName = profile.name; 
                          _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
                        }
@@ -114,7 +119,7 @@ String _imageURL = "";
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AccountPage()),
+                MaterialPageRoute(builder: (context) => AccountPage(profileID: _profileID,userDocuments: userDocuments)),
               );
             },
           ),
@@ -138,26 +143,26 @@ String _imageURL = "";
               );
             },
           ),
-          // ListTile(
-          //   title: Text(
-          //     'Edit Users',
-          //     textAlign: TextAlign.end,
-          //     style: TextStyle(
-          //       fontWeight: FontWeight.bold,
-          //       fontSize: 30.0,
-          //     ),
-          //   ),
-          //   leading: Icon(
-          //     Icons.group_add,
-          //     size: 35.0,
-          //   ),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => UserPage()),
-          //     );
-          //   },
-          // ),
+          ListTile(
+            title: Text(
+              'Edit User',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              ),
+            ),
+            leading: Icon(
+              Icons.group_add,
+              size: 35.0,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
+          ),
           ListTile(
             title: Text(
               'Permissions',
