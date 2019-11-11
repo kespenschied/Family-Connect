@@ -5,6 +5,7 @@
 //This class holds all the Home/Landing widgets
 //**********************************************
 
+import 'package:family_connect/Utilities/ListsCRUD.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ const HomePage({
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
+        ChangeNotifierProvider(builder: (_) => locator<ListsCRUD>()),
       ],
       child: Scaffold(
       backgroundColor: Colors.black,

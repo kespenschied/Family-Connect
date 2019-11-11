@@ -7,17 +7,49 @@
 //Will need a floating action button added to allow
 //the user to add a new list to the screen.
 //********************************************
-
+import 'dart:io';
+import 'package:dropdown_banner/dropdown_banner.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:family_connect/user_select.dart';
 import 'package:flutter/material.dart';
-import './user_select.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Utilities/UserCRUD.dart';
+import 'coreClasses/ListsModel.dart';
+import 'package:flutter/material.dart';    
+import 'package:path/path.dart' as Path; 
 
 class ListsPage extends StatefulWidget {
+  final String profileID;
+  final List<Lists> listDocuments;
+  ListsPage({Key key, @required this.profileID, @required this.listDocuments}) : super(key: key); //how to pass values to other widgets
   @override
   State<StatefulWidget> createState() => _ListsState();
 }
 
 class _ListsState extends State<ListsPage> {
+  String _profileEmail = "";
+  String _listName = "";
+  List<String> _listItemsDB;
   var isItChecked = List<bool>.generate(16, (i) => false);
+  @override
+  void initState() {
+    setUserValues(widget.listDocuments, widget.profileID);
+        super.initState();
+  }
+  void setUserValues(List<Lists> listDocuments, String _profileID){
+        for (Lists profile in listDocuments) {
+                       if(profile.id ==  _profileID){
+                         _profileEmail = profile.email;
+                         _listName = profile.listName;
+                         _listItemsDB = profile.listItems;
+                        //  _profileName = profile.name; 
+                        //  _imageURL = Uri.decodeFull(profile.userImageURL.toString()); //gets the image from JSON and decodes the image's url in firebase into URI
+                       }
+                     }
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -46,7 +78,7 @@ class _ListsState extends State<ListsPage> {
                     ),                  
                   ),
                   //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
-                  titleBar(Colors.blue, 'Groceries', Icons.add_shopping_cart),
+                  titleBar(Colors.blue, _listName, Icons.add_shopping_cart),
                   listItems('\nMilk','', 0), ///Added newline characters to put the title in middle of card
                   listItems('\nBread', '',1),
                   listItems('\nTilapia','', 2),
