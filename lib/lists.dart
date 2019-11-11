@@ -18,25 +18,26 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Utilities/UserCRUD.dart';
 import 'coreClasses/ListsModel.dart';
+import 'coreClasses/UserModel.dart';
 import 'package:flutter/material.dart';    
 import 'package:path/path.dart' as Path; 
 
 class ListsPage extends StatefulWidget {
-  final String profileID;
-  final List<Lists> listDocuments;
-  ListsPage({Key key, @required this.profileID, @required this.listDocuments}) : super(key: key); //how to pass values to other widgets
+  String profileEmail;
+  final List<User> userDocuments;
+  final listProvider;
+  ListsPage({Key key, @required this.userDocuments, @required this.listProvider, @required this.profileEmail}) : super(key: key); //how to pass values to other widgets
   @override
   State<StatefulWidget> createState() => _ListsState();
 }
 
 class _ListsState extends State<ListsPage> {
-  String _profileEmail = "";
-  String _listName = "";
+  // String _profileName = "";
   List<String> _listItemsDB;
   var isItChecked = List<bool>.generate(16, (i) => false);
   @override
   void initState() {
-    setUserValues(widget.listDocuments, widget.profileID);
+    setUserValues(widget.userDocuments, widget.profileEmail);
         super.initState();
   }
   void setUserValues(List<Lists> listDocuments, String _profileID){
