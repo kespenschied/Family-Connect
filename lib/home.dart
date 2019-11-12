@@ -1,11 +1,14 @@
 //By: Kole Espenschied
-//April 8th, 2019
+//Nov 7th, 2019
+
 //**********************************************
 //This class holds all the Home/Landing widgets
 //**********************************************
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import './achievements.dart';
 import './books.dart';
 import './chores.dart';
@@ -16,10 +19,10 @@ import './journal.dart';
 import './lists.dart';
 import './drawer.dart';
 import 'Utilities/UserCRUD.dart';
+
 //this Home Page class creates the scaffold and the appBar for this page
-import 'coreClasses/locator.dart';
-import 'event.dart';
-class HomePage extends StatelessWidget {
+
+import 'coreClasses/locator.dart';class HomePage extends StatelessWidget {
 const HomePage({
     Key key,
     @required this.user
@@ -30,7 +33,6 @@ const HomePage({
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(builder: (_) => locator<UserCRUD>()),
-        ChangeNotifierProvider.value(value: locator<UserCRUD>()),
       ],
       child: Scaffold(
       backgroundColor: Colors.black,
@@ -40,12 +42,16 @@ const HomePage({
         backgroundColor: Colors.black,
       ),
       drawer: MyDrawer(user: user),
-      body: Center(
+      body: SingleChildScrollView(
         child: HomeController(),
       ),
     ),
     );
   }
+
+
+
+}
 
 
 
