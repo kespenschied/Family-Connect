@@ -9,14 +9,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
-  String title;
-  DateTime time;
-  String notes;
-  String child; 
-  String documentID;
+  final String id;
+  final String title;
+  final DateTime time;
+  final String notes;
+  //String child; 
+  //String documentID;
 
-  Event(this.title, this.time, this.notes, this.child, [this.documentID]);
+  Event({ this.id, this.title, this.time, this.notes});
 
+  factory Event.fromFirestore(DocumentSnapshot doc)
+  {
+    Map data = doc.data;
+
+    return Event(
+      id: doc.documentID,
+      title: data['title'] ?? '',
+      time: data['time'] ?? '',
+      notes: data['notes'] ?? '',
+    );
+
+  }
   //Event.fromMap(Map snapshot,String id) :
   //      id = id ?? '',
   //      title = snapshot['title'] ?? '',

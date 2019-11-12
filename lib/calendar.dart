@@ -126,8 +126,7 @@ class EventsViewState extends State<EventsView> {
   }
 
   void _onCardClicked(DocumentSnapshot document) {
-    Event event = new Event(document.data['title'], document.data['notes'],
-        document.data['time'], document.documentID);
+    Event event = new Event();
     Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context)
       => new EventCreator(event)));
   }
@@ -143,7 +142,7 @@ class EventsViewState extends State<EventsView> {
     DateTime _createDateTime = new DateTime(_eventDate.year, _eventDate.month, _eventDate.day,
                                             DateTime.now().hour, DateTime.now().minute);
 
-    Event _event = new Event("", _createDateTime, "", null);
+    Event _event = new Event();
 
     Navigator.push(context, MaterialPageRoute(
             builder: (context) => EventCreator(_event)
