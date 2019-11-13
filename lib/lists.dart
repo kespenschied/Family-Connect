@@ -7,38 +7,44 @@
 //Will need a floating action button added to allow
 //the user to add a new list to the screen.
 //********************************************
-import 'dart:io';
-import 'package:dropdown_banner/dropdown_banner.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:family_connect/user_select.dart';
+import 'package:family_connect/Utilities/ListsCrud.dart';
+import 'package:family_connect/coreClasses/ListsModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
+import './user_select.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Utilities/UserCRUD.dart';
-import 'coreClasses/ListsModel.dart';
+import 'package:provider/provider.dart';
 import 'coreClasses/UserModel.dart';
-import 'package:flutter/material.dart';    
-import 'package:path/path.dart' as Path; 
+import 'coreClasses/api.dart';
+import 'coreClasses/locator.dart';
 
 class ListsPage extends StatefulWidget {
-  String profileEmail;
+  
+  ListsPage({Key key,
+  
+  @required this.userDocuments,
+  @required this.listProvider,
+  @required this.profileEmail
+  
+  }) : super(key: key); //how to pass values to other widgets
   final List<User> userDocuments;
   final listProvider;
-  ListsPage({Key key, @required this.userDocuments, @required this.listProvider, @required this.profileEmail}) : super(key: key); //how to pass values to other widgets
+  String profileEmail;
+
   @override
   State<StatefulWidget> createState() => _ListsState();
 }
 
 class _ListsState extends State<ListsPage> {
   // String _profileName = "";
+
+  List<Lists> listDocuments;
+  //List<String> _listItemsDB;
+  var isItChecked = List<bool>.generate(16, (i) => false);
   String _profileID = "";
   String _profileName = "";
   String _imageURL = "";
-  List<Lists> listDocuments;
-  List<String> _listItemsDB;
-  var isItChecked = List<bool>.generate(16, (i) => false);
   @override
   void initState() { 
     setUserValues(widget.userDocuments, widget.profileEmail);
@@ -123,10 +129,10 @@ class _ListsState extends State<ListsPage> {
       ),
       backgroundColor: Colors.grey,
     );
-  }
-  else {
-    return Text("Fetching data");
-  }
+    }
+    else {
+      return Text("Fetching data");
+    }
             }),
     );
   }

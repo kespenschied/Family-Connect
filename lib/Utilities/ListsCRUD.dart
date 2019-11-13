@@ -14,37 +14,37 @@ import 'package:family_connect/coreClasses/UserModel.dart';
 import 'package:flutter/material.dart';
 
 class ListsCRUD extends ChangeNotifier{
-Api _api = listsLocatorHome<Api>();
+Api _listsApi = listsLocatorHome<Api>();
 
-List<Lists> userLists;
+List<Lists> listsDocuments;
 
 Future<List<Lists>> fetchLists() async {
-    var result = await _api.getDataCollection();
-    userLists = result.documents
+    var result = await _listsApi.getDataCollection();
+    listsDocuments = result.documents
         .map((doc) => Lists.fromMap(doc.data, doc.documentID))
         .toList();
-    return userLists;
+    return listsDocuments;
   }
 Stream<QuerySnapshot> fetchListsAsStream() {
-    return _api.streamDataCollection();
+    return _listsApi.streamDataCollection();
   }
 
 Future<Lists> getListsById(String id) async {
-    var doc = await _api.getDocumentById(id);
+    var doc = await _listsApi.getDocumentById(id);
     return  Lists.fromMap(doc.data, doc.documentID) ;
   }
 
 Future removeList(String id) async{
-     await _api.removeDocument(id) ;
+     await _listsApi.removeDocument(id) ;
      return ;
   }
   Future updateList(User data,String id) async{
-    await _api.updateDocument(data.toJson(), id) ;
+    await _listsApi.updateDocument(data.toJson(), id) ;
     return ;
   }
 
   Future addList(User data) async{
-    var result  = await _api.addDocument(data.toJson()) ;
+    var result  = await _listsApi.addDocument(data.toJson()) ;
     return ;
   }
 }

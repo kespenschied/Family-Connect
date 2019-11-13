@@ -9,7 +9,7 @@
 class Lists {
   String id;
   String listName;
-  List<String> listItems;
+  List<String> listItems = new List<String>();
   String email;
 
   Lists({this.id,this.listName, this.listItems, this.email});

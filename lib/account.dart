@@ -107,12 +107,12 @@ String _uploadedFileURL;
           //top: MediaQuery.of(context).size.height / 15,
           child: Column(
             children: <Widget>[
-              UserDrawer(
-                parentAction2: _updateSelectedUse2,
-                profileIDLoggedIn: widget.profileIDLoggedIn,
-                userIDSelected: widget.userIDSelected, //pass value from user_select class to account, then account to drawer
-                userDocuments: widget.userDocuments,
-                permissionProvider: widget.permissionProvider), //Need to pull the selected user which should be the value: of UserDrawer.
+              // UserDrawer(
+              //   parentAction2: _updateSelectedUse2,
+              //   profileIDLoggedIn: widget.profileIDLoggedIn,
+              //   userIDSelected: widget.userIDSelected, //pass value from user_select class to account, then account to drawer
+              //   userDocuments: widget.userDocuments,
+              //   permissionProvider: widget.permissionProvider), //Need to pull the selected user which should be the value: of UserDrawer.
               SizedBox(height: 20.0,), //Spacing
               Container(
                 alignment: Alignment.bottomCenter, //Aligns the text on top of photo.
