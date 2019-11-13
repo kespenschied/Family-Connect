@@ -15,7 +15,7 @@ import 'package:family_connect/coreClasses/locator.dart';
 import 'package:flutter/material.dart';
 
 class EventCRUD extends ChangeNotifier{
-Api _eventApi = locator<Api>();
+Api _eventApi = locatorDrawer<Api>();
 
 List<Event> eventDocuments;
 
