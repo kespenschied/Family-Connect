@@ -125,7 +125,7 @@ class _BookManager extends State<BooksPage> {
       ),
       body: ListView(
         children: <Widget>[
-          UserDrawer(),
+          //UserDrawer(),
           NewBookCard(_newBookEntry),
         ],
       ),
@@ -149,7 +149,9 @@ class _BookManager extends State<BooksPage> {
           }
           else {
             print(temp);
-            _newBookEntry.add(temp);
+            if(temp != null){
+            _newBookEntry.add(temp); //add a new string to the List
+          }
           }
         },
         backgroundColor: Colors.black87,
@@ -184,7 +186,9 @@ class _SelectionScreenState extends State<SelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true, //Consistency of theme
         title: Text('Entry'),
+        backgroundColor: Colors.black, //Ditto ^
       ),
       body: Center(
         child: Column(

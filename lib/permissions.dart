@@ -141,13 +141,13 @@ Widget drawCards(double width, double height, Permissions userPermissions, Strin
      List<Widget> permissionsList = [
     //   //////Pull the true false values from database for each user.
                               //cardListItems(width, 'Allow All', false),
-                              cardListItems(width, 'achievements', userPermissions.achievements, permissionsProfileID, context),
-                              cardListItems(width, 'books', userPermissions.books, permissionsProfileID, context),
-                              cardListItems(width, 'calendar', userPermissions.calender, permissionsProfileID, context),
-                              cardListItems(width, 'chores', userPermissions.chores, permissionsProfileID, context),
-                              cardListItems(width, 'homework', userPermissions.homework, permissionsProfileID, context),
-                              cardListItems(width, 'journal', userPermissions.journal, permissionsProfileID, context),
-                              cardListItems(width, 'lists', userPermissions.lists, permissionsProfileID, context),
+                              cardListItems(width, 'Achievements', userPermissions.achievements, permissionsProfileID, context),
+                              cardListItems(width, 'Books', userPermissions.books, permissionsProfileID, context),
+                              cardListItems(width, 'Calendar', userPermissions.calender, permissionsProfileID, context),
+                              cardListItems(width, 'Chores', userPermissions.chores, permissionsProfileID, context),
+                              cardListItems(width, 'Homework', userPermissions.homework, permissionsProfileID, context),
+                              cardListItems(width, 'Journal', userPermissions.journal, permissionsProfileID, context),
+                              cardListItems(width, 'Lists', userPermissions.lists, permissionsProfileID, context),
                               //cardListItems(width, 'Permissions', true),
                               //cardListItems(width, 'Users', false)
                               ];

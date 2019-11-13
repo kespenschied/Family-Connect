@@ -47,7 +47,7 @@ class _HomeworkState extends State<HomeworkPage> {
                   ),                  
                 ),
                 //titleBar(Colors.green, (userKey.currentState != null) ? userKey.currentState.currentUser : "RELOAD", Icons.create),
-                titleBar(Colors.green, 'NAME', Icons.create),
+                titleBar(Colors.green, 'Chris', Icons.create),
                 listItems('Math', 'Problems 1-10\nDue: 04/19', 0),
                 listItems('History', 'Read Chapter 3\nDue: 04/20', 1),
                 listItems('History', 'Do Ch. 3 Problems\nDue: 04/22', 2),
