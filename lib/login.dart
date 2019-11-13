@@ -1,26 +1,11 @@
-import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:flutter/material.dart';
 import './home.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'drawer.dart';
-
-
 
 //this will need to become stateful when doing functionality
 
-class LoginPage extends StatefulWidget{
-  @override
-  _LoginPageState createState() => new _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   //Styling for the 'Family Connect' Strings
-  String _email, _password, input;
-  final _formKey = new GlobalKey<FormState>();
-
-
-
   TextStyle _titleTextStyling() {
     return TextStyle(
       fontFamily: 'DancingScript',
@@ -34,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
- 
+
   @override
   Widget build(BuildContext context) {
     double fieldWidth = MediaQuery.of(context).size.width - 10.0;
@@ -50,8 +35,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Center(
-          child: Form(
-            key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,15 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Username',
                     filled: true,
                   ),
-                  validator: (input) { 
-                    if (!input.contains('@')) {
-                    return 'Not A Valid Email';
-                    }
-                  },
-                      //!input.contains('@') ? 'Not A Valid Email' : null,
-                      onSaved: (input) => _email = input
+                  validator: (input) =>
+                      !input.contains('@') ? 'Not A Valid Email' : null,
                 ),
-                ),
+              ),
               Padding(
                 padding: EdgeInsets.all(15.0),
               ),
@@ -103,13 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     filled: true,
                   ),
-                  validator: (input) { 
-                    if (input.length < 6) {
-                    return 'Not A Valid Password';
-                    }
-                  },
-                      //!input.contains('@') ? 'Not A Valid Email' : null,
-                      onSaved: (input) => _password = input
+                  validator: (input) =>
+                      !input.contains('@') ? 'Not A Valid Email' : null,
                 ),
               ),
               Padding(
@@ -118,7 +91,12 @@ class _LoginPageState extends State<LoginPage> {
               ButtonTheme(
                 minWidth: 200.0,
                 child: RaisedButton(
-                  onPressed: signIn, //method below
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  },
                   elevation: 5.0,
                   color: Colors.red,
                   textColor: Colors.white,
@@ -134,49 +112,13 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.all(10.0),
               ),
               GoogleSignInButton(
-                onPressed: signIn,
+                onPressed: () {},
                 darkMode: true,
               ),
             ],
           ),
         ),
-        ),
       ),
-    );
-  }
-
-  //pass email and password to home, then pass email to drawer
-  Future<void> signIn() async {
-    final formState = _formKey.currentState;
-
-    if(formState.validate()){
-      formState.save();
-      try{
-       AuthResult loginUser = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)); 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(user: loginUser)));
-      }catch(e){
-
-        failedUpdate();
-        print(e.message);
-      }
-    }
-
-  }
-
-  //notification
-  void successfulupdate() {
-    DropdownBanner.showBanner(
-      text: 'Successfully Updated',
-      color: Colors.green,
-      textStyle: TextStyle(color: Colors.white),
-    );
-  }
-
-  void failedUpdate() {
-    DropdownBanner.showBanner(
-      text: 'Email or password is incorrect',
-      color: Colors.red,
-      textStyle: TextStyle(color: Colors.white),
     );
   }
 }

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:514227908090:android:e3c0c2c3433568b3834843",
         "android_client_info": {
-          "package_name": "com.example.family_connect"
+          "package_name": "family.connect"
         }
       },
       "oauth_client": [
