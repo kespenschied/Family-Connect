@@ -31,8 +31,6 @@ import './login.dart';
 import 'coreClasses/locator.dart';
 import 'package:flutter/scheduler.dart';
 
-_MyDrawerState _globalStateDrawer = new _MyDrawerState();
-
 class MyDrawer extends StatefulWidget {
   MyDrawer({
     Key key,
@@ -43,7 +41,7 @@ class MyDrawer extends StatefulWidget {
   final AuthResult user;
    String userIDSelected;
   @override
-  _MyDrawerState createState() => _globalStateDrawer;
+  _MyDrawerState createState() => new _MyDrawerState();
 }
 
 class _MyDrawerState extends State<MyDrawer>{
