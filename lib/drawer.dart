@@ -1,4 +1,3 @@
-
 //UI
 //By: Kole Espenschied
 //April 8th, 2019
@@ -172,26 +171,26 @@ bool _isLoggedInUserSelected = true;
               );
             },
           ),
-          // ListTile(
-          //   title: Text(
-          //     'Edit Users',
-          //     textAlign: TextAlign.end,
-          //     style: TextStyle(
-          //       fontWeight: FontWeight.bold,
-          //       fontSize: 30.0,
-          //     ),
-          //   ),
-          //   leading: Icon(
-          //     Icons.group_add,
-          //     size: 35.0,
-          //   ),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => UserPage()),
-          //     );
-          //   },
-          // ),
+          ListTile(
+            title: Text(
+              'Edit User',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              ),
+            ),
+            leading: Icon(
+              Icons.group_add,
+              size: 35.0,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
+          ),
           ListTile(
             title: Text(
               'Permissions',

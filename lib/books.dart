@@ -3,8 +3,10 @@
 //********************************************
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_slidable/flutter_slidable.dart';
 import './user_select.dart';
+
+List<String> _newBookEntry = [];
 
 class NewBookCard extends StatefulWidget {
   final List<String> bookEntries;
@@ -15,43 +17,78 @@ class NewBookCard extends StatefulWidget {
   _NewBookCardState createState() => _NewBookCardState();
 }
 
+void _showSnackBar(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+}
+
 class _NewBookCardState extends State<NewBookCard> {
-  Widget makeListTile(String desc) {
+  Slidable makeListTile(String desc) {
     int index = desc.lastIndexOf('~~~~~');
-    //Need to add author and pages to this in future for dynamic updates on book
-    return Container(
-      height: 100.0,
-      child: ListTile(
-        onTap: () {
-          //This is where we go to a new page of the book description
+    return Slidable.builder(
+      delegate: new SlidableDrawerDelegate(),
+      slideToDismissDelegate: new SlideToDismissDrawerDelegate(
+        onDismissed: (actionType) {
+            _showSnackBar(context, desc.substring(0, index) + " has been deleted");
+            widget.bookEntries.removeWhere((item) => desc.substring(0, index) == item.toString().substring(0, index) 
+                                              && desc.substring(index + 5) == item.toString().substring(index + 5) );
         },
-        onLongPress: () {
-          //This is where we can rearrange if possible
-        },
-        leading: Image(
-          image: AssetImage('assets/pictures/rainbowfish.jpg'),
-          height: 70,
-        ),
-        isThreeLine: false,
-        title: Text(
-          desc.substring(0, index),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-        subtitle: Text(
-          desc.substring(index + 5),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 15.0,
-          ),
-        ),
-        trailing: FavoriteWidget(),
       ),
+
+      key: Key(UniqueKey().toString()), 
+      actionExtentRatio: 0.25,
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading: new CircleAvatar(
+            backgroundColor: Colors.indigoAccent,
+            child: Image.asset('assets/pictures/connie.jpg'),
+            foregroundColor: Colors.white,
+          ),
+          title: new Text(desc.substring(0, index)),
+          subtitle: new Text(desc.substring(index + 5)),
+        ),
+      ),
+      actionDelegate: SlideActionBuilderDelegate(
+          actionCount: 1,
+          builder: (context, index, animation, renderingMode) {
+            if (index == 0) {
+              return IconSlideAction(
+                caption: 'Delete',
+                color: renderingMode == SlidableRenderingMode.slide
+                    ? Colors.red.withOpacity(animation.value)
+                    : (renderingMode == SlidableRenderingMode.dismiss
+                        ? Colors.red
+                        : Colors.green),
+                icon: Icons.archive,
+                onTap: () async {
+                  var state = Slidable.of(context);
+                  var dismiss = await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Delete Book?'),
+                        content: Text('Book will be deleted from the list.'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Cancel'),
+                            onPressed: () => Navigator.of(context).pop(false),
+                          ),
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pop(true),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (dismiss) {
+                    state.dismiss();
+                  }
+                },
+              );
+            } 
+          }),
     );
   }
 
@@ -62,7 +99,7 @@ class _NewBookCardState extends State<NewBookCard> {
         children: widget.bookEntries
             .map((title) => Card(
                   child: Column(
-                    children: <Widget>[makeListTile(title)],
+                    children: <Slidable>[makeListTile(title)],
                   ),
                 ))
             .toList(),
@@ -77,9 +114,6 @@ class BooksPage extends StatefulWidget {
 }
 
 class _BookManager extends State<BooksPage> {
-  List<String> _newBookEntry = [];
-  //int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,8 +132,23 @@ class _BookManager extends State<BooksPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var temp = await _navigateAndDisplaySelection(context);
-          print(temp);
-          if(temp != null){ //This checks for null data, if user clicked back button, dont add anything.
+          if (temp.toString().contains("tempTitle") || temp.toString().contains("tempDesc")) {
+              showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text('You must enter a title and a description'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Ok"),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]);
+              }); 
+          }
+          else {
+            print(temp);
             _newBookEntry.add(temp);
           }
         },
@@ -108,48 +157,6 @@ class _BookManager extends State<BooksPage> {
           Icons.add,
         ),
       ),
-    );
-  }
-}
-
-//Creation of new custom widget that has interaction and states
-class FavoriteWidget extends StatefulWidget {
-  @override
-  _FavoriteWidgetState createState() => _FavoriteWidgetState();
-}
-
-class _FavoriteWidgetState extends State<FavoriteWidget> {
-  bool _isFavorited = false;
-
-//For toggling the state of the widget
-  void _toggleFavorite() {
-    setState(() {
-      if (_isFavorited) {
-        _isFavorited = false; //Can pull this true false from database if there are existing books.
-      } else {
-        _isFavorited = true;
-      }
-    });
-  }
-
-//Build the custom favorite widget to be
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: EdgeInsets.all(0),
-          child: IconButton(
-            icon: (_isFavorited 
-                ? Icon(Icons.favorite)
-                : Icon(Icons.favorite_border)),
-            color: Colors.red,
-            onPressed: _toggleFavorite,
-            tooltip: "Favorite",
-          ),
-        ),
-      ],
     );
   }
 }
@@ -163,31 +170,21 @@ _navigateAndDisplaySelection(BuildContext context) async {
     context,
     MaterialPageRoute(builder: (context) => SelectionScreen()),
   );
-  //print(Text("$result"));
   return result;
-  // After the Selection Screen returns a result, hide any previous snackbars
-  // and show the new result.
-  //Scaffold.of(context)
-  //..removeCurrentSnackBar()
-  //..showSnackBar(SnackBar(content: Text("$result")));
 }
 
 class SelectionScreen extends StatefulWidget {
-  //TextEditingController _textInputController = TextEditingController();
-
   @override
   _SelectionScreenState createState() => _SelectionScreenState();
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-  String title = "tempTitle", description = "tempdesc";
+  String title = "tempTitle", description = "tempDesc";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true, //Changed to keep consistent theme
-        title: Text('Entry'), 
-        backgroundColor: Colors.black, //ditto ^
+        title: Text('Entry'),
       ),
       body: Center(
         child: Column(
@@ -218,7 +215,6 @@ class _SelectionScreenState extends State<SelectionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 onPressed: () {
-                  // Close the screen and return "Yep!" as the result.
                   Navigator.pop(context, title + "~~~~~" + description);
                 },
                 child: Text('Submit'),

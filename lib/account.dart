@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dropdown_banner/dropdown_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'Utilities/UserCRUD.dart';
 import 'coreClasses/UserModel.dart';
-
 import 'dart:io';    
 import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore    
 import 'package:flutter/material.dart';    
@@ -40,17 +38,14 @@ class AccountPage extends StatefulWidget {
   @override
   _AccountPage createState() => _AccountPage();
 }
-
 class _AccountPage extends State<AccountPage>{
 
 
 String _profileName = "";
 String _imageURL = "";
 String _profileEmail = "";
-
 File _image;    
 String _uploadedFileURL; 
-
 @override
   void initState() {
     setUserValues(widget.userDocuments, widget.profileIDLoggedIn);
@@ -76,7 +71,6 @@ String _uploadedFileURL;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -109,6 +103,7 @@ String _uploadedFileURL;
         ),
         Positioned(
           width: MediaQuery.of(context).size.width,
+          top: MediaQuery.of(context).size.height / 15,
           //top: MediaQuery.of(context).size.height / 15,
           child: Column(
             children: <Widget>[
@@ -143,8 +138,9 @@ String _uploadedFileURL;
                     width: 140.0,
                     height: 30.0,
                     alignment: Alignment.bottomCenter,
+                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
                     ////Edit function should show if user has access
-                    child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),), 
+                    //child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),), 
                   )
                 )
               ),
@@ -215,13 +211,10 @@ String _uploadedFileURL;
         )
     );
   }
-
    _updateEmail(BuildContext context, String _profileID) async{
     
     TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
-
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
     String newEmail = "";
     return showDialog(
       context: context,
@@ -267,9 +260,7 @@ String _uploadedFileURL;
     );
   }
    _updateName(BuildContext context, String _profileID) async {
-
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
-
     String newName = "";
     return showDialog(
       context: context,
@@ -307,11 +298,8 @@ String _uploadedFileURL;
       );
       }
     );
-
   }
  _updatePhoto(BuildContext context, String _profileID) async{
-
-
    return showDialog(
       context: context,
       builder: (context){
@@ -379,7 +367,6 @@ String _uploadedFileURL;
       }
    );
   }
-
   Future chooseFile() async{    
     await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {    
        setState(() { 
@@ -387,7 +374,6 @@ String _uploadedFileURL;
         });  
    }); 
  }
-
  Future uploadFile() async {    
    StorageReference storageReference = FirebaseStorage.instance    
        .ref()    
@@ -403,7 +389,6 @@ String _uploadedFileURL;
    });    
  }    
    _updatePass(BuildContext context, String _profileID) async{
-
       TextEditingController _textFieldController = TextEditingController(); //object that has a method to get value
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
       
@@ -450,9 +435,7 @@ String _uploadedFileURL;
       );
       }
     );
-
   }
-
   //notification
   void successfulupdate() {
     DropdownBanner.showBanner(
@@ -461,7 +444,6 @@ String _uploadedFileURL;
       textStyle: TextStyle(color: Colors.white),
     );
   }
-
   void failedUpdate() {
     DropdownBanner.showBanner(
       text: 'Failed to update',
@@ -470,3 +452,74 @@ String _uploadedFileURL;
     );
   }
 }
+
+// class ProfileImage extends StatelessWidget{
+//   @override
+//   Widget build(BuildContext context){
+//     return Container(
+
+//       alignment: Alignment.bottomCenter,
+//       padding: const EdgeInsets.only(bottom: 25,),
+//       height: 150.0,
+//       width: 150.0,
+//       decoration: BoxDecoration(
+//         color: Colors.grey,
+//         image: new DecorationImage(
+//           image: AssetImage('assets/pictures/connie.jpg'),
+//           fit: BoxFit.fill,
+
+//         ),
+//         borderRadius: BorderRadius.all(Radius.circular(75.0)
+
+//         ),
+//       ),
+//       child: Text('Edit Photo', style: TextStyle(fontSize: 22, color: Colors.white),),
+
+//     );
+//   }
+// }
+
+// class TextContainer extends StatelessWidget{ //Holds the text fields
+//   final String _name;
+//   final String _username;
+//   final String _email;
+//   final String _pw;
+//   static const double _txtPadL = 75.0;
+
+//   TextContainer(this._name, this._username, this._email, this._pw);
+
+//   @override 
+//   Widget build(BuildContext context){
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       crossAxisAlignment: CrossAxisAlignment.center,
+
+//       children: [
+//         Container( // These text styles should be one single style to reduce redundancy.
+//           alignment: AlignmentDirectional.center,
+//           //padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white54,
+//             borderRadius: BorderRadius.circular(25)
+//           ),
+//           child: Text(_name, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 20, 16.0, 16.0),
+//           child: Text("Username: " + _username, style: TextStyle(fontSize: 24),),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
+//           child: Text("Email: " + _email, style: TextStyle(fontSize: 24)),
+//         ),
+//         Container(
+//           alignment: AlignmentDirectional.centerStart,
+//           padding: const EdgeInsets.fromLTRB(_txtPadL, 40, 16.0, 16.0),
+//           child: Text("Password: " + _pw, style: TextStyle(fontSize: 24)),
+//         ),
+//       ],
+//     );
+//   }
+// } 
