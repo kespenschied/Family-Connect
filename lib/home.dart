@@ -23,11 +23,13 @@ import './lists.dart';
 import './drawer.dart';
 import 'Utilities/ChoreCRUD.dart';
 import 'Utilities/PermissionsCRUD.dart';
+import 'Utilities/PermissionsCRUDHome.dart';
 import 'Utilities/UserCRUD.dart';
 
 //this Home Page class creates the scaffold and the appBar for this page
 
 import 'Utilities/UserCRUDHome.dart';
+import 'coreClasses/PermissionsModelHome.dart';
 import 'coreClasses/UserModel.dart';
 import 'coreClasses/locator.dart';
 class HomePage extends StatefulWidget {
@@ -104,12 +106,15 @@ String _loggedInProfileID = "";
 String _permissionLevel = "";
 String _userIDSelectedTest = "";
   Permissions _permissions = new Permissions();
+  PermissionsHome userPermissions = new PermissionsHome();
   List<User> userDocuments;
   @override
   Widget build(BuildContext context) {
     var _profileEmail = widget.user.user.email;
     final userHomeProvider = Provider.of<UserCRUDHome>(context);
     final choreProvider = Provider.of<ChoresCRUD>(context);
+    //final permissionProvider = Provider.of<PermissionCRUDHome>(context);
+    //userPermissions = getUserPerms(_profileEmail);
     return  Container( //firebase starts here
             child: StreamBuilder( //a widget that fetches the database data from firestore
               stream: userHomeProvider.fetchUsersAsStream(), //helper function that gets all the users from the "Users" collection in firestore
@@ -338,6 +343,36 @@ String _userIDSelectedTest = "";
       textStyle: TextStyle(color: Colors.white),
     );
   }
+
+  PermissionsHome getUserPerms(String _profileEmail){
+
+  final databaseReference = Firestore.instance;
+ PermissionsHome userPermissions = new PermissionsHome();
+ try{
+  databaseReference.collection("User_Permissions")
+  .getDocuments()
+  .then((QuerySnapshot snapshot){
+    snapshot.documents.forEach((doc) {
+      if(doc["email"] == _profileEmail){
+                        userPermissions.achievements = doc["achievements"];
+                         userPermissions.books = doc["books"];
+                         userPermissions.calender = doc["calender"];
+                         userPermissions.chores = doc["chores"];
+                         userPermissions.homework = doc["homework"];
+                         userPermissions.journal = doc["journal"];
+                         userPermissions.lists = doc["lists"];
+                         userPermissions.email = doc["email"];
+                         userPermissions.userLevel = doc["userLevel"];
+      }
+      return userPermissions;
+    });
+  });
+ 
+     
+ }catch (e){
+   print(e.toString());
+ }
+}
 }
 
 //These Stateful Classes (could be stateless, was practicing stateful, plus it will
